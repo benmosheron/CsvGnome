@@ -43,8 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Action.cs" />
+    <Compile Include="Defaults.cs" />
+    <Compile Include="Fields\ConstantField.cs" />
+    <Compile Include="Fields\IField.cs" />
+    <Compile Include="Interpreter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reporter.cs" />
+    <Compile Include="Writer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
