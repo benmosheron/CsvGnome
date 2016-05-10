@@ -10,10 +10,15 @@ namespace CsvGnome
     {
         public const string FileExt = ".csv";
 
+        private static int n = 10; 
+
         /// <summary>
         /// Number of data lines to generate.
         /// </summary>
-        public static int N = 10;
+        public static int N
+        {
+            get { return n; }
+        }
 
         /// <summary>
         /// Path to output file.
@@ -27,7 +32,7 @@ namespace CsvGnome
 
         public static string File => $"{FilePath}{FileName}{FileExt}";
 
-        static readonly List<IField> Fields = Defaults.GetFields();
+        static readonly FieldBrain FieldBrain = new FieldBrain();
         static readonly Interpreter Interpreter = new Interpreter();
         static readonly Reporter Reporter = new Reporter();
         static readonly Writer Writer = new Writer();
@@ -37,16 +42,21 @@ namespace CsvGnome
             Action nextAction = Action.Continue;
             while(nextAction == Action.Continue)
             {
-                Reporter.Report(Fields, N, File);
+                Reporter.Report(FieldBrain.Fields, N, File);
 
-                nextAction = Interpreter.Interpret(Console.ReadLine(), Fields);
+                nextAction = Interpreter.Interpret(Console.ReadLine(), FieldBrain);
 
                 // Write to file
-                if (nextAction == Action.Run || nextAction == Action.Write) Writer.WriteToFile(Fields, File);
+                if (nextAction == Action.Run || nextAction == Action.Write) Writer.WriteToFile(FieldBrain.Fields, File, N);
 
                 // "Write" continues execution
                 if (nextAction == Action.Write) nextAction = Action.Continue;
             }
+        }
+
+        public static void SetN(int n)
+        {
+
         }
     }
 }

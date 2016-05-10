@@ -11,7 +11,7 @@ namespace CsvGnome
     /// </summary>
     class Interpreter
     {
-        public Action Interpret(string input, List<IField> fields)
+        public Action Interpret(string input, FieldBrain fieldBrain)
         {
             // Empty string exits
             if (input == String.Empty) return Action.Exit;
@@ -24,30 +24,16 @@ namespace CsvGnome
 
             // Int sets N
             int n;
-            if (int.TryParse(input, out n)) Program.N = n;
+            if (int.TryParse(input, out n)) Program.SetN(n);
 
             // ":" Indicates a data update
             if (input.Contains(":"))
             {
                var tokens = input.Split(new char[] { ':' }, 2);
-               UpdateFields(tokens[0], tokens[1], fields);
+               fieldBrain.Update(tokens[0], tokens[1]);
             }
 
             return Action.Continue;
-        }
-
-        private void UpdateFields(string name, string value, List<IField> fields)
-        {
-            // Find a matching field
-            IField match = fields.FirstOrDefault(f => f.Name == name);
-
-            // Update field
-            if (fields.Any(f => f.Name == name)) fields[fields.FindIndex((f) => f.Name == name)] = new ConstantField(name, value);
-            // No match, create new field
-            else
-            {
-                fields.Add(new ConstantField(name, value));
-            }
         }
     }
 }
