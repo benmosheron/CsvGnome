@@ -24,11 +24,17 @@ namespace CsvGnome
             // Empty string exits
             if (input == String.Empty) return Action.Exit;
 
+            // "//" indicates a comment (in a GnomeFile).
+            if (input.TrimStart().StartsWith("//")) return Action.Continue;
+
             // "run" writes file and exits
             if (input.ToLower() == "run") return Action.Run;
 
-            // "write" writes file
+            // "write" writes file and continues
             if (input.ToLower() == "write") return Action.Write;
+
+            // "combine x y z" initialises combinatorial fields
+            if (input.StartsWith("combine ")) CombineFields(input);
 
             // Int sets N
             int n;
@@ -44,6 +50,33 @@ namespace CsvGnome
             }
 
             return Action.Continue;
+        }
+
+        private void CombineFields(string input)
+        {
+            string fieldsToCombineMaybe = input.Remove(0, "combine ".Length).Trim();
+            // Remove whitespace and duplicates
+            List<string> fieldsMaybe = fieldsToCombineMaybe.Split(' ').Select(fm => fm.Trim()).Distinct().ToList();
+
+            // The last element may be a set name e.g. "[chickens]"
+            string last = fieldsMaybe.Last();
+            string setName = null;
+            if(last.StartsWith("[") && last.EndsWith("]"))
+            {
+                setName = last.Substring(1, last.Length - 2);
+                fieldsMaybe.Remove(last);
+            }
+
+            if(fieldsMaybe.All(fm => FieldBrain.FieldValidForCombine(fm)))
+            {
+                // woohoo! get the ICombinableFields for the brain to eat
+                var fieldsDefinitely = fieldsMaybe.Select(fm => FieldBrain.CombinableFields.First(f => f.Name == fm)).ToList();
+                FieldBrain.CombineFields(fieldsDefinitely, setName);
+            }
+            else
+            {
+                // Do nothing, maybe say something?
+            }
         }
 
         private void InterpretInstruction(string name, string instruction)
@@ -62,10 +95,35 @@ namespace CsvGnome
             }
             else
             {
-                // Constant field
-                string constantValue = instruction;
-                FieldBrain.AddOrUpdateConstantField(name, constantValue);
+                // MinMax Field 
+                // E.g. "0 10 2"
+                int[] minMaxInc = ParseMinMax(instruction);
+                if (minMaxInc != null)
+                {
+                    FieldBrain.AddOrUpdateMinMaxField(name, minMaxInc[0], minMaxInc[1], minMaxInc[2]);
+                }
+                else
+                {
+                    // Constant field
+                    string constantValue = instruction;
+                    FieldBrain.AddOrUpdateConstantField(name, constantValue);
+                }
             }
+        }
+
+        /// <summary>
+        /// E.g. "0 10 2"
+        /// </summary>
+        private int[] ParseMinMax(string instruction)
+        {
+            string trimmedInstruction = instruction.Trim();
+            string[] tokens = trimmedInstruction.Split(' ');
+            if (tokens.Length != 3) return null;
+            int[] minMaxInc = new int[3];
+            if (!int.TryParse(tokens[0], out minMaxInc[0])) return null;
+            if (!int.TryParse(tokens[1], out minMaxInc[1])) return null;
+            if (!int.TryParse(tokens[2], out minMaxInc[2])) return null;
+            return minMaxInc;
         }
     }
 }

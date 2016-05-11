@@ -43,7 +43,19 @@ namespace CsvGnome
         /// </summary>
         private int start;
 
-
+        /// <summary>
+        /// Create a new incrementing field, which has a base value followed by a number that counts up, padded with zeros.
+        /// eg.
+        /// base001
+        /// base002
+        /// base003
+        /// ...
+        /// base998
+        /// base999
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="baseValue"></param>
+        /// <param name="start"></param>
         public IncrementingField(string name, string baseValue, int start)
         {
             Name = name;

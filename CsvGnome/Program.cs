@@ -39,16 +39,16 @@ namespace CsvGnome
         /// <summary>
         /// Name of the gnome file that is read in by default
         /// </summary>
-        public static string DefaultInputFile = "default2";
+        public static string DefaultInputFile = "default";
 
         public static string File => $"{FilePath}{FileName}{FileExt}";
 
         public static string DefaultGnomeFile => $"{DefaultsDirectory}{DefaultInputFile}{GnomeFileExt}";
 
         static readonly FieldBrain FieldBrain = new FieldBrain();
+        static readonly Reporter Reporter = new Reporter();
         static readonly Interpreter Interpreter = new Interpreter(FieldBrain);
         static readonly GnomeFileReader GnomeFileReader = new GnomeFileReader(Interpreter);
-        static readonly Reporter Reporter = new Reporter();
         static readonly Writer Writer = new Writer();
 
         static void Main(string[] args)

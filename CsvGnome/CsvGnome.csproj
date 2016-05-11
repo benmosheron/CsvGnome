@@ -45,9 +45,13 @@
   <ItemGroup>
     <Compile Include="Action.cs" />
     <Compile Include="Defaults.cs" />
+    <Compile Include="Fields\CombinatorialField.cs" />
+    <Compile Include="Fields\CombinatorialFieldInfo.cs" />
     <Compile Include="Fields\ConstantField.cs" />
+    <Compile Include="Fields\ICombinableField.cs" />
     <Compile Include="Fields\IField.cs" />
     <Compile Include="Fields\IncrementingField.cs" />
+    <Compile Include="Fields\MinMaxField.cs" />
     <Compile Include="GnomeFileReader.cs" />
     <Compile Include="Interpreter.cs" />
     <Compile Include="Program.cs" />
