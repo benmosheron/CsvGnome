@@ -44,10 +44,10 @@ namespace CsvGnome
         private int start;
 
 
-        public IncrementingField(string name, string baseValue, int start = 0)
+        public IncrementingField(string name, string baseValue, int start)
         {
             Name = name;
-            Summary = baseValue + "[++]";
+            Summary = baseValue + $"[++] [start: {start}]";
             this.baseValue = baseValue;
             this.start = start;
 

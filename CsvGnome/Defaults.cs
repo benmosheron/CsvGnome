@@ -12,12 +12,6 @@ namespace CsvGnome
         {
             var fields = new List<IField>();
 
-            fields.Add(new ConstantField("Test", "MEOW"));
-            fields.Add(new ConstantField("Testingtons", "MEWO!"));
-            fields.Add(new IncrementingField("pppp", "omg_"));
-            fields.Add(new IncrementingField("ppp", "omg_", 98));
-
-
             return fields;
         }
     }

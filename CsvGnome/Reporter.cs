@@ -15,14 +15,17 @@ namespace CsvGnome
         {
             Console.Clear();
 
+            Console.WriteLine($"Writing {N} rows to {pathAndFile}");
+
+            if (!fields.Any()) return;
+
             var names = fields.Select(f => f.Name);
             var values = fields.Select(f => f.Summary).ToList();
 
             int maxLength = names.Max(f => f.Length);
             var namesForDisplay = names.Select(n => RightPad(n, maxLength)).ToList();
 
-
-            Console.WriteLine($"Writing {N} rows to {pathAndFile}");
+            
             for(int i=0; i<fields.Count; i++)
             {
                 Console.WriteLine($"{namesForDisplay[i]}: {values[i]}");

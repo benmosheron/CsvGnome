@@ -11,7 +11,15 @@ namespace CsvGnome
     /// </summary>
     class Interpreter
     {
-        public Action Interpret(string input, FieldBrain fieldBrain)
+
+        private readonly FieldBrain FieldBrain;
+
+        public Interpreter(FieldBrain fieldBrain)
+        {
+            FieldBrain = fieldBrain;
+        }
+
+        public Action Interpret(string input)
         {
             // Empty string exits
             if (input == String.Empty) return Action.Exit;
@@ -30,10 +38,34 @@ namespace CsvGnome
             if (input.Contains(":"))
             {
                var tokens = input.Split(new char[] { ':' }, 2);
-               fieldBrain.Update(tokens[0], tokens[1]);
+               string name = tokens[0];
+               string instruction = tokens[1];
+               InterpretInstruction(name, instruction);
             }
 
             return Action.Continue;
+        }
+
+        private void InterpretInstruction(string name, string instruction)
+        {
+            // Look for a special instruction enclosed in square brackets
+            if (instruction.Contains("[++]"))
+            {
+                // Incremental field
+                // e.g. fieldName:baseval_[++] 3
+                var tokens = instruction.Split(new string[] { "[++]" }, 2, StringSplitOptions.None);
+                string baseVal = tokens[0];
+                string startString = tokens[1].Trim();
+                int start = 0;
+                int.TryParse(startString, out start);
+                FieldBrain.AddOrUpdateIncrementingField(name, baseVal, start);
+            }
+            else
+            {
+                // Constant field
+                string constantValue = instruction;
+                FieldBrain.AddOrUpdateConstantField(name, constantValue);
+            }
         }
     }
 }

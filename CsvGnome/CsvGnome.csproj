@@ -48,6 +48,7 @@
     <Compile Include="Fields\ConstantField.cs" />
     <Compile Include="Fields\IField.cs" />
     <Compile Include="Fields\IncrementingField.cs" />
+    <Compile Include="GnomeFileReader.cs" />
     <Compile Include="Interpreter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
