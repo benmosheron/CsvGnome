@@ -26,7 +26,7 @@ namespace CsvGnome
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
-        public string GetValue(int i) => baseValue + (i + start).ToString(fmt);
+        public string GetValue(int i) => baseValue + (i + start).ToString(getFormat());
 
         /// <summary>
         /// Value to which the incremented integer is appended.
@@ -36,7 +36,11 @@ namespace CsvGnome
         /// <summary>
         /// Format of integer (e.g. "D3" to always print 3 digits)
         /// </summary>
-        private string fmt;
+        private string getFormat()
+        {
+            int minDigits = (Math.Max(Program.N + start - 1, 1)).ToString().Length;
+            return "D" + minDigits.ToString();
+        }
 
         /// <summary>
         /// Value to start incrementing from.
@@ -62,9 +66,6 @@ namespace CsvGnome
             Summary = baseValue + $"[++] [start: {start}]";
             this.baseValue = baseValue;
             this.start = start;
-
-            int minDigits = (Math.Max(Program.N + start - 1, 1)).ToString().Length;
-            fmt = "D" + minDigits.ToString();
         }
     }
 }
