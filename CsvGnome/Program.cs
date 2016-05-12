@@ -11,7 +11,7 @@ namespace CsvGnome
         public const string FileExt = ".csv";
         public const string GnomeFileExt = ".gnome";
         public const string DefaultGnomeFileName = "default";
-        public const string DateTimeFormat = "yyyy-mm-ddTHH:mm:ss";
+        public const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ss";
 
         public const string IncrementComponentString = "[++]";
         public const string DateComponentString = "[date]";

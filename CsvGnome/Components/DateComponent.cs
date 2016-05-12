@@ -11,7 +11,15 @@ namespace CsvGnome
         public string Summary => Program.DateComponentString;
         public string GetValue(int i)
         {
-            throw new NotImplementedException();
+            return GetDateTime();
+        }
+
+        /// <summary>
+        /// String representation of date/time at runtime.
+        /// </summary>
+        private string GetDateTime()
+        {
+            return DateTime.Now.ToString(Program.DateTimeFormat);
         }
     }
 }
