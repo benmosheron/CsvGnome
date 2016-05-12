@@ -54,6 +54,10 @@ namespace CsvGnome
             return Action.Continue;
         }
 
+        /// <summary>
+        /// Attempt to perform a combine.
+        /// </summary>
+        /// <param name="input"></param>
         private void CombineFields(string input)
         {
             string fieldsToCombineMaybe = input.Remove(0, "combine".Length).Trim();
@@ -79,6 +83,8 @@ namespace CsvGnome
             {
                 // woohoo! get the ICombinableFields for the brain to eat
                 var fieldsDefinitely = fieldsMaybe.Select(fm => FieldBrain.CombinableFields.First(f => f.Name == fm)).ToList();
+
+                // Actually combine the fields
                 FieldBrain.CombineFields(fieldsDefinitely, setName);
             }
             else
@@ -87,10 +93,21 @@ namespace CsvGnome
             }
         }
 
+        /// <summary>
+        /// Attempt to update or create a field.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="instruction"></param>
         private void InterpretInstruction(string name, string instruction)
         {
             // Look for a special instruction enclosed in square brackets
-            if (instruction.Contains("[++]"))
+            if (instruction.StartsWith("[date]"))
+            {
+                // Dated field
+                // e.g. [date]_meow_[++]
+                string dateInstruction = instruction.Skip("[date]".Length).ToString();
+            }
+            else if (instruction.Contains("[++]"))
             {
                 // Incremental field
                 // e.g. fieldName:baseval_[++] 3
