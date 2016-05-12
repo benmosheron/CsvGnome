@@ -39,6 +39,32 @@ namespace CsvGnome
             return CombinableFields.Count(f => f.Name == name) == 1;
         }
 
+        #region ComponentField
+
+        public void AddOrUpdateComponentField(string name, IComponent[] components)
+        {
+            if (fields.Any(f => f.Name == name))
+            {
+                UpdateComponentField(name, components);
+            }
+            else
+            {
+                AddComponentField(name, components);
+            }
+        }
+
+        private void UpdateComponentField(string name, IComponent[] components)
+        {
+            fields[fields.FindIndex(f => f.Name == name)] = new ComponentField(name, components);
+        }
+
+        private void AddComponentField(string name, IComponent[] components)
+        {
+            fields.Add(new ComponentField(name, components));
+        }
+
+        #endregion
+
         #region ConstantField
         /// <summary>
         /// Looks for a fields with matching <paramref name="name"/>. If found, that field is updated. Otherwise a new constant field is created.
@@ -132,6 +158,8 @@ namespace CsvGnome
 
         #endregion
 
+        #region Combine
+
         public void CombineFields(List<ICombinableField> fieldsToCombine, string setName)
         {
             // Create the info that will bind the combine fields
@@ -148,5 +176,7 @@ namespace CsvGnome
                 fields.Add(new CombinatorialField(fieldsToCombine[i].Name, info, i));
             }
         }
+
+        #endregion
     }
 }

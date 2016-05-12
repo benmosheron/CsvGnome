@@ -44,9 +44,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Action.cs" />
+    <Compile Include="Components\ComponentFactory.cs" />
+    <Compile Include="Components\DateComponent.cs" />
+    <Compile Include="Components\IComponent.cs" />
+    <Compile Include="Components\IncrementingComponent.cs" />
+    <Compile Include="Components\TextComponent.cs" />
     <Compile Include="Defaults.cs" />
     <Compile Include="Fields\CombinatorialField.cs" />
     <Compile Include="Fields\CombinatorialFieldInfo.cs" />
+    <Compile Include="Fields\ComponentField.cs" />
     <Compile Include="Fields\ConstantField.cs" />
     <Compile Include="Fields\DatedField.cs" />
     <Compile Include="Fields\ICombinableField.cs" />

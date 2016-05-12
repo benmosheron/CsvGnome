@@ -13,6 +13,15 @@ namespace CsvGnome
         public const string DefaultGnomeFileName = "default";
         public const string DateTimeFormat = "yyyy-mm-ddTHH:mm:ss";
 
+        public const string IncrementComponentString = "[++]";
+        public const string DateComponentString = "[date]";
+        public static readonly string[] ComponentStrings =
+            {
+                IncrementComponentString,
+                DateComponentString
+            };
+
+
         private static int n = 10; 
 
         /// <summary>

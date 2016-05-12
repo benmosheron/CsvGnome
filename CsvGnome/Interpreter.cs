@@ -100,25 +100,12 @@ namespace CsvGnome
         /// <param name="instruction"></param>
         private void InterpretInstruction(string name, string instruction)
         {
-            // Look for a special instruction enclosed in square brackets
-            if (instruction.StartsWith("[date]"))
-            {
-                // Dated field
-                // e.g. [date]_meow_[++]
-                string dateInstruction = instruction.Skip("[date]".Length).ToString();
-            }
-            else if (instruction.Contains("[++]"))
-            {
-                // Incremental field
-                // e.g. fieldName:baseval_[++] 3
-                var tokens = instruction.Split(new string[] { "[++]" }, 2, StringSplitOptions.None);
-                string baseVal = tokens[0];
-                string startString = tokens[1].Trim();
-                int start = 0;
-                int.TryParse(startString, out start);
-                FieldBrain.AddOrUpdateIncrementingField(name, baseVal, start);
-            }
-            else
+            // Try and create a component field
+            // Break instruction into components
+            IComponent[] components = GetComponents(instruction);
+
+            // If there is only one component and it is text, it might be a MinMaxField
+            if (components.Length == 1 && components[0] is TextComponent)
             {
                 // MinMax Field 
                 // E.g. "0 10 2"
@@ -133,6 +120,45 @@ namespace CsvGnome
                     string constantValue = instruction;
                     FieldBrain.AddOrUpdateConstantField(name, constantValue);
                 }
+            }
+            else
+            {
+                // Create component field
+                FieldBrain.AddOrUpdateComponentField(name, components);
+            }
+            
+        }
+
+        private IComponent[] GetComponents(string instruction)
+        {
+            List<IComponent> components = new List<IComponent>();
+
+            ExtractComponents(instruction, components);
+
+            return components.ToArray();
+        }
+
+        private void ExtractComponents(string instruction, List<IComponent> components)
+        {
+            int i = 0;
+            string match = null;
+            while(match == null && i < instruction.Length)
+            {
+                // try to match a component command to a substring starting at i
+                match = Program.ComponentStrings.FirstOrDefault(C => instruction.Substring(i).StartsWith(C));
+                if (match == null) i++;
+            }
+            // Either a match was found, or we didn't match a command
+            // Add everything to the left as text
+            if (i > 0) components.Add(ComponentFactory.Create(instruction.Substring(0, i)));
+
+            if(match != null)
+            {
+                // Add the token
+                components.Add(ComponentFactory.Create(match));
+
+                // Recursively look for more matches
+                ExtractComponents(instruction.Substring(i + match.Length), components);
             }
         }
 

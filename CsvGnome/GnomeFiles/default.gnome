@@ -1,4 +1,5 @@
 60
+CatInfo:[++]Cat_Number_[++]meow
 //Test:MEOW
 //Testingtons:MEWO!
 //pppp:omg_[++]
@@ -12,7 +13,7 @@
 //y:1 5 1
 //z:0 1 1
 //combine z x y [Pos]
-f1:[date]
-f2:[date]_meow
-f3:[date][++]
-f4:[date]_meow_[++]
+//f1:[date]
+//f2:[date]_meow
+//f3:[date][++]
+//f4:[date]_meow_[++]
