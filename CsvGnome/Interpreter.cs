@@ -13,10 +13,12 @@ namespace CsvGnome
     {
 
         private readonly FieldBrain FieldBrain;
+        private readonly Reporter Reporter;
 
-        public Interpreter(FieldBrain fieldBrain)
+        public Interpreter(FieldBrain fieldBrain, Reporter reporter)
         {
             FieldBrain = fieldBrain;
+            Reporter = reporter;
         }
 
         public Action Interpret(string input)
@@ -34,7 +36,7 @@ namespace CsvGnome
             if (input.ToLower() == "write") return Action.Write;
 
             // "combine x y z" initialises combinatorial fields
-            if (input.StartsWith("combine ")) CombineFields(input);
+            if (input.StartsWith("combine")) CombineFields(input);
 
             // Int sets N
             int n;
@@ -54,9 +56,12 @@ namespace CsvGnome
 
         private void CombineFields(string input)
         {
-            string fieldsToCombineMaybe = input.Remove(0, "combine ".Length).Trim();
+            string fieldsToCombineMaybe = input.Remove(0, "combine".Length).Trim();
             // Remove whitespace and duplicates
             List<string> fieldsMaybe = fieldsToCombineMaybe.Split(' ').Select(fm => fm.Trim()).Distinct().ToList();
+
+            // Check fields were provided
+            if (!CheckCombineFieldsProvided(fieldsMaybe)) return;
 
             // The last element may be a set name e.g. "[chickens]"
             string last = fieldsMaybe.Last();
@@ -67,7 +72,10 @@ namespace CsvGnome
                 fieldsMaybe.Remove(last);
             }
 
-            if(fieldsMaybe.All(fm => FieldBrain.FieldValidForCombine(fm)))
+            // Check fields were provided (other than set name)
+            if (!CheckCombineFieldsProvided(fieldsMaybe)) return;
+
+            if (fieldsMaybe.All(fm => FieldBrain.FieldValidForCombine(fm)))
             {
                 // woohoo! get the ICombinableFields for the brain to eat
                 var fieldsDefinitely = fieldsMaybe.Select(fm => FieldBrain.CombinableFields.First(f => f.Name == fm)).ToList();
@@ -75,7 +83,7 @@ namespace CsvGnome
             }
             else
             {
-                // Do nothing, maybe say something?
+                ReportInvalidFields(fieldsMaybe);
             }
         }
 
@@ -124,6 +132,37 @@ namespace CsvGnome
             if (!int.TryParse(tokens[1], out minMaxInc[1])) return null;
             if (!int.TryParse(tokens[2], out minMaxInc[2])) return null;
             return minMaxInc;
+        }
+
+        /// <summary>
+        /// Check that > 0 non null or whitespace fields were provided.
+        /// </summary>
+        /// <param name="fieldsMaybe"></param>
+        /// <returns></returns>
+        private bool CheckCombineFieldsProvided(List<string> fieldsMaybe)
+        {
+            if (fieldsMaybe.Count == 0 || fieldsMaybe.All(fm => String.IsNullOrWhiteSpace(fm)))
+            {
+                Reporter.AddMessage(new Message("You must provide fields to combine. E.g:"));
+                Reporter.AddMessage(new Message("combine field1 field2 [NameOfSet]"));
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Report to console any invalid fields.
+        /// </summary>
+        /// <param name="fieldsMaybe"></param>
+        private void ReportInvalidFields(List<string> fieldsMaybe)
+        {
+            // Report
+            // Which fields weren't valid?
+            var invalidFields = fieldsMaybe.Where(fm => !FieldBrain.FieldValidForCombine(fm)).ToList();
+            Message m;
+            if (invalidFields.Count == 1) m = new Message($"The field \"{invalidFields.First()}\" is invalid for combining");
+            else m = new Message($"The following fields are invalid for combining: {invalidFields.Aggregate((t, n) => $"\"{t}\", \"{n}\"")}");
+            Reporter.AddMessage(m);
         }
     }
 }

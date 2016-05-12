@@ -10,6 +10,7 @@ namespace CsvGnome
     {
         public const string FileExt = ".csv";
         public const string GnomeFileExt = ".gnome";
+        public const string DefaultGnomeFileName = "default";
 
         private static int n = 10; 
 
@@ -35,8 +36,8 @@ namespace CsvGnome
 
         static readonly FieldBrain FieldBrain = new FieldBrain();
         static readonly Reporter Reporter = new Reporter();
-        static readonly Interpreter Interpreter = new Interpreter(FieldBrain);
-        static readonly GnomeFileReader GnomeFileReader = new GnomeFileReader(Interpreter);
+        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter);
+        static readonly GnomeFileReader GnomeFileReader = new GnomeFileReader(Interpreter, Reporter);
         static readonly Writer Writer = new Writer();
 
         static void Main(string[] args)
