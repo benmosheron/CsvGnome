@@ -31,19 +31,7 @@ namespace CsvGnome
         /// </summary>
         public static string FileName = "CsvGnome";
 
-        /// <summary>
-        /// Path to directory containing defaults
-        /// </summary>
-        public static string DefaultsDirectory = @"C:\Users\revol\Desktop\csvGnomeOut\GnomeFiles\";
-
-        /// <summary>
-        /// Name of the gnome file that is read in by default
-        /// </summary>
-        public static string DefaultInputFile = "default";
-
         public static string File => $"{FilePath}{FileName}{FileExt}";
-
-        public static string DefaultGnomeFile => $"{DefaultsDirectory}{DefaultInputFile}{GnomeFileExt}";
 
         static readonly FieldBrain FieldBrain = new FieldBrain();
         static readonly Reporter Reporter = new Reporter();
@@ -54,7 +42,7 @@ namespace CsvGnome
         static void Main(string[] args)
         {
             // Read defaults from file
-            GnomeFileReader.ReadGnomeFile(DefaultGnomeFile);
+            GnomeFileReader.ReadDefaultGnomeFile();
 
             Action nextAction = Action.Continue;
             while(nextAction == Action.Continue)

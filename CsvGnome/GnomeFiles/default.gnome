@@ -1,0 +1,14 @@
+60
+Test:MEOW
+Testingtons:MEWO!
+pppp:omg_[++]
+ppp:omg_[++]98
+//r_a:0 24 2
+//r_b:3 15 1
+//r_c:0 12 3
+//r_d:0 200 1
+//r_e:0 -20 -5
+x:1 5 1
+y:1 5 1
+z:0 1 1
+combine z x y [Pos]
