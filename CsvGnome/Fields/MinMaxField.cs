@@ -10,7 +10,7 @@ namespace CsvGnome
     /// Field for which values lie between a minimum and maximum (inclusive) value, and are incremented by a constant amount.
     /// Values outside this range will be written as null.
     /// </summary>
-    class MinMaxField : IField, ICombinableField
+    class MinMaxField : ICombinableField
     {
         public string Name { get; }
 

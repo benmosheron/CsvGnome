@@ -28,6 +28,11 @@ namespace CsvGnome
             return fields.Any(f => f.Name == name);
         }
 
+        /// <summary>
+        /// True if a field with matching name is ICombinable and uniquely identifiable by name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public bool FieldValidForCombine(string name)
         {
             // Each ICombinableField must be uniquely identifiable
