@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CsvGnome
 {
-    class Writer
+    public class Writer
     {
         /// <summary>
         /// Write CSV file from the input fields.
@@ -17,6 +17,9 @@ namespace CsvGnome
         /// <param name="n">Number of data lines to write (not including column line).</param>
         public void WriteToFile(List<IField> fields, string pathAndFile, int n)
         {
+            // Reset the date/time to write in [date] components
+            Program.UpdateTime();
+
             using (StreamWriter sw = new StreamWriter(pathAndFile))
             {
                 sw.WriteLine(GetFirstLine(fields));

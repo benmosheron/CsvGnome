@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CsvGnome
 {
-    static class Defaults
+    public static class Defaults
     {
         public static List<IField> GetFields()
         {

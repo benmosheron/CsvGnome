@@ -9,7 +9,7 @@ namespace CsvGnome
     /// <summary>
     /// Indicates a field that can be transformed into a cominatorial field, with a set of other ICombinable fields.
     /// </summary>
-    interface ICombinableField : IField
+    public interface ICombinableField : IField
     {
         int Min { get; }
         int Max { get; }

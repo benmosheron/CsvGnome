@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CsvGnome
 {
-    class IncrementingComponent : IComponent
+    public class IncrementingComponent : IComponent
     {
         public string Summary => Program.IncrementComponentString;
         /// <summary>
@@ -15,7 +15,14 @@ namespace CsvGnome
         /// <param name="i"></param>
         /// <returns></returns>
         public string GetValue(int i) => (i + start).ToString(getFormat());
-
+        public bool Equals(IComponent x)
+        {
+            if (x == null) return false;
+            var c = x as IncrementingComponent;
+            if (c == null) return false;
+            if (start != c.start) return false;
+            return true;
+        }
         /// <summary>
         /// Value to start incrementing from.
         /// </summary>

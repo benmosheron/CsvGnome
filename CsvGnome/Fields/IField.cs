@@ -9,7 +9,7 @@ namespace CsvGnome
     /// <summary>
     /// A field for which value will be generated and written to the csv.
     /// </summary>
-    interface IField
+    public interface IField
     {
         /// <summary>
         /// Name of the field (column name).

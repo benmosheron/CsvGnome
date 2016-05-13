@@ -9,9 +9,10 @@ namespace CsvGnome
     /// <summary>
     /// Represents a segment of text that may vary by row.
     /// </summary>
-    interface IComponent
+    public interface IComponent
     {
         string Summary { get; }
         string GetValue(int i);
+        bool Equals(IComponent x);
     }
 }

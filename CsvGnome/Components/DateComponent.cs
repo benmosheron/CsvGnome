@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace CsvGnome
 {
-    class DateComponent : IComponent
+    public class DateComponent : IComponent
     {
         public string Summary => Program.DateComponentString;
         public string GetValue(int i)
         {
-            return GetDateTime();
+            return Program.TimeAtWrite;
         }
-
-        /// <summary>
-        /// String representation of date/time at runtime.
-        /// </summary>
-        private string GetDateTime()
+        public bool Equals(IComponent x)
         {
-            return DateTime.Now.ToString(Program.DateTimeFormat);
+            if (x == null) return false;
+            var c = x as DateComponent;
+            if (c == null) return false;
+            if (GetValue(0) != c.GetValue(0)) return false;
+            return true;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace CsvGnome
     /// Field consisting of one or more components, in any order.
     /// E.g. "CatInfo:Cat_Number_[++]_of_[date]"
     /// </summary>
-    class ComponentField : IField
+    public class ComponentField : IField
     {
         public string Name { get; }
 
@@ -28,7 +28,7 @@ namespace CsvGnome
             return sb.ToString();
         }
 
-        protected IComponent[] Components;
+        public readonly IComponent[] Components;
 
         public ComponentField(String name, IComponent[] components)
         {

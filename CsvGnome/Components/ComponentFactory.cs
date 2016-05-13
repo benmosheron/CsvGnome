@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CsvGnome
 {
-    static class ComponentFactory
+    public static class ComponentFactory
     {
         public static IComponent Create(string prototype)
         {

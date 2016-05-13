@@ -10,7 +10,7 @@ namespace CsvGnome
     /// <summary>
     /// Reads gnome files, which save the configuration of a set of fields for re-use.
     /// </summary>
-    class GnomeFileReader
+    public class GnomeFileReader
     {
         Interpreter Interpreter;
         Reporter Reporter;

@@ -9,7 +9,7 @@ namespace CsvGnome
     /// <summary>
     /// Stores and and handles updates to the list of fields.
     /// </summary>
-    class FieldBrain
+    public class FieldBrain
     {
         private List<IField> fields = Defaults.GetFields();
 

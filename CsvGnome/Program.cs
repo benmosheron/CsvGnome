@@ -21,6 +21,12 @@ namespace CsvGnome
                 DateComponentString
             };
 
+        public static string TimeAtWrite = DateTime.Now.ToString(DateTimeFormat);
+
+        public static void UpdateTime()
+        {
+            TimeAtWrite = DateTime.Now.ToString(DateTimeFormat);
+        }
 
         private static int n = 10; 
 

@@ -9,7 +9,7 @@ namespace CsvGnome
     /// <summary>
     /// Actions to take after interpreting user input.
     /// </summary>
-    enum Action
+    public enum Action
     {
         Exit,
         Continue,

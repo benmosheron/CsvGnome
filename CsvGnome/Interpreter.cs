@@ -9,7 +9,7 @@ namespace CsvGnome
     /// <summary>
     /// Interprets input from the console.
     /// </summary>
-    class Interpreter
+    public class Interpreter
     {
 
         private readonly FieldBrain FieldBrain;
@@ -116,9 +116,7 @@ namespace CsvGnome
                 }
                 else
                 {
-                    // Constant field
-                    string constantValue = instruction;
-                    FieldBrain.AddOrUpdateConstantField(name, constantValue);
+                    FieldBrain.AddOrUpdateComponentField(name, components);
                 }
             }
             else

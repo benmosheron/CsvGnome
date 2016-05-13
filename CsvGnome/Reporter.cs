@@ -9,7 +9,7 @@ namespace CsvGnome
     /// <summary>
     /// Reports data to the console.
     /// </summary>
-    class Reporter
+    public class Reporter
     {
         private List<Message> messages = new List<Message>();
 
