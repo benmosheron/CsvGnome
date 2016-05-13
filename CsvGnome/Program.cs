@@ -13,14 +13,7 @@ namespace CsvGnome
         public const string DefaultGnomeFileName = "default";
         public const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ss";
         public const string CommandRegexPattern = @"(\[.+?\])";
-
-        public const string IncrementComponentString = "[++]";
         public const string DateComponentString = "[date]";
-        public static readonly string[] ComponentStrings =
-            {
-                IncrementComponentString,
-                DateComponentString
-            };
 
         public static string TimeAtWrite = DateTime.Now.ToString(DateTimeFormat);
 
@@ -53,7 +46,8 @@ namespace CsvGnome
 
         static readonly FieldBrain FieldBrain = new FieldBrain();
         static readonly Reporter Reporter = new Reporter();
-        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter);
+        static readonly MinMaxInfoCache MinMaxInfoCache = new MinMaxInfoCache();
+        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, MinMaxInfoCache);
         static readonly GnomeFileReader GnomeFileReader = new GnomeFileReader(Interpreter, Reporter);
         static readonly Writer Writer = new Writer();
 

@@ -44,10 +44,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Action.cs" />
+    <Compile Include="Components\MinMaxInfo.cs" />
     <Compile Include="Components\ComponentFactory.cs" />
     <Compile Include="Components\DateComponent.cs" />
     <Compile Include="Components\IComponent.cs" />
     <Compile Include="Components\IncrementingComponent.cs" />
+    <Compile Include="Components\MinMaxComponent.cs" />
+    <Compile Include="Components\MinMaxInfoCache.cs" />
     <Compile Include="Components\TextComponent.cs" />
     <Compile Include="Defaults.cs" />
     <Compile Include="Fields\CombinatorialField.cs" />

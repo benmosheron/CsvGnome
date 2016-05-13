@@ -15,12 +15,13 @@ namespace CsvGnome
 
         private readonly FieldBrain FieldBrain;
         private readonly Reporter Reporter;
-        private readonly ComponentFactory factory = new ComponentFactory();
+        private readonly ComponentFactory factory;
 
-        public Interpreter(FieldBrain fieldBrain, Reporter reporter)
+        public Interpreter(FieldBrain fieldBrain, Reporter reporter, MinMaxInfoCache cache)
         {
             FieldBrain = fieldBrain;
             Reporter = reporter;
+            factory = new ComponentFactory(cache);
         }
 
         public Action Interpret(string input)
