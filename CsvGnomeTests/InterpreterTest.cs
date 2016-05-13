@@ -34,6 +34,20 @@ namespace CsvGnomeTests
         }
 
         [TestMethod]
+        public void InterpretComponents_EmptyText()
+        {
+            const string ins = "test:";
+            IComponent[] expected = new IComponent[] { new TextComponent(String.Empty) };
+
+            FieldBrain fieldBrain = new FieldBrain();
+            Reporter reporter = new Reporter();
+            var x = new Interpreter(fieldBrain, reporter);
+
+            Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
+            AssertSingleComponentField(fieldBrain, expected);
+        }
+
+        [TestMethod]
         public void InterpretComponents_Incrementing()
         {
             const string ins = "test:[++]";
@@ -48,10 +62,92 @@ namespace CsvGnomeTests
         }
 
         [TestMethod]
+        public void InterpretComponents_IncrementingWithStart()
+        {
+            const string ins = "test:[39++]";
+            IComponent[] expected = new IComponent[] { new IncrementingComponent(39, 1) };
+
+            FieldBrain fieldBrain = new FieldBrain();
+            Reporter reporter = new Reporter();
+            var x = new Interpreter(fieldBrain, reporter);
+
+            Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
+            AssertSingleComponentField(fieldBrain, expected);
+        }
+
+        [TestMethod]
+        public void InterpretComponents_IncrementingWithIncrement()
+        {
+            const string ins = "test:[++254]";
+            IComponent[] expected = new IComponent[] { new IncrementingComponent(0, 254) };
+
+            FieldBrain fieldBrain = new FieldBrain();
+            Reporter reporter = new Reporter();
+            var x = new Interpreter(fieldBrain, reporter);
+
+            Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
+            AssertSingleComponentField(fieldBrain, expected);
+        }
+
+        [TestMethod]
+        public void InterpretComponents_IncrementingBoth()
+        {
+            const string ins = "test:[718++218]";
+            IComponent[] expected = new IComponent[] { new IncrementingComponent(718, 218) };
+
+            FieldBrain fieldBrain = new FieldBrain();
+            Reporter reporter = new Reporter();
+            var x = new Interpreter(fieldBrain, reporter);
+
+            Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
+            AssertSingleComponentField(fieldBrain, expected);
+        }
+
+        [TestMethod]
+        public void InterpretComponents_IncrementingNegative()
+        {
+            const string ins = "test:[++][++-11][-110++-2]";
+            IComponent[] expected = new IComponent[] 
+            {
+                new IncrementingComponent(0),
+                new IncrementingComponent(0, -11),
+                new IncrementingComponent(-110, -2)
+            };
+
+            FieldBrain fieldBrain = new FieldBrain();
+            Reporter reporter = new Reporter();
+            var x = new Interpreter(fieldBrain, reporter);
+
+            Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
+            AssertSingleComponentField(fieldBrain, expected);
+        }
+
+        [TestMethod]
         public void InterpretComponents_Date()
         {
             const string ins = "test:[date]";
             IComponent[] expected = new IComponent[] { new DateComponent() };
+
+            FieldBrain fieldBrain = new FieldBrain();
+            Reporter reporter = new Reporter();
+            var x = new Interpreter(fieldBrain, reporter);
+
+            Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
+            AssertSingleComponentField(fieldBrain, expected);
+        }
+
+        [TestMethod]
+        public void InterpretComponents_Compound1()
+        {
+            const string ins = "test:1[date]meow[++]xxx";
+            IComponent[] expected = new IComponent[]
+            {
+                new TextComponent("1"),
+                new DateComponent(),
+                new TextComponent("meow"),
+                new IncrementingComponent(0),
+                new TextComponent("xxx")
+            };
 
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();

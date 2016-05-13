@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace CsvGnome
@@ -14,6 +15,7 @@ namespace CsvGnome
 
         private readonly FieldBrain FieldBrain;
         private readonly Reporter Reporter;
+        private readonly ComponentFactory factory = new ComponentFactory();
 
         public Interpreter(FieldBrain fieldBrain, Reporter reporter)
         {
@@ -104,6 +106,10 @@ namespace CsvGnome
             // Break instruction into components
             IComponent[] components = GetComponents(instruction);
 
+            // If no components could be created, add an empty field
+            // e.g. "emptyField:"
+            if (components.Length == 0) components = new IComponent[] { new TextComponent(String.Empty) };
+
             // If there is only one component and it is text, it might be a MinMaxField
             if (components.Length == 1 && components[0] is TextComponent)
             {
@@ -129,35 +135,12 @@ namespace CsvGnome
 
         private IComponent[] GetComponents(string instruction)
         {
-            List<IComponent> components = new List<IComponent>();
-
-            ExtractComponents(instruction, components);
-
-            return components.ToArray();
-        }
-
-        private void ExtractComponents(string instruction, List<IComponent> components)
-        {
-            int i = 0;
-            string match = null;
-            while(match == null && i < instruction.Length)
-            {
-                // try to match a component command to a substring starting at i
-                match = Program.ComponentStrings.FirstOrDefault(C => instruction.Substring(i).StartsWith(C));
-                if (match == null) i++;
-            }
-            // Either a match was found, or we didn't match a command
-            // Add everything to the left as text
-            if (i > 0) components.Add(ComponentFactory.Create(instruction.Substring(0, i)));
-
-            if(match != null)
-            {
-                // Add the token
-                components.Add(ComponentFactory.Create(match));
-
-                // Recursively look for more matches
-                ExtractComponents(instruction.Substring(i + match.Length), components);
-            }
+            Regex r = new Regex(Program.CommandRegexPattern);
+            return r
+                .Split(instruction)
+                .Where(i => !String.IsNullOrEmpty(i))
+                .Select(i => factory.Create(i))
+                .ToArray();
         }
 
         /// <summary>

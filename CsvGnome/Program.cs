@@ -12,6 +12,7 @@ namespace CsvGnome
         public const string GnomeFileExt = ".gnome";
         public const string DefaultGnomeFileName = "default";
         public const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ss";
+        public const string CommandRegexPattern = @"(\[.+?\])";
 
         public const string IncrementComponentString = "[++]";
         public const string DateComponentString = "[date]";
