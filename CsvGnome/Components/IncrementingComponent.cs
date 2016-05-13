@@ -11,13 +11,13 @@ namespace CsvGnome
         public const int DefaultStart = 0;
         public const int DefaultIncrement = 1;
 
-        public string Summary => Program.IncrementComponentString;
+        public string Summary { get; }
         /// <summary>
         /// Get value to write on ith row
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
-        public string GetValue(int i) => (i + start).ToString(getFormat());
+        public string GetValue(int i) => (start + (i * increment)).ToString(getFormat());
         public bool Equals(IComponent x)
         {
             if (x == null) return false;
@@ -45,6 +45,15 @@ namespace CsvGnome
         {
             this.start = start;
             this.increment = increment;
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append("[");
+            if (start != DefaultStart) sb.Append(start);
+            sb.Append("++");
+            if (increment != DefaultIncrement) sb.Append(increment);
+            sb.Append("]");
+
+            Summary = sb.ToString();
         }
 
         /// <summary>
@@ -52,7 +61,7 @@ namespace CsvGnome
         /// </summary>
         private string getFormat()
         {
-            int minDigits = (Math.Max(Program.N + start - 1, 1)).ToString().Length;
+            int minDigits = (Math.Max(Math.Abs(start) + (Program.N * Math.Abs(increment)) - 1, 1)).ToString().Length;
             return "D" + minDigits.ToString();
         }
     }

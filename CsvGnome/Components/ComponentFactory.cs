@@ -20,9 +20,12 @@ namespace CsvGnome
             // [-99++-109]
             if (IncrementingRegex.IsMatch(prototype))
             {
-                // remove []
+                // remove "[" and "]"
                 string protoInc = prototype.Substring(1, prototype.Length - 2);
+
+                // split on "++" for the start and increment
                 string[] tokens = protoInc.Split(new string[] { "++" },StringSplitOptions.None);
+
                 int start;
                 int increment;
                 if (!int.TryParse(tokens[0], out start)) start = IncrementingComponent.DefaultStart;
