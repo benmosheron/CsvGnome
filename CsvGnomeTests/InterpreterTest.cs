@@ -85,7 +85,7 @@ namespace CsvGnomeTests
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
             var x = new Interpreter(fieldBrain, reporter, cache);
-            Assert.AreEqual(x.Interpret("save fileNameOMGWOW"), new GnomeActionInfo(GnomeAction.Save, "fileNameOMGWOW"));
+            Assert.AreEqual(x.Interpret("save"), new GnomeActionInfo(GnomeAction.Save));
             Assert.IsTrue(!fieldBrain.Fields.Any());
         }
 

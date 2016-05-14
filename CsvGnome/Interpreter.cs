@@ -48,7 +48,7 @@ namespace CsvGnome
             if (input.ToLower() == "help special") return new GnomeActionInfo(GnomeAction.HelpSpecial);
 
             // "save fileName" writes a new GnomeFile to the gnomefile directory
-            if (input.StartsWith("save ")) return new GnomeActionInfo(GnomeAction.Save, input.Remove(0, "save ".Length));
+            //if(input.StartsWith("save ")
 
             // Int sets N
             int n;
