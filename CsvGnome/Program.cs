@@ -33,12 +33,12 @@ namespace CsvGnome
         /// <summary>
         /// Path to output file.
         /// </summary>
-        public static string FilePath = @"C:\Users\revol\Desktop\csvGnomeOut\";
+        public static string FilePath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), @"Output\");
 
         /// <summary>
         /// Name of output file.
         /// </summary>
-        public static string FileName = "CsvGnome";
+        public static string FileName = "exampleOutput";
 
         public static string File => $"{FilePath}{FileName}{FileExt}";
 
@@ -87,6 +87,32 @@ namespace CsvGnome
             n = nToSet;
         }
 
+        public static void SetOutputFile(string input)
+        {
+            string inputTrimmed = input.Trim().Replace("\"", String.Empty);
+            string name = System.IO.Path.GetFileNameWithoutExtension(inputTrimmed);
+            string path = System.IO.Path.GetDirectoryName(inputTrimmed);
+
+            if (!System.IO.Directory.Exists(path))
+            {
+                Reporter.AddMessage(new Message("Could not find directory:"));
+                Reporter.AddMessage(new Message(path));
+            }
+            else
+            {
+                FilePath = path + @"\";
+            }
+
+            if (String.IsNullOrEmpty(name))
+            {
+
+            }
+            else
+            {
+                FileName = name;
+            }
+        }
+
         private static void DisplayInfo(Action action)
         {
             switch (action)
@@ -111,10 +137,10 @@ namespace CsvGnome
             switch (action)
             {
                 case Action.Run:
-                    Writer.WriteToFile(FieldBrain.Fields, File, N);
+                    Writer.WriteToFile(Reporter, FieldBrain.Fields, File, N);
                     break;
                 case Action.Write:
-                    Writer.WriteToFile(FieldBrain.Fields, File, N);
+                    Writer.WriteToFile(Reporter, FieldBrain.Fields, File, N);
                     action = Action.Continue;
                     break;
                 default:

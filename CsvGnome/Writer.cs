@@ -15,19 +15,35 @@ namespace CsvGnome
         /// <param name="fields">Fields describing the csv to write.</param>
         /// <param name="pathAndFile">File to write to (will be overwritten).</param>
         /// <param name="n">Number of data lines to write (not including column line).</param>
-        public void WriteToFile(List<IField> fields, string pathAndFile, int n)
+        public void WriteToFile(Reporter reporter, List<IField> fields, string pathAndFile, int n)
         {
             // Reset the date/time to write in [date] components
             Program.UpdateTime();
-
-            using (StreamWriter sw = new StreamWriter(pathAndFile))
-            {
-                sw.WriteLine(GetFirstLine(fields));
-
-                for (int i = 0; i < n; i++)
+            try {
+                using (StreamWriter sw = new StreamWriter(pathAndFile))
                 {
-                    sw.WriteLine(GetLine(fields, i));
+                    sw.WriteLine(GetFirstLine(fields));
+
+                    for (int i = 0; i < n; i++)
+                    {
+                        sw.WriteLine(GetLine(fields, i));
+                    }
                 }
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                reporter.AddMessage(new Message("I couldn't find the directory:"));
+                reporter.AddMessage(new Message(pathAndFile));
+            }
+            catch (FileNotFoundException ex)
+            {
+                reporter.AddMessage(new Message("I couldn't find the file:"));
+                reporter.AddMessage(new Message(pathAndFile));
+            }
+            catch (Exception ex)
+            {
+                reporter.AddMessage(new Message("I don't know why that didn't work:"));
+                reporter.AddMessage(new Message(ex.Message));
             }
         }
 

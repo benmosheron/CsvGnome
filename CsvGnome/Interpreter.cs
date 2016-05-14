@@ -115,6 +115,12 @@ namespace CsvGnome
                 return Action.Continue;
             }
 
+            if (input.StartsWith("output"))
+            {
+                Program.SetOutputFile(input.Remove(0, "output".Length));
+                return Action.Continue;
+            }
+
             // Int sets N
             int n;
             if (int.TryParse(input, out n)) Program.SetN(n);
