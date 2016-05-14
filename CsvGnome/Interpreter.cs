@@ -24,28 +24,28 @@ namespace CsvGnome
             factory = new ComponentFactory(cache);
         }
 
-        public GnomeActionInfo Interpret(string input)
+        public Action Interpret(string input)
         {
             // "//" indicates a comment (in a GnomeFile).
-            if (input.TrimStart().StartsWith("//")) return new GnomeActionInfo(GnomeAction.Continue);
+            if (input.TrimStart().StartsWith("//")) return Action.Continue;
 
             // Empty string does nothing
-            if (input == String.Empty) return new GnomeActionInfo(GnomeAction.Continue);
+            if (input == String.Empty) return Action.Continue;
 
             // "exit" exist program
-            if (input.ToLower() == "exit") return new GnomeActionInfo(GnomeAction.Exit);
+            if (input.ToLower() == "exit") return Action.Exit;
 
             // "run" writes file and exits
-            if (input.ToLower() == "run") return new GnomeActionInfo(GnomeAction.Run);
+            if (input.ToLower() == "run") return Action.Run;
 
             // "write" writes file and continues
-            if (input.ToLower() == "write") return new GnomeActionInfo(GnomeAction.Write);
+            if (input.ToLower() == "write") return Action.Write;
 
             // "help" write help to console and continues
-            if (input.ToLower() == "help") return new GnomeActionInfo(GnomeAction.Help);
+            if (input.ToLower() == "help") return Action.Help;
 
             // "help special" write help to console and continues
-            if (input.ToLower() == "help special") return new GnomeActionInfo(GnomeAction.HelpSpecial);
+            if (input.ToLower() == "help special") return Action.HelpSpecial;
 
             // "save fileName" writes a new GnomeFile to the gnomefile directory
             //if(input.StartsWith("save ")
@@ -63,7 +63,7 @@ namespace CsvGnome
                InterpretInstruction(name, instruction);
             }
 
-            return new GnomeActionInfo(GnomeAction.Continue);
+            return Action.Continue;
         }
 
         /// <summary>

@@ -56,37 +56,40 @@ namespace CsvGnome
             // Read defaults from file
             GnomeFileReader.ReadDefaultGnomeFile();
 
-            GnomeActionInfo nextAction = new GnomeActionInfo(GnomeAction.Continue);
-            while(nextAction.ContinueExecution)
+            Action nextAction = Action.Continue;
+            while(
+                nextAction == Action.Continue 
+                || nextAction == Action.Help
+                || nextAction == Action.HelpSpecial)
             {
-                if (nextAction.Action == GnomeAction.Help)
+                if (nextAction == Action.Help)
                     Reporter.Help();
-                else if (nextAction.Action == GnomeAction.HelpSpecial)
+                else if (nextAction == Action.HelpSpecial)
                     Reporter.HelpSpecial();
                 else
                     Reporter.Report(FieldBrain.Fields, N, File);
 
                 nextAction = Interpreter.Interpret(Console.ReadLine());
 
-                switch (nextAction.Action)
+                switch (nextAction)
                 {
-                    case GnomeAction.Exit:
+                    case Action.Exit:
                         break;
-                    case GnomeAction.Continue:
+                    case Action.Continue:
                         break;
-                    case GnomeAction.Run:
+                    case Action.Run:
                         Writer.WriteToFile(FieldBrain.Fields, File, N);
                         break;
-                    case GnomeAction.Write:
+                    case Action.Write:
                         Writer.WriteToFile(FieldBrain.Fields, File, N);
-                        nextAction = new GnomeActionInfo(GnomeAction.Continue);
+                        nextAction = Action.Continue;
                         break;
-                    case GnomeAction.Help:
+                    case Action.Help:
                         break;
-                    case GnomeAction.HelpSpecial:
+                    case Action.HelpSpecial:
                         break;
                     default:
-                        nextAction = new GnomeActionInfo(GnomeAction.Continue);
+                        nextAction = Action.Continue;
                         break;
                 }
             }
