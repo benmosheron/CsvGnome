@@ -20,6 +20,29 @@ namespace CsvGnomeTests
             MinMaxInfoCache cache = new MinMaxInfoCache();
             var x = new Interpreter(fieldBrain, reporter, cache);
             Assert.AreEqual(x.Interpret(String.Empty), CsvGnome.Action.Exit);
+            Assert.IsTrue(!fieldBrain.Fields.Any());
+        }
+
+        [TestMethod]
+        public void InterpretRun()
+        {
+            FieldBrain fieldBrain = new FieldBrain();
+            Reporter reporter = new Reporter();
+            MinMaxInfoCache cache = new MinMaxInfoCache();
+            var x = new Interpreter(fieldBrain, reporter, cache);
+            Assert.AreEqual(x.Interpret("run"), CsvGnome.Action.Run);
+            Assert.IsTrue(!fieldBrain.Fields.Any());
+        }
+
+        [TestMethod]
+        public void InterpretWrite()
+        {
+            FieldBrain fieldBrain = new FieldBrain();
+            Reporter reporter = new Reporter();
+            MinMaxInfoCache cache = new MinMaxInfoCache();
+            var x = new Interpreter(fieldBrain, reporter, cache);
+            Assert.AreEqual(x.Interpret("write"), CsvGnome.Action.Write);
+            Assert.IsTrue(!fieldBrain.Fields.Any());
         }
 
         [TestMethod]

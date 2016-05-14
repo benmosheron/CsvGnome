@@ -25,7 +25,7 @@ namespace CsvGnome
 
             WriteMessages();
 
-            Console.WriteLine($"Writing {N} rows to {pathAndFile}");
+            Console.WriteLine($"\"run\" or \"write\" to write {N} rows to {pathAndFile}");
 
             if (!fields.Any()) return;
 
