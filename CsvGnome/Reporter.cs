@@ -105,6 +105,16 @@ namespace CsvGnome
             Console.WriteLine("Combined values can be in the same, or different fields.");
         }
 
+        public string OverrideConsole(List<Message> tempMessages)
+        {
+            Console.Clear();
+            foreach(Message m in tempMessages)
+            {
+                Console.WriteLine(tempMessages);
+            }
+            return Console.ReadLine();
+        }
+
         private void WriteMessages()
         {
             for (int i = 0; i < messages.Count; i++)

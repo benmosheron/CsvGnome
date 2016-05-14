@@ -81,5 +81,25 @@ namespace CsvGnome
             }
             return s;
         }
+
+        public string GetPath(string name) => Cache[name];
+
+        public string AddNewFile(string name)
+        {
+            string path = Path.Combine(GnomeFileDir, name, GnomeFileExt);
+            Cache.Add(name, path);
+            return path;
+        }
+
+        public bool Exists(string name)
+        {
+            return Cache.ContainsKey(name);
+        }
+
+        public bool ExistsAfterUpdate(string name)
+        {
+            Update();
+            return Cache.ContainsKey(name);
+        }
     }
 }

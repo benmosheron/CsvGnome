@@ -48,6 +48,7 @@ namespace CsvGnome
         static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, MinMaxInfoCache);
         static readonly GnomeFileCache GnomeFileCache = new GnomeFileCache(Reporter);
         static readonly GnomeFileReader GnomeFileReader = new GnomeFileReader(Interpreter, Reporter, GnomeFileCache);
+        static readonly GnomeFileWriter GnomeFileWriter = new GnomeFileWriter(Reporter, FieldBrain, GnomeFileCache);
         static readonly Writer Writer = new Writer();
 
         static void Main(string[] args)

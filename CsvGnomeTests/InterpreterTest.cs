@@ -79,6 +79,17 @@ namespace CsvGnomeTests
         }
 
         [TestMethod]
+        public void InterpretSave()
+        {
+            FieldBrain fieldBrain = new FieldBrain();
+            Reporter reporter = new Reporter();
+            MinMaxInfoCache cache = new MinMaxInfoCache();
+            var x = new Interpreter(fieldBrain, reporter, cache);
+            Assert.AreEqual(x.Interpret("save"), CsvGnome.Action.Save);
+            Assert.IsTrue(!fieldBrain.Fields.Any());
+        }
+
+        [TestMethod]
         public void InterpretComponents_Text()
         {
             const string ins = "test:meowmeowmeow";
