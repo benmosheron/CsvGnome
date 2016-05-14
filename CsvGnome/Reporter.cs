@@ -51,6 +51,7 @@ namespace CsvGnome
         {
             Console.Clear();
 
+            Console.WriteLine("Enter a number to set the number of rows to write (doesn't include column row).");
             Console.WriteLine("\"run\" writes the csv and exits.");
             Console.WriteLine("\"write\" writes the csv and continues.");
             Console.WriteLine("\"exit\" quits.");
