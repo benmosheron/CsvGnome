@@ -1,19 +1,5 @@
 60
-//CatInfo:[++]Cat_Number_[date]meow
-//Test:MEOW
-//Testingtons:MEWO!
-//pppp:omg_[++]
-//ppp:omg_[98++]
-//pp:omg_[98++2]
-//p:xX_[-10++-21]_Xx
-//f1:[date]
-//f2:[date]_meow
-//f3:[date][++]
-//f4:[date]_meow_[++]
-//a:[1=>3 #b]
-//b:[1=>3 #b]
-//c:[1=>3]
-//d:[0=>3]
+uniqueId:[date]_[++]
 x:[0=>9 #pos]
 y:[0=>9 #pos]
 z:[0=>1 #pos]

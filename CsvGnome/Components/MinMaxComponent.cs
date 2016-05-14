@@ -39,6 +39,7 @@ namespace CsvGnome
             if (x == null) return false;
             var c = x as MinMaxComponent;
             if (c == null) return false;
+            if (Dim != c.Dim) return false;
             if (!Info.Equals(c.Info)) return false;
             return true;
         }
@@ -47,14 +48,11 @@ namespace CsvGnome
         {
             // If this is the lowest dimension (highest index :/...) use modulo
             if (Dim == Info.Dims - 1) return (Info.Mins[Dim] + ((i % Info.Cardinalities[Dim]) * Info.Increments[Dim])).ToString();
-            //if (Dim == Info.Dims - 1) return (Info.Mins[Dim] + (i % Info.Cardinalities[Dim])).ToString();
-
 
             // Higher dimensions have i reduced by the product of lower dimensions' cardinalities
             int productLowerDimCardinalities = Info.Cardinalities.Skip(Dim + 1).Aggregate(1, (t, n) => t * n);
 
             return (Info.Mins[Dim] + (((i / productLowerDimCardinalities) % Info.Cardinalities[Dim]) * Info.Increments[Dim])).ToString();
-            //return (Info.Mins[Dim] + ((i / productLowerDimCardinalities) % Info.Cardinalities[Dim])).ToString();
         }
 
         private const int DefaultIncrement = 1;
@@ -69,7 +67,9 @@ namespace CsvGnome
         // MinMaxField - no combinatorics
         public MinMaxComponent(int min, int max)
             :this(min, max, DefaultIncrement)
-        { }
+        {
+            incrementProvided = false;
+        }
 
         public MinMaxComponent(int min, int max, int increment)
         {
@@ -79,7 +79,9 @@ namespace CsvGnome
         // Combinatorial MinMaxField
         public MinMaxComponent(int min, int max, string id, MinMaxInfoCache cache)
             : this(min, max, DefaultIncrement, id, cache)
-        { }
+        {
+            incrementProvided = false;
+        }
 
         public MinMaxComponent(int min, int max, int increment, string id, MinMaxInfoCache cache)
         {
