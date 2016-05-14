@@ -55,7 +55,9 @@
     <Compile Include="Defaults.cs" />
     <Compile Include="Fields\ComponentField.cs" />
     <Compile Include="Fields\IField.cs" />
+    <Compile Include="GnomeFileCache.cs" />
     <Compile Include="GnomeFileReader.cs" />
+    <Compile Include="GnomeFileWriter.cs" />
     <Compile Include="Interpreter.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Program.cs" />

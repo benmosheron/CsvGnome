@@ -14,49 +14,19 @@ namespace CsvGnome
     {
         Interpreter Interpreter;
         Reporter Reporter;
-        Dictionary<string, string> gnomeFileCache;
+        GnomeFileCache GnomeFileCache;
 
-        public GnomeFileReader(Interpreter interpreter, Reporter reporter)
+        public GnomeFileReader(Interpreter interpreter, Reporter reporter, GnomeFileCache gnomeFileCache)
         {
             Interpreter = interpreter;
             Reporter = reporter;
+            GnomeFileCache = gnomeFileCache;
         }
 
         public void ReadDefaultGnomeFile()
         {
-            string dir = String.Empty;
-            try
-            {
-                dir = Directory.GetCurrentDirectory();
-            }
-            catch(UnauthorizedAccessException ex)
-            {
-                Reporter.AddMessage(new Message("I couldn't access the default GnomeFile directory."));
-            }
-
-            string gnomeDir = Path.Combine(dir, "GnomeFiles");
-            if (Directory.Exists(gnomeDir))
-            {
-                // cache up
-                gnomeFileCache = Directory.GetFiles(gnomeDir)
-                    .Where(g => Path.GetExtension(g) == Program.GnomeFileExt)
-                    .ToDictionary<string, string>(g => Path.GetFileNameWithoutExtension(g));
-
-                if (gnomeFileCache.ContainsKey("default"))
-                {
-                    ReadGnomeFile(gnomeFileCache["default"]);
-                }
-                else
-                {
-                    Reporter.AddMessage(new Message("I couldn't find the default GnomeFile at:"));
-                    Reporter.AddMessage(new Message(Path.Combine(gnomeDir, $"{Program.DefaultGnomeFileName}{Program.GnomeFileExt}")));
-                }
-            }
-            else
-            {
-                Reporter.AddMessage(new Message("I couldn't find the default GnomeFile directory at:"));
-                Reporter.AddMessage(new Message(gnomeDir));
-            }
+            string defaultFile = GnomeFileCache.GetDefault();
+            if (defaultFile != null) ReadGnomeFile(defaultFile);
         }
 
         public void ReadGnomeFile(string pathAndFile)
