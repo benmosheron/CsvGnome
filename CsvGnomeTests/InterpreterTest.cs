@@ -246,6 +246,27 @@ namespace CsvGnomeTests
         }
 
         [TestMethod]
+        public void InterpretComponents_MinMaxSameId()
+        {
+            const string ins = "test:[1=>9,2 #testId][0=>9 #testId][0=>1 #testId]";
+            MinMaxInfoCache temp = new MinMaxInfoCache();
+            IComponent[] expected = new IComponent[]
+            {
+                new MinMaxComponent(1, 9, 2, "testId", temp),
+                new MinMaxComponent(0, 9, "testId", temp),
+                new MinMaxComponent(0, 1, "testId", temp)
+            };
+
+            FieldBrain fieldBrain = new FieldBrain();
+            Reporter reporter = new Reporter();
+            MinMaxInfoCache cache = new MinMaxInfoCache();
+            var x = new Interpreter(fieldBrain, reporter, cache);
+
+            Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
+            AssertSingleComponentField(fieldBrain, expected);
+        }
+
+        [TestMethod]
         public void InterpretComponents_Compound1()
         {
             const string ins = "test:1[date]meow[++]xxx";

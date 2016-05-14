@@ -14,7 +14,7 @@ namespace CsvGnome
     {
         public string Name { get; }
 
-        public string Summary { get; }
+        public string Summary => Components.Select(c => c.Summary).Aggregate((t, n) => $"{t}{n}");
 
         public string GetValue(int row)
         {
@@ -33,7 +33,6 @@ namespace CsvGnome
         public ComponentField(String name, IComponent[] components)
         {
             Name = name;
-            Summary = components.Select(c => c.Summary).Aggregate((t, n) => $"{t}{n}");
             Components = components;
         }
     }

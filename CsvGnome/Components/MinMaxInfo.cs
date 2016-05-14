@@ -48,7 +48,7 @@ namespace CsvGnome
 
         public MinMaxInfo(int min, int max, int increment, string name)
         {
-            Id = null;
+            Id = name;
             Dims = 1;
             Mins = new List<int> { min };
             Maxs = new List<int> { max };

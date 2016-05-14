@@ -17,7 +17,22 @@ namespace CsvGnome
     /// </summary>
     public class MinMaxComponent : IComponent
     {
-        public string Summary { get; }
+        public string Summary {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append($"[{Info.Mins[Dim]}=>{Info.Maxs[Dim]}");
+                if (incrementProvided) sb.Append($",{Info.Increments[Dim]}");
+                if(Info.Id != null)
+                {
+                    sb.Append(" #");
+                    sb.Append(Info.Id);
+                    if (Info.Dims > 1) sb.Append($"/{Dim}");
+                }
+                sb.Append("]");
+                return sb.ToString();
+            }
+        }
 
         public bool Equals(IComponent x)
         {
@@ -30,19 +45,27 @@ namespace CsvGnome
 
         public string GetValue(int i)
         {
-            throw new NotImplementedException();
+            // If this is the lowest dimension (highest index :/...) use modulo
+            if (Dim == Info.Dims - 1) return (i % Info.Cardinalities[Dim]).ToString();
+
+            // Higher dimensions have i reduced by the product of lower dimensions' cardinalities
+            int productLowerDimCardinalities = Info.Cardinalities.Skip(Dim + 1).Aggregate(1, (t, n) => t * n);
+
+            return ((i / productLowerDimCardinalities) % Info.Cardinalities[Dim]).ToString();
         }
 
+        private const int DefaultIncrement = 1;
+        private bool incrementProvided = true;
         /// <summary>
         /// The dimension of this component. Used as an index in the Info's arrays.
         /// </summary>
-        public int Dim;
+        public int Dim = 0;
 
         public MinMaxInfo Info;
 
         // MinMaxField - no combinatorics
         public MinMaxComponent(int min, int max)
-            :this(min, max, 1)
+            :this(min, max, DefaultIncrement)
         { }
 
         public MinMaxComponent(int min, int max, int increment)
@@ -52,7 +75,7 @@ namespace CsvGnome
 
         // Combinatorial MinMaxField
         public MinMaxComponent(int min, int max, string id, MinMaxInfoCache cache)
-            : this(min, max, 1, id, cache)
+            : this(min, max, DefaultIncrement, id, cache)
         { }
 
         public MinMaxComponent(int min, int max, int increment, string id, MinMaxInfoCache cache)
@@ -61,6 +84,7 @@ namespace CsvGnome
             {
                 cache.Cache[id].AddComponent(min, max, increment);
                 Info = cache.Cache[id];
+                Dim = Info.Dims - 1;
             }
             else
             {
