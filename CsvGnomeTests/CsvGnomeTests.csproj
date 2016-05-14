@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="InterpreterTest.cs" />
+    <Compile Include="MinMaxComponentTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
