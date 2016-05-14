@@ -30,7 +30,7 @@ namespace CsvGnome
             if (!fields.Any()) return;
 
             var names = fields.Select(f => f.Name);
-            var values = fields.Select(f => f.Summary).ToList();
+            var values = fields.Select(f => f.Command).ToList();
 
             int maxLength = names.Max(f => f.Length);
             var namesForDisplay = names.Select(n => RightPad(n, maxLength)).ToList();
