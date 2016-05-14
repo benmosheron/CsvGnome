@@ -38,9 +38,6 @@ namespace CsvGnome
             // "write" writes file and continues
             if (input.ToLower() == "write") return Action.Write;
 
-            // "combine x y z" initialises combinatorial fields
-            if (input.StartsWith("combine")) CombineFields(input);
-
             // Int sets N
             int n;
             if (int.TryParse(input, out n)) Program.SetN(n);
@@ -58,45 +55,6 @@ namespace CsvGnome
         }
 
         /// <summary>
-        /// Attempt to perform a combine.
-        /// </summary>
-        /// <param name="input"></param>
-        private void CombineFields(string input)
-        {
-            string fieldsToCombineMaybe = input.Remove(0, "combine".Length).Trim();
-            // Remove whitespace and duplicates
-            List<string> fieldsMaybe = fieldsToCombineMaybe.Split(' ').Select(fm => fm.Trim()).Distinct().ToList();
-
-            // Check fields were provided
-            if (!CheckCombineFieldsProvided(fieldsMaybe)) return;
-
-            // The last element may be a set name e.g. "[chickens]"
-            string last = fieldsMaybe.Last();
-            string setName = null;
-            if(last.StartsWith("[") && last.EndsWith("]"))
-            {
-                setName = last.Substring(1, last.Length - 2);
-                fieldsMaybe.Remove(last);
-            }
-
-            // Check fields were provided (other than set name)
-            if (!CheckCombineFieldsProvided(fieldsMaybe)) return;
-
-            if (fieldsMaybe.All(fm => FieldBrain.FieldValidForCombine(fm)))
-            {
-                // woohoo! get the ICombinableFields for the brain to eat
-                var fieldsDefinitely = fieldsMaybe.Select(fm => FieldBrain.CombinableFields.First(f => f.Name == fm)).ToList();
-
-                // Actually combine the fields
-                FieldBrain.CombineFields(fieldsDefinitely, setName);
-            }
-            else
-            {
-                ReportInvalidFields(fieldsMaybe);
-            }
-        }
-
-        /// <summary>
         /// Attempt to update or create a field.
         /// </summary>
         /// <param name="name"></param>
@@ -111,26 +69,9 @@ namespace CsvGnome
             // e.g. "emptyField:"
             if (components.Length == 0) components = new IComponent[] { new TextComponent(String.Empty) };
 
-            // If there is only one component and it is text, it might be a MinMaxField
-            if (components.Length == 1 && components[0] is TextComponent)
-            {
-                // MinMax Field 
-                // E.g. "0 10 2"
-                int[] minMaxInc = ParseMinMax(instruction);
-                if (minMaxInc != null)
-                {
-                    FieldBrain.AddOrUpdateMinMaxField(name, minMaxInc[0], minMaxInc[1], minMaxInc[2]);
-                }
-                else
-                {
-                    FieldBrain.AddOrUpdateComponentField(name, components);
-                }
-            }
-            else
-            {
-                // Create component field
-                FieldBrain.AddOrUpdateComponentField(name, components);
-            }
+            // Create component field
+            FieldBrain.AddOrUpdateComponentField(name, components);
+            
             
         }
 
@@ -173,21 +114,6 @@ namespace CsvGnome
                 return false;
             }
             return true;
-        }
-
-        /// <summary>
-        /// Report to console any invalid fields.
-        /// </summary>
-        /// <param name="fieldsMaybe"></param>
-        private void ReportInvalidFields(List<string> fieldsMaybe)
-        {
-            // Report
-            // Which fields weren't valid?
-            var invalidFields = fieldsMaybe.Where(fm => !FieldBrain.FieldValidForCombine(fm)).ToList();
-            Message m;
-            if (invalidFields.Count == 1) m = new Message($"The field \"{invalidFields.First()}\" is invalid for combining");
-            else m = new Message($"The following fields are invalid for combining: {invalidFields.Aggregate((t, n) => $"\"{t}\", \"{n}\"")}");
-            Reporter.AddMessage(m);
         }
     }
 }

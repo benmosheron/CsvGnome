@@ -18,25 +18,12 @@ namespace CsvGnome
         /// </summary>
         public List<IField> Fields => fields.ToList();
 
-        public List<ICombinableField> CombinableFields => fields.Where(f => f is ICombinableField).Cast<ICombinableField>().ToList();
-
         /// <summary>
         /// True if a field with matching name is present;
         /// </summary>
         public bool ContainsName(string name)
         {
             return fields.Any(f => f.Name == name);
-        }
-
-        /// <summary>
-        /// True if a field with matching name is ICombinable and uniquely identifiable by name
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public bool FieldValidForCombine(string name)
-        {
-            // Each ICombinableField must be uniquely identifiable
-            return CombinableFields.Count(f => f.Name == name) == 1;
         }
 
         #region ComponentField
@@ -65,58 +52,5 @@ namespace CsvGnome
 
         #endregion
 
-        #region MinMaxField
-
-        /// <summary>
-        /// Looks for a fields with matching <paramref name="name"/>. If found, that field is updated. Otherwise a new MinMax field is created.
-        /// </summary>
-        /// <param name="name">Name.</param>
-        /// <param name="min">Minimum (starting) value.</param>
-        /// <param name="max">Written values will not increase past this value.</param>
-        /// <param name="increment">Amount to increase.</param>
-        public void AddOrUpdateMinMaxField(string name, int min, int max, int increment)
-        {
-            if (fields.Any(f => f.Name == name))
-            {
-                UpdateMinMaxField(name, min, max, increment);
-            }
-            else
-            {
-                AddMinMaxField(name, min, max, increment);
-            }
-        }
-
-        private void UpdateMinMaxField(string name, int min, int max, int increment)
-        {
-            fields[fields.FindIndex(f => f.Name == name)] = new MinMaxField(name, min, max, increment);
-        }
-
-        private void AddMinMaxField(string name, int min, int max, int increment)
-        {
-            fields.Add(new MinMaxField(name, min, max, increment));
-        }
-
-        #endregion
-
-        #region Combine
-
-        public void CombineFields(List<ICombinableField> fieldsToCombine, string setName)
-        {
-            // Create the info that will bind the combine fields
-            CombinatorialFieldInfo info = new CombinatorialFieldInfo(fieldsToCombine, setName);
-
-            // Relevant information is contained in the info
-            // Remove existing fields
-            var names = fieldsToCombine.Select(ftc => ftc.Name).ToList();
-            names.ForEach(name => fields.Remove(CombinableFields.First(f => f.Name == name) as IField));
-
-            // Add new combinatorial fields
-            for(int i = 0; i<fieldsToCombine.Count; i++)
-            {
-                fields.Add(new CombinatorialField(fieldsToCombine[i].Name, info, i));
-            }
-        }
-
-        #endregion
     }
 }
