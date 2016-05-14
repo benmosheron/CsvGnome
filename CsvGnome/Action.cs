@@ -16,6 +16,7 @@ namespace CsvGnome
         Run,
         Write,
         Help,
-        HelpSpecial
+        HelpSpecial,
+        ShowGnomeFiles
     }
 }

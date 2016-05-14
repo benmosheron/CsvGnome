@@ -12,64 +12,29 @@ namespace CsvGnome
     /// </summary>
     public class GnomeFileReader
     {
-        Interpreter Interpreter;
         Reporter Reporter;
-        Dictionary<string, string> gnomeFileCache;
+        GnomeFileCache GnomeFileCache;
 
-        public GnomeFileReader(Interpreter interpreter, Reporter reporter)
+        public GnomeFileReader(Reporter reporter, GnomeFileCache gnomeFileCache)
         {
-            Interpreter = interpreter;
             Reporter = reporter;
+            GnomeFileCache = gnomeFileCache;
         }
 
-        public void ReadDefaultGnomeFile()
+        public List<string> ReadDefaultGnomeFile()
         {
-            string dir = String.Empty;
-            try
-            {
-                dir = Directory.GetCurrentDirectory();
-            }
-            catch(UnauthorizedAccessException ex)
-            {
-                Reporter.AddMessage(new Message("I couldn't access the default GnomeFile directory."));
-            }
-
-            string gnomeDir = Path.Combine(dir, "GnomeFiles");
-            if (Directory.Exists(gnomeDir))
-            {
-                // cache up
-                gnomeFileCache = Directory.GetFiles(gnomeDir)
-                    .Where(g => Path.GetExtension(g) == Program.GnomeFileExt)
-                    .ToDictionary<string, string>(g => Path.GetFileNameWithoutExtension(g));
-
-                if (gnomeFileCache.ContainsKey("default"))
-                {
-                    ReadGnomeFile(gnomeFileCache["default"]);
-                }
-                else
-                {
-                    Reporter.AddMessage(new Message("I couldn't find the default GnomeFile at:"));
-                    Reporter.AddMessage(new Message(Path.Combine(gnomeDir, $"{Program.DefaultGnomeFileName}{Program.GnomeFileExt}")));
-                }
-            }
-            else
-            {
-                Reporter.AddMessage(new Message("I couldn't find the default GnomeFile directory at:"));
-                Reporter.AddMessage(new Message(gnomeDir));
-            }
+            List<string> parsedFile = new List<string>();
+            string defaultFile = GnomeFileCache.DefaultGnomeFileName;
+            if (defaultFile != null) parsedFile = ReadGnomeFile(defaultFile);
+            return parsedFile;
         }
 
-        public void ReadGnomeFile(string pathAndFile)
+        public List<string> ReadGnomeFile(string name)
         {
+            string pathAndFile = GnomeFileCache.GetGnomeFilePath(name.Trim());
+            List<string> parsedFile = new List<string>();
             try {
-                using (StreamReader sr = new StreamReader(pathAndFile))
-                {
-                    string line;
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        Interpreter.Interpret(line);
-                    }
-                }
+                parsedFile = File.ReadAllLines(pathAndFile).ToList();
             }
             catch(DirectoryNotFoundException ex)
             {
@@ -86,6 +51,8 @@ namespace CsvGnome
                 Reporter.AddMessage(new Message("I don't know why that didn't work:"));
                 Reporter.AddMessage(new Message(ex.Message));
             }
+
+            return parsedFile;
         }
     }
 }

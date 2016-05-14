@@ -17,9 +17,9 @@ namespace CsvGnome
         string Name { get; }
 
         /// <summary>
-        /// Summary to display in the console.
+        /// The command used to create the field.
         /// </summary>
-        string Summary { get; }
+        string Command { get; }
 
         /// <summary>
         /// Get the value to be written on the ith line.

@@ -26,6 +26,11 @@ namespace CsvGnome
             return fields.Any(f => f.Name == name);
         }
 
+        public void ClearFields()
+        {
+            fields.Clear();
+        }
+
         #region ComponentField
 
         public void AddOrUpdateComponentField(string name, IComponent[] components)

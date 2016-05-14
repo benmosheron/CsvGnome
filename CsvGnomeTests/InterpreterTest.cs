@@ -79,6 +79,28 @@ namespace CsvGnomeTests
         }
 
         [TestMethod]
+        public void InterpretShowGnomeFiles()
+        {
+            FieldBrain fieldBrain = new FieldBrain();
+            Reporter reporter = new Reporter();
+            MinMaxInfoCache cache = new MinMaxInfoCache();
+            var x = new Interpreter(fieldBrain, reporter, cache);
+            Assert.AreEqual(x.Interpret("gnomefiles"), CsvGnome.Action.ShowGnomeFiles);
+            Assert.IsTrue(!fieldBrain.Fields.Any());
+        }
+
+        [TestMethod]
+        public void InterpretSave()
+        {
+            FieldBrain fieldBrain = new FieldBrain();
+            Reporter reporter = new Reporter();
+            MinMaxInfoCache cache = new MinMaxInfoCache();
+            var x = new Interpreter(fieldBrain, reporter, cache);
+            Assert.AreEqual(CsvGnome.Action.Continue, x.Interpret("save test"));
+            Assert.IsTrue(!fieldBrain.Fields.Any());
+        }
+
+        [TestMethod]
         public void InterpretComponents_Text()
         {
             const string ins = "test:meowmeowmeow";

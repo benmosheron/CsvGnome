@@ -15,15 +15,45 @@ namespace CsvGnome
 
         private readonly FieldBrain FieldBrain;
         private readonly Reporter Reporter;
-        private readonly ComponentFactory factory;
+        private readonly ComponentFactory Factory;
+        private readonly GnomeFileWriter GnomeFileWriter;
+        private readonly GnomeFileReader GnomeFileReader;
+        private readonly MinMaxInfoCache MinMaxInfoCache;
 
+        /// <summary>
+        /// Overload with no I/O for unit tests
+        /// </summary>
+        /// <param name="fieldBrain"></param>
+        /// <param name="reporter"></param>
+        /// <param name="cache"></param>
         public Interpreter(FieldBrain fieldBrain, Reporter reporter, MinMaxInfoCache cache)
+            :this(fieldBrain, reporter, cache, null, null)
+        { }
+
+        public Interpreter(FieldBrain fieldBrain, Reporter reporter, MinMaxInfoCache cache, GnomeFileWriter gnomeFileWriter, GnomeFileReader gnomeFileReader)
         {
             FieldBrain = fieldBrain;
             Reporter = reporter;
-            factory = new ComponentFactory(cache);
+            Factory = new ComponentFactory(cache);
+            MinMaxInfoCache = cache;
+            GnomeFileWriter = gnomeFileWriter;
+            GnomeFileReader = gnomeFileReader;
         }
 
+        /// <summary>
+        /// Interprets commands without altering program flow. Used when reading from a gnomefile.
+        /// </summary>
+        /// <param name="input"></param>
+        public void InterpretSilent(string input)
+        {
+            Action temp = Interpret(input);
+        }
+
+        /// <summary>
+        /// Interpret commands.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public Action Interpret(string input)
         {
             // "//" indicates a comment (in a GnomeFile).
@@ -46,6 +76,38 @@ namespace CsvGnome
 
             // "help special" write help to console and continues
             if (input.ToLower() == "help special") return Action.HelpSpecial;
+
+            // "gnomefiles" write information about gnomefiles
+            if (input.ToLower() == "gnomefiles") return Action.ShowGnomeFiles;
+
+            // "save fileName" writes a new GnomeFile to the gnomefile directory
+            if (input.StartsWith("save"))
+            {
+                // Interpreter unit tests use a null writer
+                if(GnomeFileWriter != null) GnomeFileWriter.Save(input.Remove(0, "save".Length));
+                return Action.Continue;
+            }
+
+            // "load fileName" loads a GnomeFile from the gnomefile directory
+            if (input.StartsWith("load"))
+            {
+                // Use a seperate interpreter with no I/O for reading files
+                // Otherwise the interpreter could read a "load" instruction
+                if (GnomeFileReader != null)
+                {
+                    Interpreter interpreterNoIO = new Interpreter(FieldBrain, Reporter, MinMaxInfoCache);
+                    List<string> parsedFile = GnomeFileReader.ReadGnomeFile(input.Remove(0, "load".Length));
+                    
+                    // We will assume the file contains some valid instructions, if it has anything at all!
+                    if(parsedFile != null && parsedFile.Count > 0 && parsedFile.Any(l => !String.IsNullOrWhiteSpace(l)))
+                    {
+                        FieldBrain.ClearFields();
+                        parsedFile.ForEach(interpreterNoIO.InterpretSilent);
+                    }
+                    
+                }
+                return Action.Continue;
+            }
 
             // Int sets N
             int n;
@@ -90,7 +152,7 @@ namespace CsvGnome
             return r
                 .Split(instruction)
                 .Where(i => !String.IsNullOrEmpty(i))
-                .Select(i => factory.Create(i))
+                .Select(i => Factory.Create(i))
                 .ToArray();
         }
 

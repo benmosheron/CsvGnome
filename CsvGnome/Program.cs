@@ -9,8 +9,6 @@ namespace CsvGnome
     class Program
     {
         public const string FileExt = ".csv";
-        public const string GnomeFileExt = ".gnome";
-        public const string DefaultGnomeFileName = "default";
         public const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ss";
         public const string CommandRegexPattern = @"(\[.+?\])";
         public const string DateComponentString = "[date]";
@@ -44,60 +42,85 @@ namespace CsvGnome
 
         public static string File => $"{FilePath}{FileName}{FileExt}";
 
+        public static GnomeFileCache GetGnomeFileCache => GnomeFileCache;
+
+        static readonly MinMaxInfoCache MinMaxInfoCache = new MinMaxInfoCache();
         static readonly FieldBrain FieldBrain = new FieldBrain();
         static readonly Reporter Reporter = new Reporter();
-        static readonly MinMaxInfoCache MinMaxInfoCache = new MinMaxInfoCache();
-        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, MinMaxInfoCache);
-        static readonly GnomeFileReader GnomeFileReader = new GnomeFileReader(Interpreter, Reporter);
+        static readonly GnomeFileCache GnomeFileCache = new GnomeFileCache(Reporter);
+        static readonly GnomeFileWriter GnomeFileWriter = new GnomeFileWriter(Reporter, FieldBrain, GnomeFileCache);
+        static readonly GnomeFileReader GnomeFileReader = new GnomeFileReader(Reporter, GnomeFileCache);
+        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, MinMaxInfoCache, GnomeFileWriter, GnomeFileReader);
+        static readonly Interpreter InterpreterNoIO = new Interpreter(FieldBrain, Reporter, MinMaxInfoCache);
         static readonly Writer Writer = new Writer();
 
         static void Main(string[] args)
         {
             // Read defaults from file
-            GnomeFileReader.ReadDefaultGnomeFile();
+            GnomeFileReader.ReadDefaultGnomeFile().ForEach(InterpreterNoIO.InterpretSilent);
 
             Action nextAction = Action.Continue;
-            while(
-                nextAction == Action.Continue 
-                || nextAction == Action.Help
-                || nextAction == Action.HelpSpecial)
-            {
-                if (nextAction == Action.Help)
-                    Reporter.Help();
-                else if (nextAction == Action.HelpSpecial)
-                    Reporter.HelpSpecial();
-                else
-                    Reporter.Report(FieldBrain.Fields, N, File);
 
+            Action[] ContinueWhile = new Action[]
+            {
+                Action.Continue,
+                Action.Help,
+                Action.HelpSpecial,
+                Action.ShowGnomeFiles,
+            };
+
+            while(ContinueWhile.Contains(nextAction))
+            {
+                // Before user entry - display information
+                DisplayInfo(nextAction);
+
+                // Interpret user entry
                 nextAction = Interpreter.Interpret(Console.ReadLine());
 
-                switch (nextAction)
-                {
-                    case Action.Exit:
-                        break;
-                    case Action.Continue:
-                        break;
-                    case Action.Run:
-                        Writer.WriteToFile(FieldBrain.Fields, File, N);
-                        break;
-                    case Action.Write:
-                        Writer.WriteToFile(FieldBrain.Fields, File, N);
-                        nextAction = Action.Continue;
-                        break;
-                    case Action.Help:
-                        break;
-                    case Action.HelpSpecial:
-                        break;
-                    default:
-                        nextAction = Action.Continue;
-                        break;
-                }
+                // after user entry
+                nextAction = WriteIfNeeded(nextAction);
             }
         }
 
         public static void SetN(int nToSet)
         {
             n = nToSet;
+        }
+
+        private static void DisplayInfo(Action action)
+        {
+            switch (action)
+            {
+                case Action.Help:
+                    Reporter.Help();
+                    break;
+                case Action.HelpSpecial:
+                    Reporter.HelpSpecial();
+                    break;
+                case Action.ShowGnomeFiles:
+                    Reporter.ShowGnomeFiles();
+                    break;
+                default:
+                    Reporter.Report(FieldBrain.Fields, N, File);
+                    break;
+            }
+        }
+
+        private static Action WriteIfNeeded(Action action)
+        {
+            switch (action)
+            {
+                case Action.Run:
+                    Writer.WriteToFile(FieldBrain.Fields, File, N);
+                    break;
+                case Action.Write:
+                    Writer.WriteToFile(FieldBrain.Fields, File, N);
+                    action = Action.Continue;
+                    break;
+                default:
+                    break;
+            }
+            return action;
         }
     }
 }
