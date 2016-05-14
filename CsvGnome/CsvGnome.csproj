@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Action.cs" />
+    <Compile Include="GnomeAction.cs" />
     <Compile Include="Components\MinMaxInfo.cs" />
     <Compile Include="Components\ComponentFactory.cs" />
     <Compile Include="Components\DateComponent.cs" />

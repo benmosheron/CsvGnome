@@ -24,28 +24,28 @@ namespace CsvGnome
             factory = new ComponentFactory(cache);
         }
 
-        public Action Interpret(string input)
+        public GnomeActionInfo Interpret(string input)
         {
             // "//" indicates a comment (in a GnomeFile).
-            if (input.TrimStart().StartsWith("//")) return Action.Continue;
+            if (input.TrimStart().StartsWith("//")) return new GnomeActionInfo(GnomeAction.Continue);
 
             // Empty string does nothing
-            if (input == String.Empty) return Action.Continue;
+            if (input == String.Empty) return new GnomeActionInfo(GnomeAction.Continue);
 
             // "exit" exist program
-            if (input.ToLower() == "exit") return Action.Exit;
+            if (input.ToLower() == "exit") return new GnomeActionInfo(GnomeAction.Exit);
 
             // "run" writes file and exits
-            if (input.ToLower() == "run") return Action.Run;
+            if (input.ToLower() == "run") return new GnomeActionInfo(GnomeAction.Run);
 
             // "write" writes file and continues
-            if (input.ToLower() == "write") return Action.Write;
+            if (input.ToLower() == "write") return new GnomeActionInfo(GnomeAction.Write);
 
             // "help" write help to console and continues
-            if (input.ToLower() == "help") return Action.Help;
+            if (input.ToLower() == "help") return new GnomeActionInfo(GnomeAction.Help);
 
             // "help special" write help to console and continues
-            if (input.ToLower() == "help special") return Action.HelpSpecial;
+            if (input.ToLower() == "help special") return new GnomeActionInfo(GnomeAction.HelpSpecial);
 
             // "save fileName" writes a new GnomeFile to the gnomefile directory
             //if(input.StartsWith("save ")
@@ -63,7 +63,7 @@ namespace CsvGnome
                InterpretInstruction(name, instruction);
             }
 
-            return Action.Continue;
+            return new GnomeActionInfo(GnomeAction.Continue);
         }
 
         /// <summary>
