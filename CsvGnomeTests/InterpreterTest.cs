@@ -166,6 +166,48 @@ namespace CsvGnomeTests
         }
 
         [TestMethod]
+        public void InterpretDelete_MinMaxSameIdOneDeletedMultiComponentFields()
+        {
+            const string ins1 = "test1:[1=>9,2 #testId][1=>92,2 #testId]";
+            const string ins2 = "test2:[10=>19,2 #testId][1=>9,2 #testId]";
+            const string ins3 = "test3:[20=>29,2 #testId][1=>9,2 #testId]";
+            const string ins4 = "delete test2";
+            MinMaxInfoCache temp = new MinMaxInfoCache();
+
+            IComponent[] expectedComponentsOfField1 = new IComponent[]
+            {
+                new MinMaxComponent(1, 9, 2, "testId", temp),
+                new MinMaxComponent(1, 92, 2, "testId", temp)
+            };
+
+            IComponent[] expectedComponentsOfField2 = new IComponent[]
+            {
+                new MinMaxComponent(20, 29, 2, "testId", temp),
+                new MinMaxComponent(1, 9, 2, "testId", temp)
+            };
+
+            FieldBrain fieldBrain = new FieldBrain();
+            Reporter reporter = new Reporter();
+            MinMaxInfoCache cache = new MinMaxInfoCache();
+            var x = new Interpreter(fieldBrain, reporter, cache);
+
+            x.Interpret(ins1);
+            x.Interpret(ins2);
+            x.Interpret(ins3);
+            x.Interpret(ins4);
+
+            Assert.IsTrue(fieldBrain.Fields.Count == 2);
+            Assert.IsTrue((fieldBrain.Fields.First() as ComponentField).Components.Zip(expectedComponentsOfField1, (a, e) => a.Equals(e)).All(r => r == true));
+            Assert.IsTrue((fieldBrain.Fields.Last() as ComponentField).Components.Zip(expectedComponentsOfField2, (a, e) => a.Equals(e)).All(r => r == true));
+
+            // Assert dimensions
+            Assert.AreEqual(0, (fieldBrain.Fields.First() as ComponentField).Components.OfType<MinMaxComponent>().First().Dim);
+            Assert.AreEqual(1, (fieldBrain.Fields.First() as ComponentField).Components.OfType<MinMaxComponent>().Last().Dim);
+            Assert.AreEqual(2, (fieldBrain.Fields.Last() as ComponentField).Components.OfType<MinMaxComponent>().First().Dim);
+            Assert.AreEqual(3, (fieldBrain.Fields.Last() as ComponentField).Components.OfType<MinMaxComponent>().Last().Dim);
+        }
+
+        [TestMethod]
         public void InterpretComponents_Text()
         {
             const string ins = "test:meowmeowmeow";

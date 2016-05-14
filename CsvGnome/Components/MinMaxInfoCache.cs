@@ -37,7 +37,11 @@ namespace CsvGnome
             // The remove all affected dims from each affected info
             foreach(string id in affected.Keys)
             {
-                foreach(int dim in affected[id])
+                // Sort to ensure we remove higher dimensions first
+                List<int> dims = affected[id].ToList();
+                dims.Sort();
+                dims.Reverse();
+                foreach (int dim in dims)
                 {
                     Cache[id].RemoveComponent(dim);
                 }

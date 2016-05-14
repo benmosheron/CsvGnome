@@ -52,14 +52,15 @@ namespace CsvGnome
             Console.Clear();
 
             Console.WriteLine("Enter a number to set the number of rows to write (doesn't include column row).");
-            Console.WriteLine("run          writes the csv and exits.");
-            Console.WriteLine("write        writes the csv and continues.");
-            Console.WriteLine("exit         quits.");
-            Console.WriteLine("help         displays help.");
-            Console.WriteLine("help special displays information on special values.");
-            Console.WriteLine("gnomefiles   displays information on saved gnomefiles.");
-            Console.WriteLine("save file1   saves the currently set up fields to gnomefile: \"file1\" in the gnomefile directory.");
-            Console.WriteLine("load file1   loads gnomefile \"file1\" from the gnomefile directory, overwriting any unsaved fields.");
+            Console.WriteLine("run           writes the csv and exits.");
+            Console.WriteLine("write         writes the csv and continues.");
+            Console.WriteLine("exit          quits.");
+            Console.WriteLine("help          displays help.");
+            Console.WriteLine("help special  displays information on special values.");
+            Console.WriteLine("gnomefiles    displays information on saved gnomefiles.");
+            Console.WriteLine("save file1    saves the currently set up fields to gnomefile: \"file1\" in the gnomefile directory.");
+            Console.WriteLine("load file1    loads gnomefile \"file1\" from the gnomefile directory, overwriting any unsaved fields.");
+            Console.WriteLine("delete field1 deletes field \"field1\".");
             Console.WriteLine("");
             Console.WriteLine("To add a new field, use the following syntax:");
             Console.WriteLine("fieldName:fieldValue");
