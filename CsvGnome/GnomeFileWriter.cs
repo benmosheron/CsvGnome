@@ -22,13 +22,20 @@ namespace CsvGnome
 
         public void Save(string fileName)
         {
+            fileName = fileName.Trim();
+            if (String.IsNullOrEmpty(fileName))
+            {
+                Reporter.AddMessage(new Message("Please specify a name, e.g. \"save fileName1\""));
+                return;
+            }
+
             if (GnomeFileCache.ExistsAfterUpdate(fileName))
             {
                 string ok = Reporter.OverrideConsole(AskOverwriteMessage(GnomeFileCache.GetPath(fileName)));
                 if (!new string[] { "y", "yes" }.Contains(ok.Trim().ToLower())) return;
             }
 
-            string path = GnomeFileCache.AddNewFile(fileName);
+            string path = GnomeFileCache.GetGnomeFilePath(fileName);
 
             using (StreamWriter sw = new StreamWriter(path))
             {
@@ -39,6 +46,9 @@ namespace CsvGnome
                     sw.Write($"{FieldBrain.Fields[i].Name}:{FieldBrain.Fields[i].Command}");
                 }
             }
+
+            GnomeFileCache.AddToCache(fileName);
+            Reporter.AddMessage(new Message($"saved {fileName}. (\"gnomefiles\" displays file info)"));
         }
 
         private List<Message> AskOverwriteMessage(string file)

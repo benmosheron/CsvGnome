@@ -46,7 +46,7 @@ namespace CsvGnome
                 foreach (var k in gnomeFiles.Keys)
                 {
                     // Update existing
-                    if (Cache.ContainsKey(k) && Cache[k] != gnomeFiles[k]) Cache[k] = gnomeFiles[k];
+                    if (Cache.ContainsKey(k)) Cache[k] = gnomeFiles[k];
                     // Add new file
                     else Cache.Add(k, gnomeFiles[k]);
                 }
@@ -57,6 +57,8 @@ namespace CsvGnome
                 Reporter.AddMessage(new Message(GnomeFileDir));
             }
         }
+
+        public string[] Files => Cache.Keys.ToArray();
 
         public string GetDefault()
         {
@@ -84,11 +86,18 @@ namespace CsvGnome
 
         public string GetPath(string name) => Cache[name];
 
-        public string AddNewFile(string name)
+        public string GetGnomeFilePath(string name)
         {
-            string path = Path.Combine(GnomeFileDir, name, GnomeFileExt);
-            Cache.Add(name, path);
+            string path = Path.Combine(GnomeFileDir, name);
+            path = Path.ChangeExtension(path, GnomeFileExt);
             return path;
+        }
+
+        public void AddToCache(string name)
+        {
+            string path = GetGnomeFilePath(name);
+            if (Cache.ContainsKey(name)) Cache[name] = path;
+            else Cache.Add(name, path);
         }
 
         public bool Exists(string name)

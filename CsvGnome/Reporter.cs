@@ -105,12 +105,26 @@ namespace CsvGnome
             Console.WriteLine("Combined values can be in the same, or different fields.");
         }
 
+        public void ShowGnomeFiles()
+        {
+            Console.Clear();
+            Console.WriteLine($"The GnomeFile directory is: {Program.GetGnomeFileCache.GnomeFileDir}");
+            Console.WriteLine("");
+            foreach(string k in Program.GetGnomeFileCache.Files)
+            {
+                Console.WriteLine(k);
+                Console.WriteLine(Program.GetGnomeFileCache.GetPath(k));
+                Console.WriteLine("");
+            }
+            
+        }
+
         public string OverrideConsole(List<Message> tempMessages)
         {
             Console.Clear();
             foreach(Message m in tempMessages)
             {
-                Console.WriteLine(tempMessages);
+                Console.WriteLine(m.Text);
             }
             return Console.ReadLine();
         }

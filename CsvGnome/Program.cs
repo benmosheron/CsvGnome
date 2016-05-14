@@ -42,13 +42,15 @@ namespace CsvGnome
 
         public static string File => $"{FilePath}{FileName}{FileExt}";
 
+        public static GnomeFileCache GetGnomeFileCache => GnomeFileCache;
+
+        static readonly MinMaxInfoCache MinMaxInfoCache = new MinMaxInfoCache();
         static readonly FieldBrain FieldBrain = new FieldBrain();
         static readonly Reporter Reporter = new Reporter();
-        static readonly MinMaxInfoCache MinMaxInfoCache = new MinMaxInfoCache();
-        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, MinMaxInfoCache);
         static readonly GnomeFileCache GnomeFileCache = new GnomeFileCache(Reporter);
-        static readonly GnomeFileReader GnomeFileReader = new GnomeFileReader(Interpreter, Reporter, GnomeFileCache);
         static readonly GnomeFileWriter GnomeFileWriter = new GnomeFileWriter(Reporter, FieldBrain, GnomeFileCache);
+        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, MinMaxInfoCache, GnomeFileWriter);
+        static readonly GnomeFileReader GnomeFileReader = new GnomeFileReader(Interpreter, Reporter, GnomeFileCache);
         static readonly Writer Writer = new Writer();
 
         static void Main(string[] args)
@@ -60,12 +62,15 @@ namespace CsvGnome
             while(
                 nextAction == Action.Continue 
                 || nextAction == Action.Help
-                || nextAction == Action.HelpSpecial)
+                || nextAction == Action.HelpSpecial
+                || nextAction == Action.ShowGnomeFiles)
             {
                 if (nextAction == Action.Help)
                     Reporter.Help();
                 else if (nextAction == Action.HelpSpecial)
                     Reporter.HelpSpecial();
+                else if (nextAction == Action.ShowGnomeFiles)
+                    Reporter.ShowGnomeFiles();
                 else
                     Reporter.Report(FieldBrain.Fields, N, File);
 
@@ -87,6 +92,8 @@ namespace CsvGnome
                     case Action.Help:
                         break;
                     case Action.HelpSpecial:
+                        break;
+                    case Action.ShowGnomeFiles:
                         break;
                     default:
                         nextAction = Action.Continue;

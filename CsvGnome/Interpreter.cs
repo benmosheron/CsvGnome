@@ -15,13 +15,15 @@ namespace CsvGnome
 
         private readonly FieldBrain FieldBrain;
         private readonly Reporter Reporter;
-        private readonly ComponentFactory factory;
+        private readonly ComponentFactory Factory;
+        private readonly GnomeFileWriter GnomeFileWriter;
 
-        public Interpreter(FieldBrain fieldBrain, Reporter reporter, MinMaxInfoCache cache)
+        public Interpreter(FieldBrain fieldBrain, Reporter reporter, MinMaxInfoCache cache, GnomeFileWriter gnomeFileWriter)
         {
             FieldBrain = fieldBrain;
             Reporter = reporter;
-            factory = new ComponentFactory(cache);
+            Factory = new ComponentFactory(cache);
+            GnomeFileWriter = gnomeFileWriter;
         }
 
         public Action Interpret(string input)
@@ -47,8 +49,16 @@ namespace CsvGnome
             // "help special" write help to console and continues
             if (input.ToLower() == "help special") return Action.HelpSpecial;
 
+            // "gnomefiles" write information about gnomefiles
+            if (input.ToLower() == "gnomefiles") return Action.ShowGnomeFiles;
+
             // "save fileName" writes a new GnomeFile to the gnomefile directory
-            //if(input.StartsWith("save ")
+            if (input.StartsWith("save"))
+            {
+                // Interpreter nit tests use a null writer
+                if(GnomeFileWriter != null) GnomeFileWriter.Save(input.Remove(0, "save".Length));
+                return Action.Continue;
+            }
 
             // Int sets N
             int n;
@@ -93,7 +103,7 @@ namespace CsvGnome
             return r
                 .Split(instruction)
                 .Where(i => !String.IsNullOrEmpty(i))
-                .Select(i => factory.Create(i))
+                .Select(i => Factory.Create(i))
                 .ToArray();
         }
 
