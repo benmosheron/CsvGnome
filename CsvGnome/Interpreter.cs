@@ -26,17 +26,26 @@ namespace CsvGnome
 
         public Action Interpret(string input)
         {
-            // Empty string exits
-            if (input == String.Empty) return Action.Exit;
-
             // "//" indicates a comment (in a GnomeFile).
             if (input.TrimStart().StartsWith("//")) return Action.Continue;
+
+            // Empty string does nothing
+            if (input == String.Empty) return Action.Continue;
+
+            // "exit" exist program
+            if (input.ToLower() == "exit") return Action.Exit;
 
             // "run" writes file and exits
             if (input.ToLower() == "run") return Action.Run;
 
             // "write" writes file and continues
             if (input.ToLower() == "write") return Action.Write;
+
+            // "help" write help to console and continues
+            if (input.ToLower() == "help") return Action.Help;
+
+            // "help special" write help to console and continues
+            if (input.ToLower() == "help special") return Action.HelpSpecial;
 
             // Int sets N
             int n;

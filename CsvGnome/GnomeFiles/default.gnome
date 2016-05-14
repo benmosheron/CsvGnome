@@ -3,3 +3,4 @@ uniqueId:[date]_[++]
 x:[0=>9 #pos]
 y:[0=>9 #pos]
 z:[0=>1 #pos]
+positionField:([1=>3 #position]_[0=>1 #position])

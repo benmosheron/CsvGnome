@@ -15,5 +15,7 @@ namespace CsvGnome
         Continue,
         Run,
         Write,
+        Help,
+        HelpSpecial
     }
 }

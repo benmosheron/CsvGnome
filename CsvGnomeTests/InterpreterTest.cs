@@ -19,7 +19,18 @@ namespace CsvGnomeTests
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
             var x = new Interpreter(fieldBrain, reporter, cache);
-            Assert.AreEqual(x.Interpret(String.Empty), CsvGnome.Action.Exit);
+            Assert.AreEqual(x.Interpret(String.Empty), CsvGnome.Action.Continue);
+            Assert.IsTrue(!fieldBrain.Fields.Any());
+        }
+
+        [TestMethod]
+        public void InterpretExit()
+        {
+            FieldBrain fieldBrain = new FieldBrain();
+            Reporter reporter = new Reporter();
+            MinMaxInfoCache cache = new MinMaxInfoCache();
+            var x = new Interpreter(fieldBrain, reporter, cache);
+            Assert.AreEqual(x.Interpret("exit"), CsvGnome.Action.Exit);
             Assert.IsTrue(!fieldBrain.Fields.Any());
         }
 
@@ -42,6 +53,28 @@ namespace CsvGnomeTests
             MinMaxInfoCache cache = new MinMaxInfoCache();
             var x = new Interpreter(fieldBrain, reporter, cache);
             Assert.AreEqual(x.Interpret("write"), CsvGnome.Action.Write);
+            Assert.IsTrue(!fieldBrain.Fields.Any());
+        }
+
+        [TestMethod]
+        public void InterpretHelp()
+        {
+            FieldBrain fieldBrain = new FieldBrain();
+            Reporter reporter = new Reporter();
+            MinMaxInfoCache cache = new MinMaxInfoCache();
+            var x = new Interpreter(fieldBrain, reporter, cache);
+            Assert.AreEqual(x.Interpret("help"), CsvGnome.Action.Help);
+            Assert.IsTrue(!fieldBrain.Fields.Any());
+        }
+
+        [TestMethod]
+        public void InterpretHelpSpecial()
+        {
+            FieldBrain fieldBrain = new FieldBrain();
+            Reporter reporter = new Reporter();
+            MinMaxInfoCache cache = new MinMaxInfoCache();
+            var x = new Interpreter(fieldBrain, reporter, cache);
+            Assert.AreEqual(x.Interpret("help special"), CsvGnome.Action.HelpSpecial);
             Assert.IsTrue(!fieldBrain.Fields.Any());
         }
 

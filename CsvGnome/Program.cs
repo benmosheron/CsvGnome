@@ -57,17 +57,41 @@ namespace CsvGnome
             GnomeFileReader.ReadDefaultGnomeFile();
 
             Action nextAction = Action.Continue;
-            while(nextAction == Action.Continue)
+            while(
+                nextAction == Action.Continue 
+                || nextAction == Action.Help
+                || nextAction == Action.HelpSpecial)
             {
-                Reporter.Report(FieldBrain.Fields, N, File);
+                if (nextAction == Action.Help)
+                    Reporter.Help();
+                else if (nextAction == Action.HelpSpecial)
+                    Reporter.HelpSpecial();
+                else
+                    Reporter.Report(FieldBrain.Fields, N, File);
 
                 nextAction = Interpreter.Interpret(Console.ReadLine());
 
-                // Write to file
-                if (nextAction == Action.Run || nextAction == Action.Write) Writer.WriteToFile(FieldBrain.Fields, File, N);
-
-                // "Write" continues execution
-                if (nextAction == Action.Write) nextAction = Action.Continue;
+                switch (nextAction)
+                {
+                    case Action.Exit:
+                        break;
+                    case Action.Continue:
+                        break;
+                    case Action.Run:
+                        Writer.WriteToFile(FieldBrain.Fields, File, N);
+                        break;
+                    case Action.Write:
+                        Writer.WriteToFile(FieldBrain.Fields, File, N);
+                        nextAction = Action.Continue;
+                        break;
+                    case Action.Help:
+                        break;
+                    case Action.HelpSpecial:
+                        break;
+                    default:
+                        nextAction = Action.Continue;
+                        break;
+                }
             }
         }
 
