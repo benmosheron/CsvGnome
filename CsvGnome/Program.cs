@@ -49,14 +49,15 @@ namespace CsvGnome
         static readonly Reporter Reporter = new Reporter();
         static readonly GnomeFileCache GnomeFileCache = new GnomeFileCache(Reporter);
         static readonly GnomeFileWriter GnomeFileWriter = new GnomeFileWriter(Reporter, FieldBrain, GnomeFileCache);
-        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, MinMaxInfoCache, GnomeFileWriter);
-        static readonly GnomeFileReader GnomeFileReader = new GnomeFileReader(Interpreter, Reporter, GnomeFileCache);
+        static readonly GnomeFileReader GnomeFileReader = new GnomeFileReader(Reporter, GnomeFileCache);
+        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, MinMaxInfoCache, GnomeFileWriter, GnomeFileReader);
+        static readonly Interpreter InterpreterNoIO = new Interpreter(FieldBrain, Reporter, MinMaxInfoCache);
         static readonly Writer Writer = new Writer();
 
         static void Main(string[] args)
         {
             // Read defaults from file
-            GnomeFileReader.ReadDefaultGnomeFile();
+            GnomeFileReader.ReadDefaultGnomeFile().ForEach(InterpreterNoIO.InterpretSilent);
 
             Action nextAction = Action.Continue;
 

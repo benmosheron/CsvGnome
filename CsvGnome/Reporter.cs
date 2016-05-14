@@ -57,6 +57,8 @@ namespace CsvGnome
             Console.WriteLine("help         displays help.");
             Console.WriteLine("help special displays information on special values.");
             Console.WriteLine("gnomefiles   displays information on saved gnomefiles.");
+            Console.WriteLine("save file1   saves the currently set up fields to gnomefile: \"file1\" in the gnomefile directory.");
+            Console.WriteLine("load file1   loads gnomefile \"file1\" from the gnomefile directory, overwriting any unsaved fields.");
             Console.WriteLine("");
             Console.WriteLine("To add a new field, use the following syntax:");
             Console.WriteLine("fieldName:fieldValue");

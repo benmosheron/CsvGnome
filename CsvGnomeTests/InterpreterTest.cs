@@ -18,7 +18,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
             Assert.AreEqual(x.Interpret(String.Empty), CsvGnome.Action.Continue);
             Assert.IsTrue(!fieldBrain.Fields.Any());
         }
@@ -29,7 +29,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
             Assert.AreEqual(x.Interpret("exit"), CsvGnome.Action.Exit);
             Assert.IsTrue(!fieldBrain.Fields.Any());
         }
@@ -40,7 +40,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
             Assert.AreEqual(x.Interpret("run"), CsvGnome.Action.Run);
             Assert.IsTrue(!fieldBrain.Fields.Any());
         }
@@ -51,7 +51,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
             Assert.AreEqual(x.Interpret("write"), CsvGnome.Action.Write);
             Assert.IsTrue(!fieldBrain.Fields.Any());
         }
@@ -62,7 +62,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
             Assert.AreEqual(x.Interpret("help"), CsvGnome.Action.Help);
             Assert.IsTrue(!fieldBrain.Fields.Any());
         }
@@ -73,7 +73,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
             Assert.AreEqual(x.Interpret("help special"), CsvGnome.Action.HelpSpecial);
             Assert.IsTrue(!fieldBrain.Fields.Any());
         }
@@ -84,7 +84,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
             Assert.AreEqual(x.Interpret("gnomefiles"), CsvGnome.Action.ShowGnomeFiles);
             Assert.IsTrue(!fieldBrain.Fields.Any());
         }
@@ -95,7 +95,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
             Assert.AreEqual(CsvGnome.Action.Continue, x.Interpret("save test"));
             Assert.IsTrue(!fieldBrain.Fields.Any());
         }
@@ -109,7 +109,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
 
             Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
             AssertSingleComponentField(fieldBrain, expected);
@@ -124,7 +124,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
 
             Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
             AssertSingleComponentField(fieldBrain, expected);
@@ -139,7 +139,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
 
             Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
             AssertSingleComponentField(fieldBrain, expected);
@@ -154,7 +154,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
 
             Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
             AssertSingleComponentField(fieldBrain, expected);
@@ -169,7 +169,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
 
             Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
             AssertSingleComponentField(fieldBrain, expected);
@@ -184,7 +184,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
 
             Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
             AssertSingleComponentField(fieldBrain, expected);
@@ -204,7 +204,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
 
             Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
             AssertSingleComponentField(fieldBrain, expected);
@@ -223,7 +223,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
 
             Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
             AssertSingleComponentField(fieldBrain, expected);
@@ -238,7 +238,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
 
             Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
             AssertSingleComponentField(fieldBrain, expected);
@@ -253,7 +253,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
 
             Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
             AssertSingleComponentField(fieldBrain, expected);
@@ -268,7 +268,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
 
             Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
             AssertSingleComponentField(fieldBrain, expected);
@@ -285,7 +285,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
 
             Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
             AssertSingleComponentField(fieldBrain, expected);
@@ -301,7 +301,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
 
             Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
             AssertSingleComponentField(fieldBrain, expected);
@@ -317,7 +317,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
 
             Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
             AssertSingleComponentField(fieldBrain, expected);
@@ -338,7 +338,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
 
             Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
             AssertSingleComponentField(fieldBrain, expected);
@@ -360,7 +360,7 @@ namespace CsvGnomeTests
             FieldBrain fieldBrain = new FieldBrain();
             Reporter reporter = new Reporter();
             MinMaxInfoCache cache = new MinMaxInfoCache();
-            var x = new Interpreter(fieldBrain, reporter, cache, null);
+            var x = new Interpreter(fieldBrain, reporter, cache);
 
             Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
             AssertSingleComponentField(fieldBrain, expected);

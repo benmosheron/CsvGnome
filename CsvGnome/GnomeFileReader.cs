@@ -12,34 +12,29 @@ namespace CsvGnome
     /// </summary>
     public class GnomeFileReader
     {
-        Interpreter Interpreter;
         Reporter Reporter;
         GnomeFileCache GnomeFileCache;
 
-        public GnomeFileReader(Interpreter interpreter, Reporter reporter, GnomeFileCache gnomeFileCache)
+        public GnomeFileReader(Reporter reporter, GnomeFileCache gnomeFileCache)
         {
-            Interpreter = interpreter;
             Reporter = reporter;
             GnomeFileCache = gnomeFileCache;
         }
 
-        public void ReadDefaultGnomeFile()
+        public List<string> ReadDefaultGnomeFile()
         {
-            string defaultFile = GnomeFileCache.GetDefault();
-            if (defaultFile != null) ReadGnomeFile(defaultFile);
+            List<string> parsedFile = new List<string>();
+            string defaultFile = GnomeFileCache.DefaultGnomeFileName;
+            if (defaultFile != null) parsedFile = ReadGnomeFile(defaultFile);
+            return parsedFile;
         }
 
-        public void ReadGnomeFile(string pathAndFile)
+        public List<string> ReadGnomeFile(string name)
         {
+            string pathAndFile = GnomeFileCache.GetGnomeFilePath(name.Trim());
+            List<string> parsedFile = new List<string>();
             try {
-                using (StreamReader sr = new StreamReader(pathAndFile))
-                {
-                    string line;
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        Interpreter.Interpret(line);
-                    }
-                }
+                parsedFile = File.ReadAllLines(pathAndFile).ToList();
             }
             catch(DirectoryNotFoundException ex)
             {
@@ -56,6 +51,8 @@ namespace CsvGnome
                 Reporter.AddMessage(new Message("I don't know why that didn't work:"));
                 Reporter.AddMessage(new Message(ex.Message));
             }
+
+            return parsedFile;
         }
     }
 }

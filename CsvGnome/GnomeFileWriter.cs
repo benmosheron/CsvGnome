@@ -39,11 +39,11 @@ namespace CsvGnome
 
             using (StreamWriter sw = new StreamWriter(path))
             {
-                sw.Write(Program.N);
+                sw.WriteLine(Program.N);
 
                 for (int i = 0; i < FieldBrain.Fields.Count; i++)
                 {
-                    sw.Write($"{FieldBrain.Fields[i].Name}:{FieldBrain.Fields[i].Command}");
+                    sw.WriteLine($"{FieldBrain.Fields[i].Name}:{FieldBrain.Fields[i].Command}");
                 }
             }
 
