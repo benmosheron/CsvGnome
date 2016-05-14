@@ -26,9 +26,35 @@ namespace CsvGnome
             return fields.Any(f => f.Name == name);
         }
 
+        /// <summary>
+        /// Delete all fields.
+        /// </summary>
         public void ClearFields()
         {
             fields.Clear();
+        }
+
+        public void DeleteField(string name, MinMaxInfoCache cache)
+        {
+            IField toRemove = fields.LastOrDefault(f => f.Name == name.Trim());
+            if (toRemove == null) return;
+
+            // If we're removing a field with one or more combinatorial MinMix components, we must adjust the MinMaxInfo and Dims
+            // of any other components in that set.
+            ComponentField cfToRemove = toRemove as ComponentField;
+            if (cfToRemove != null)
+            {
+                var minMaxsToRemove = cfToRemove.Components
+                    .OfType<MinMaxComponent>()
+                    .Where(c => c.Info.Id != null);
+
+                if (minMaxsToRemove.Any())
+                {
+                    cache.UpdateCacheForDelete(minMaxsToRemove);
+                }
+            }
+
+            fields.Remove(toRemove);
         }
 
         #region ComponentField

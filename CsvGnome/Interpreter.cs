@@ -109,6 +109,12 @@ namespace CsvGnome
                 return Action.Continue;
             }
 
+            if (input.StartsWith("delete"))
+            {
+                FieldBrain.DeleteField(input.Remove(0, "delete".Length), MinMaxInfoCache);
+                return Action.Continue;
+            }
+
             // Int sets N
             int n;
             if (int.TryParse(input, out n)) Program.SetN(n);

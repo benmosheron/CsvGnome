@@ -96,6 +96,7 @@ namespace CsvGnome
                 cache.Cache.Add(id, new MinMaxInfo(min, max, increment, id));
                 Info = cache.Cache[id];
             }
+            cache.Components.Add(this);
         }
     }
 }

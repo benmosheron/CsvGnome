@@ -70,6 +70,19 @@ namespace CsvGnome
             Cardinalities.Add(((max - min) / increment) + 1);
         }
 
+        /// <summary>
+        /// Remove a component from the info.
+        /// </summary>
+        /// <param name="dim"></param>
+        public void RemoveComponent(int dim)
+        {
+            Dims--;
+            Mins.RemoveAt(dim);
+            Maxs.RemoveAt(dim);
+            Increments.RemoveAt(dim);
+            Cardinalities.RemoveAt(dim);
+        }
+
         public bool Equals(MinMaxInfo x)
         {
             if (Id != null && Id != x.Id) return false;
