@@ -51,11 +51,12 @@ namespace CsvGnome
         {
             Console.Clear();
 
-            Console.WriteLine("\"run\" writes the csv and exits.");
-            Console.WriteLine("\"write\" writes the csv and continues.");
-            Console.WriteLine("\"exit\" quits.");
-            Console.WriteLine("\"help\" displays help.");
-            Console.WriteLine("\"help special\" displays information on special values.");
+            Console.WriteLine("run          writes the csv and exits.");
+            Console.WriteLine("write        writes the csv and continues.");
+            Console.WriteLine("exit         quits.");
+            Console.WriteLine("help         displays help.");
+            Console.WriteLine("help special displays information on special values.");
+            Console.WriteLine("gnomefiles   displays information on saved gnomefiles.");
             Console.WriteLine("");
             Console.WriteLine("To add a new field, use the following syntax:");
             Console.WriteLine("fieldName:fieldValue");

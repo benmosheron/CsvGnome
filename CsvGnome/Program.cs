@@ -59,52 +59,67 @@ namespace CsvGnome
             GnomeFileReader.ReadDefaultGnomeFile();
 
             Action nextAction = Action.Continue;
-            while(
-                nextAction == Action.Continue 
-                || nextAction == Action.Help
-                || nextAction == Action.HelpSpecial
-                || nextAction == Action.ShowGnomeFiles)
-            {
-                if (nextAction == Action.Help)
-                    Reporter.Help();
-                else if (nextAction == Action.HelpSpecial)
-                    Reporter.HelpSpecial();
-                else if (nextAction == Action.ShowGnomeFiles)
-                    Reporter.ShowGnomeFiles();
-                else
-                    Reporter.Report(FieldBrain.Fields, N, File);
 
+            Action[] ContinueWhile = new Action[]
+            {
+                Action.Continue,
+                Action.Help,
+                Action.HelpSpecial,
+                Action.ShowGnomeFiles,
+            };
+
+            while(ContinueWhile.Contains(nextAction))
+            {
+                // Before user entry - display information
+                DisplayInfo(nextAction);
+
+                // Interpret user entry
                 nextAction = Interpreter.Interpret(Console.ReadLine());
 
-                switch (nextAction)
-                {
-                    case Action.Exit:
-                        break;
-                    case Action.Continue:
-                        break;
-                    case Action.Run:
-                        Writer.WriteToFile(FieldBrain.Fields, File, N);
-                        break;
-                    case Action.Write:
-                        Writer.WriteToFile(FieldBrain.Fields, File, N);
-                        nextAction = Action.Continue;
-                        break;
-                    case Action.Help:
-                        break;
-                    case Action.HelpSpecial:
-                        break;
-                    case Action.ShowGnomeFiles:
-                        break;
-                    default:
-                        nextAction = Action.Continue;
-                        break;
-                }
+                // after user entry
+                nextAction = WriteIfNeeded(nextAction);
             }
         }
 
         public static void SetN(int nToSet)
         {
             n = nToSet;
+        }
+
+        private static void DisplayInfo(Action action)
+        {
+            switch (action)
+            {
+                case Action.Help:
+                    Reporter.Help();
+                    break;
+                case Action.HelpSpecial:
+                    Reporter.HelpSpecial();
+                    break;
+                case Action.ShowGnomeFiles:
+                    Reporter.ShowGnomeFiles();
+                    break;
+                default:
+                    Reporter.Report(FieldBrain.Fields, N, File);
+                    break;
+            }
+        }
+
+        private static Action WriteIfNeeded(Action action)
+        {
+            switch (action)
+            {
+                case Action.Run:
+                    Writer.WriteToFile(FieldBrain.Fields, File, N);
+                    break;
+                case Action.Write:
+                    Writer.WriteToFile(FieldBrain.Fields, File, N);
+                    action = Action.Continue;
+                    break;
+                default:
+                    break;
+            }
+            return action;
         }
     }
 }

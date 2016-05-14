@@ -48,7 +48,7 @@ namespace CsvGnome
             }
 
             GnomeFileCache.AddToCache(fileName);
-            Reporter.AddMessage(new Message($"saved {fileName}. (\"gnomefiles\" displays file info)"));
+            Reporter.AddMessage(new Message($"saved {fileName}"));
         }
 
         private List<Message> AskOverwriteMessage(string file)
