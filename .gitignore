@@ -15,3 +15,6 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+
+# Output csvs
+CsvGnome/Output/*.csv
