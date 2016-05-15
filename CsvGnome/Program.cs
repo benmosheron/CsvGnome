@@ -15,6 +15,9 @@ namespace CsvGnome
 
         public static string TimeAtWrite = DateTime.Now.ToString(DateTimeFormat);
 
+        /// <summary>
+        /// Set the value of the TimeAtWrite field to the current time.
+        /// </summary>
         public static void UpdateTime()
         {
             TimeAtWrite = DateTime.Now.ToString(DateTimeFormat);
@@ -40,8 +43,14 @@ namespace CsvGnome
         /// </summary>
         public static string FileName = "exampleOutput";
 
+        /// <summary>
+        /// Full path of the file to be written.
+        /// </summary>
         public static string File => $"{FilePath}{FileName}{FileExt}";
 
+        /// <summary>
+        /// Public access to the program's gnomefilecache.
+        /// </summary>
         public static GnomeFileCache GetGnomeFileCache => GnomeFileCache;
 
         static readonly MinMaxInfoCache MinMaxInfoCache = new MinMaxInfoCache();
@@ -87,6 +96,10 @@ namespace CsvGnome
             n = nToSet;
         }
 
+        /// <summary>
+        /// Set the location of the output csv file.
+        /// </summary>
+        /// <param name="input">E.g. C:\path\file.csv</param>
         public static void SetOutputFile(string input)
         {
             string inputTrimmed = input.Trim().Replace("\"", String.Empty);

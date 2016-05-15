@@ -21,7 +21,7 @@ namespace CsvGnome
         private readonly MinMaxInfoCache MinMaxInfoCache;
 
         /// <summary>
-        /// Overload with no I/O for unit tests
+        /// Overload with no I/O for reading from gnomefiles and unit tests.
         /// </summary>
         /// <param name="fieldBrain"></param>
         /// <param name="reporter"></param>
@@ -30,6 +30,14 @@ namespace CsvGnome
             :this(fieldBrain, reporter, cache, null, null)
         { }
 
+        /// <summary>
+        /// Create a new interpreter that can update fields, read and write gnomefiles.
+        /// </summary>
+        /// <param name="fieldBrain"></param>
+        /// <param name="reporter"></param>
+        /// <param name="cache"></param>
+        /// <param name="gnomeFileWriter"></param>
+        /// <param name="gnomeFileReader"></param>
         public Interpreter(FieldBrain fieldBrain, Reporter reporter, MinMaxInfoCache cache, GnomeFileWriter gnomeFileWriter, GnomeFileReader gnomeFileReader)
         {
             FieldBrain = fieldBrain;
@@ -101,7 +109,9 @@ namespace CsvGnome
                     // We will assume the file contains some valid instructions, if it has anything at all!
                     if(parsedFile != null && parsedFile.Count > 0 && parsedFile.Any(l => !String.IsNullOrWhiteSpace(l)))
                     {
+                        // Clear fields and cache
                         FieldBrain.ClearFields();
+                        MinMaxInfoCache.Clear();
                         parsedFile.ForEach(interpreterNoIO.InterpretSilent);
                     }
                     

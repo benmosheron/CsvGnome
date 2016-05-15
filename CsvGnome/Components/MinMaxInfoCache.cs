@@ -22,6 +22,12 @@ namespace CsvGnome
             Components = new List<MinMaxComponent>();
         }
 
+        public void Clear()
+        {
+            Cache.Clear();
+            Components.Clear();
+        }
+
         public void UpdateCacheForDelete(IEnumerable<MinMaxComponent> toRemove)
         {
             // Store a dict of the id of each info, and a list of all the dimensions that will be removed from it.

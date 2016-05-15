@@ -27,7 +27,7 @@ namespace CsvGnome
                 {
                     sb.Append(" #");
                     sb.Append(Info.Id);
-                    if (Info.Dims > 1) sb.Append($"/{Dim}");
+                    //if (Info.Dims > 1) sb.Append($"/{Dim}"); -- TODO: this causes the id to be written to gnomefiles with the /dim. Then when loading, all the ids will be different.
                 }
                 sb.Append("]");
                 return sb.ToString();

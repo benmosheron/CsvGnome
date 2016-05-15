@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace CsvGnome
 {
+    /// <summary>
+    /// A cache for gnomefiles in the gnomefile directory.
+    /// </summary>
     public class GnomeFileCache
     {
         public const string DefaultGnomeFileName = "default";
