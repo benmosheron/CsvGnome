@@ -4,7 +4,7 @@
 
 Specify fields and values with ":".
 
-* ```fieldName:ValueName``` Creates a field (column) with name "fieldName" and all values "ValueName"
+* ```fieldName:ValueName``` creates a field (column) with name "fieldName" and all values "ValueName"
 
 Change the number of rows to generate by entering a number E.g. ```12``` to write twelve rows of data, this doesn't include the columns row.
 
