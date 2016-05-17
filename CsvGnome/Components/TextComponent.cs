@@ -8,8 +8,8 @@ namespace CsvGnome
 {
     public class TextComponent : IComponent
     {
-        public string Command => Summary;
-        public string Summary => text;
+        public string Command => text;
+        public List<Message> Summary => new List<Message> { new Message(text) };
         public string GetValue(int i) => text;
         public bool Equals(IComponent x)
         {

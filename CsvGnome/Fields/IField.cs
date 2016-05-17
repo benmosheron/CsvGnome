@@ -24,7 +24,7 @@ namespace CsvGnome
         /// <summary>
         /// Summary of the field to display in the console.
         /// </summary>
-        string Summary { get; }
+        List<Message> Summary { get; }
 
         /// <summary>
         /// Get the value to be written on the ith line.

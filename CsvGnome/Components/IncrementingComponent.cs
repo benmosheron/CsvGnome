@@ -10,8 +10,8 @@ namespace CsvGnome
     {
         public const int DefaultStart = 0;
         public const int DefaultIncrement = 1;
-        public string Command => Summary;
-        public string Summary { get; }
+        public string Command { get; }
+        public List<Message> Summary => new List<Message> { new Message(Command) };
         /// <summary>
         /// Get value to write on ith row
         /// </summary>
@@ -53,7 +53,7 @@ namespace CsvGnome
             if (increment != DefaultIncrement) sb.Append(increment);
             sb.Append("]");
 
-            Summary = sb.ToString();
+            Command = sb.ToString();
         }
 
         /// <summary>

@@ -16,7 +16,7 @@ namespace CsvGnome
         public ConsoleColor Colour { get; }
 
         public Message(string s)
-        :this(s, ConsoleColor.White)
+        :this(s, ConsoleColor.Gray)
         {  }
 
         public Message(string s, ConsoleColor c)

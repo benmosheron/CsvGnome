@@ -8,8 +8,8 @@ namespace CsvGnome
 {
     public class DateComponent : IComponent
     {
-        public string Command => Summary;
-        public string Summary => Program.DateComponentString;
+        public string Command => Program.DateComponentString;
+        public List<Message> Summary => new List<Message> { new Message(Program.DateComponentString) };
         public string GetValue(int i)
         {
             return Program.TimeAtWrite;

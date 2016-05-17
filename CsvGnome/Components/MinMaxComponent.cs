@@ -43,20 +43,20 @@ namespace CsvGnome
         /// <summary>
         /// Summary of this component for display.
         /// </summary>
-        public string Summary {
+        public List<Message> Summary {
             get
             {
-                StringBuilder sb = new StringBuilder();
-                sb.Append($"[{Info.Mins[Dim]}=>{Info.Maxs[Dim]}");
-                if (incrementProvided) sb.Append($",{Info.Increments[Dim]}");
+                List<Message> m = new List<Message>();
+                m.Add(new Message(($"[{Info.Mins[Dim]}=>{Info.Maxs[Dim]}")));
+                if (incrementProvided) m.Add(new Message(($",{Info.Increments[Dim]}")));
                 if(Info.Id != null)
                 {
-                    sb.Append(" #");
-                    sb.Append(Info.Id);
-                    if (Info.Dims > 1) sb.Append($"/{Dim}");
+                    m.Add(new Message((" #")));
+                    m.Add(new Message((Info.Id)));
+                    if (Info.Dims > 1) m.Add(new Message(($"/{Dim}")));
                 }
-                sb.Append("]");
-                return sb.ToString();
+                m.Add(new Message(("]")));
+                return m;
             }
         }
 

@@ -31,14 +31,16 @@ namespace CsvGnome
             if (!fields.Any()) return;
 
             var names = fields.Select(f => f.Name);
-            var values = fields.Select(f => f.Summary).ToList();
+            
 
             int maxLength = names.Max(f => f.Length);
             var namesForDisplay = names.Select(n => RightPad(n, maxLength)).ToList();
 
             for(int i = 0; i < fields.Count; i++)
             {
-                Console.WriteLine($"{namesForDisplay[i]}: {values[i]}");
+                Console.Write($"{namesForDisplay[i]}: ");
+                foreach (Message m in fields[i].Summary) Write(m);
+                Console.WriteLine();
             }
         }
 
@@ -140,14 +142,14 @@ namespace CsvGnome
         {
             Console.ForegroundColor = m.Colour;
             Console.Write(m.Text);
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         private void WriteLine(Message m)
         {
             Console.ForegroundColor = m.Colour;
             Console.WriteLine(m.Text);
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         private void WriteMessages()
