@@ -12,6 +12,8 @@ namespace CsvGnome
         public const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ss";
         public const string CommandRegexPattern = @"(\[.+?\])";
         public const string DateComponentString = "[date]";
+        public const ConsoleColor DefaultColour = ConsoleColor.Gray;
+        public const ConsoleColor SpecialColour = ConsoleColor.Cyan;
 
         public static string TimeAtWrite = DateTime.Now.ToString(DateTimeFormat);
 

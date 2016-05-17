@@ -142,14 +142,14 @@ namespace CsvGnome
         {
             Console.ForegroundColor = m.Colour;
             Console.Write(m.Text);
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = Program.DefaultColour;
         }
 
         private void WriteLine(Message m)
         {
             Console.ForegroundColor = m.Colour;
             Console.WriteLine(m.Text);
-            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = Program.DefaultColour;
         }
 
         private void WriteMessages()

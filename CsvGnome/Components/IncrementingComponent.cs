@@ -11,7 +11,7 @@ namespace CsvGnome
         public const int DefaultStart = 0;
         public const int DefaultIncrement = 1;
         public string Command { get; }
-        public List<Message> Summary => new List<Message> { new Message(Command) };
+        public List<Message> Summary => new List<Message> { new Message(Command, Program.SpecialColour) };
         /// <summary>
         /// Get value to write on ith row
         /// </summary>

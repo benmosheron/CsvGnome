@@ -42,6 +42,8 @@ namespace CsvGnome
         /// </summary>
         public int Lines => Cardinalities.Aggregate((t, n) => t * n);
 
+        public ConsoleColor IdColour { get; }
+
         public MinMaxInfo(int min, int max, int increment)
             :this(min, max, increment, null)
         { }
@@ -54,6 +56,7 @@ namespace CsvGnome
             Maxs = new List<int> { max };
             Increments = new List<int> { increment };
             Cardinalities = new List<int> { ((max - min) / increment) + 1 };
+            IdColour = GetNextColour();
         }
 
         /// <summary>
@@ -94,5 +97,33 @@ namespace CsvGnome
             return true;
         }
 
+        #region Colour
+
+        private static ConsoleColor[] Colours =
+        {
+            ConsoleColor.Green,
+            ConsoleColor.Magenta,
+            ConsoleColor.White,
+            ConsoleColor.Yellow,
+            ConsoleColor.Blue,
+            ConsoleColor.DarkBlue,
+            ConsoleColor.DarkCyan,
+            ConsoleColor.DarkGreen,
+            ConsoleColor.DarkMagenta,
+            ConsoleColor.DarkRed,
+            ConsoleColor.DarkYellow
+        };
+
+        private static int ColourIndex = 0;
+
+        private static ConsoleColor GetNextColour()
+        {
+            ConsoleColor c = Colours[ColourIndex];
+            ColourIndex++;
+            if (ColourIndex >= Colours.Length) ColourIndex = 0;
+            return c;
+        }
+
+        #endregion
     }
 }

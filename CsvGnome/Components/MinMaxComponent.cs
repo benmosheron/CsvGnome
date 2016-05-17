@@ -47,15 +47,18 @@ namespace CsvGnome
             get
             {
                 List<Message> m = new List<Message>();
-                m.Add(new Message(($"[{Info.Mins[Dim]}=>{Info.Maxs[Dim]}")));
-                if (incrementProvided) m.Add(new Message(($",{Info.Increments[Dim]}")));
+                m.Add(new Message("[", Program.SpecialColour));
+                m.Add(new Message($"{Info.Mins[Dim]}"));
+                m.Add(new Message("=>", Program.SpecialColour));
+                m.Add(new Message($"{Info.Maxs[Dim]}"));
+                if (incrementProvided) m.Add(new Message($",{Info.Increments[Dim]}", Program.SpecialColour));
                 if(Info.Id != null)
                 {
-                    m.Add(new Message((" #")));
-                    m.Add(new Message((Info.Id)));
-                    if (Info.Dims > 1) m.Add(new Message(($"/{Dim}")));
+                    m.Add(new Message(" #", Program.SpecialColour));
+                    m.Add(new Message(Info.Id, Info.IdColour));
+                    if (Info.Dims > 1) m.Add(new Message($"/{Dim}", Program.SpecialColour));
                 }
-                m.Add(new Message(("]")));
+                m.Add(new Message("]", Program.SpecialColour));
                 return m;
             }
         }

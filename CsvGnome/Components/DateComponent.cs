@@ -9,7 +9,7 @@ namespace CsvGnome
     public class DateComponent : IComponent
     {
         public string Command => Program.DateComponentString;
-        public List<Message> Summary => new List<Message> { new Message(Program.DateComponentString) };
+        public List<Message> Summary => new List<Message> { new Message(Program.DateComponentString, Program.SpecialColour) };
         public string GetValue(int i)
         {
             return Program.TimeAtWrite;
