@@ -43,7 +43,7 @@ namespace CsvGnome
         /// <summary>
         /// Name of output file.
         /// </summary>
-        public static string FileName = "exampleOutput";
+        public static string FileName = "CsvGnomeOutput";
 
         /// <summary>
         /// Full path of the file to be written.
