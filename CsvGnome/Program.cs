@@ -108,8 +108,8 @@ namespace CsvGnome
 
             if (!System.IO.Directory.Exists(path))
             {
-                Reporter.AddMessage(new Message("Could not find directory:"));
-                Reporter.AddMessage(new Message(path));
+                Reporter.AddMessage(new Message("Could not find directory:", ConsoleColor.Red));
+                Reporter.AddMessage(new Message(path, ConsoleColor.Red));
             }
             else
             {

@@ -13,9 +13,16 @@ namespace CsvGnome
     {
         public string Text { get; }
 
+        public ConsoleColor Colour { get; }
+
         public Message(string s)
+        :this(s, ConsoleColor.White)
+        {  }
+
+        public Message(string s, ConsoleColor c)
         {
             Text = s;
+            Colour = c;
         }
     }
 }

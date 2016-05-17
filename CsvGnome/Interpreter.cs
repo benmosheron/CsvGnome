@@ -133,7 +133,12 @@ namespace CsvGnome
 
             // Int sets N
             int n;
-            if (int.TryParse(input, out n)) Program.SetN(n);
+            if (int.TryParse(input, out n))
+            {
+                Program.SetN(n);
+                return Action.Continue;
+            }
+            
 
             // ":" Indicates a data update
             if (input.Contains(":"))
@@ -142,7 +147,11 @@ namespace CsvGnome
                string name = tokens[0];
                string instruction = tokens[1];
                InterpretInstruction(name, instruction);
+                return Action.Continue;
             }
+
+            // Someone's consfused
+            if (!String.IsNullOrEmpty(input)) Reporter.AddMessage(new Message("Enter \"help\" for help.", ConsoleColor.Green));
 
             return Action.Continue;
         }

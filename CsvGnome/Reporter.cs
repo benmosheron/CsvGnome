@@ -25,8 +25,8 @@ namespace CsvGnome
 
             WriteMessages();
 
-            Console.WriteLine($"\"write\" to write {N} rows to {pathAndFile}");
-            Console.WriteLine($"Or \"help\" for help.");
+            Console.WriteLine($"Writing {N} rows to {pathAndFile}");
+            Console.WriteLine(String.Empty);
 
             if (!fields.Any()) return;
 
@@ -136,11 +136,25 @@ namespace CsvGnome
             return Console.ReadLine();
         }
 
+        private void Write(Message m)
+        {
+            Console.ForegroundColor = m.Colour;
+            Console.Write(m.Text);
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        private void WriteLine(Message m)
+        {
+            Console.ForegroundColor = m.Colour;
+            Console.WriteLine(m.Text);
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
         private void WriteMessages()
         {
             for (int i = 0; i < messages.Count; i++)
             {
-                Console.WriteLine(messages[i].Text);
+                WriteLine(messages[i]);
             }
             messages.Clear();
         }

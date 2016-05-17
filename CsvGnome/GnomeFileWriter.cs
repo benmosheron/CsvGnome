@@ -25,7 +25,7 @@ namespace CsvGnome
             fileName = fileName.Trim();
             if (String.IsNullOrEmpty(fileName))
             {
-                Reporter.AddMessage(new Message("Please specify a name, e.g. \"save fileName1\""));
+                Reporter.AddMessage(new Message("Please specify a name, e.g. \"save fileName1\"", ConsoleColor.Red));
                 return;
             }
 
@@ -48,7 +48,7 @@ namespace CsvGnome
             }
 
             GnomeFileCache.AddToCache(fileName);
-            Reporter.AddMessage(new Message($"saved {fileName}"));
+            Reporter.AddMessage(new Message($"saved {fileName}", ConsoleColor.Green));
         }
 
         private List<Message> AskOverwriteMessage(string file)
