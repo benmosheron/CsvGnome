@@ -14,7 +14,8 @@ namespace CsvGnome
     {
         public string Name { get; }
 
-        public string Command => Components.Select(c => c.Summary).Aggregate((t, n) => $"{t}{n}");
+        public string Command => Components.Select(c => c.Command).Aggregate((t, n) => $"{t}{n}");
+        public string Summary => Components.Select(c => c.Summary).Aggregate((t, n) => $"{t}{n}");
 
         public string GetValue(int row)
         {

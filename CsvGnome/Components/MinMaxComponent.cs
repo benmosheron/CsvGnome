@@ -17,6 +17,32 @@ namespace CsvGnome
     /// </summary>
     public class MinMaxComponent : IComponent
     {
+        /// <summary>
+        /// The command to create this component.
+        /// </summary>
+        /// <remarks>
+        /// We do not add the Dim for the command.
+        /// </remarks>
+        public string Command
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append($"[{Info.Mins[Dim]}=>{Info.Maxs[Dim]}");
+                if (incrementProvided) sb.Append($",{Info.Increments[Dim]}");
+                if (Info.Id != null)
+                {
+                    sb.Append(" #");
+                    sb.Append(Info.Id);
+                }
+                sb.Append("]");
+                return sb.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Summary of this component for display.
+        /// </summary>
         public string Summary {
             get
             {

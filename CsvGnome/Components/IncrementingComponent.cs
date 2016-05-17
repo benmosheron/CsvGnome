@@ -10,7 +10,7 @@ namespace CsvGnome
     {
         public const int DefaultStart = 0;
         public const int DefaultIncrement = 1;
-
+        public string Command => Summary;
         public string Summary { get; }
         /// <summary>
         /// Get value to write on ith row

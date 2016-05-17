@@ -11,8 +11,23 @@ namespace CsvGnome
     /// </summary>
     public interface IComponent
     {
+        /// <summary>
+        /// Command to write to gnomefiles.
+        /// </summary>
+        string Command { get; }
+
+        /// <summary>
+        /// Summary to write to console.
+        /// </summary>
         string Summary { get; }
+
+        /// <summary>
+        /// Value for ith row.
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
         string GetValue(int i);
+
         bool Equals(IComponent x);
     }
 }

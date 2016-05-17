@@ -2,7 +2,7 @@
 
 ## A Simple but Clever CSV File Generator for Windows 10.
 
-Specify fields and values with ":".
+Specify fields and values with ```:```.
 
 * ```fieldName:ValueName``` creates a field (column) with name "fieldName" and all values "ValueName"
 

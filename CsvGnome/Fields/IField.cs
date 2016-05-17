@@ -22,6 +22,11 @@ namespace CsvGnome
         string Command { get; }
 
         /// <summary>
+        /// Summary of the field to display in the console.
+        /// </summary>
+        string Summary { get; }
+
+        /// <summary>
         /// Get the value to be written on the ith line.
         /// </summary>
         /// <param name="i">Line number (line 0 is the columns, line 1 is the first data line)</param>
