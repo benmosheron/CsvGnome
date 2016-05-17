@@ -12,7 +12,6 @@ namespace CsvGnome
     /// </summary>
     public class Interpreter
     {
-
         private readonly FieldBrain FieldBrain;
         private readonly Reporter Reporter;
         private readonly ComponentFactory Factory;
@@ -163,6 +162,10 @@ namespace CsvGnome
         /// <param name="instruction"></param>
         private void InterpretInstruction(string name, string instruction)
         {
+            // If we are overwriting a field, explicitely delete the existing information first.
+            // This prevents a can of worms when overwriting a field with combined minMax components
+            if (FieldBrain.Fields.Any(f => f.Name == name)) FieldBrain.DeleteField(name, MinMaxInfoCache);
+
             // Try and create a component field
             // Break instruction into components
             IComponent[] components = GetComponents(instruction);
@@ -173,8 +176,6 @@ namespace CsvGnome
 
             // Create component field
             FieldBrain.AddOrUpdateComponentField(name, components);
-            
-            
         }
 
         private IComponent[] GetComponents(string instruction)

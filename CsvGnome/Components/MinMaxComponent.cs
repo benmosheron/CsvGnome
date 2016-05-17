@@ -115,7 +115,7 @@ namespace CsvGnome
         public MinMaxComponent(int min, int max, int increment, string id, MinMaxInfoCache cache)
         {
             if (cache.Cache.ContainsKey(id))
-            {
+            { 
                 cache.Cache[id].AddComponent(min, max, increment);
                 Info = cache.Cache[id];
                 Dim = Info.Dims - 1;
