@@ -29,9 +29,10 @@ namespace CsvGnome
         /// <summary>
         /// Delete all fields.
         /// </summary>
-        public void ClearFields()
+        public void ClearFields(MinMaxInfoCache cache)
         {
             fields.Clear();
+            cache.Clear();
         }
 
         public void DeleteField(string name, MinMaxInfoCache cache)

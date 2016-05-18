@@ -87,7 +87,7 @@
     <None Include="GnomeFiles\default.gnome">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Output\exampleOutput.csv">
+    <None Include="Output\CsvGnomeOutput.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

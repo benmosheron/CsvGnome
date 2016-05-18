@@ -112,6 +112,25 @@ namespace CsvGnomeTests
         }
 
         [TestMethod]
+        public void InterpretClear()
+        {
+            FieldBrain fieldBrain = new FieldBrain();
+            Reporter reporter = new Reporter();
+            MinMaxInfoCache cache = new MinMaxInfoCache();
+            var x = new Interpreter(fieldBrain, reporter, cache);
+            // Add some fields
+            x.Interpret("woo:hoo");
+            x.Interpret("x:[1=>3 #p]");
+            x.Interpret("y:[1=>3 #p]");
+            Assert.IsTrue(cache.Cache.Keys.Count == 1);
+            Assert.IsTrue(fieldBrain.Fields.Count == 3);
+            // Clear all
+            Assert.AreEqual(CsvGnome.Action.Continue, x.Interpret("clear"));
+            Assert.IsTrue(!fieldBrain.Fields.Any());
+            Assert.IsTrue(!cache.Cache.Keys.Any());
+        }
+
+        [TestMethod]
         public void Interpret_Delete()
         {
             FieldBrain fieldBrain = new FieldBrain();

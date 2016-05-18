@@ -58,6 +58,7 @@ namespace CsvGnome
             Console.WriteLine("run                     |writes the csv and exits.");
             Console.WriteLine("write                   |writes the csv and continues.");
             Console.WriteLine("exit                    |quits.");
+            Console.WriteLine("clear                   |clears all fields.");
             Console.WriteLine("help                    |displays help.");
             Console.WriteLine("help special            |displays information on special values.");
             Console.WriteLine("gnomefiles              |displays information on saved gnomefiles.");

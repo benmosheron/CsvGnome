@@ -87,6 +87,13 @@ namespace CsvGnome
             // "gnomefiles" write information about gnomefiles
             if (input.ToLower() == "gnomefiles") return Action.ShowGnomeFiles;
 
+            // "clear" clears all fields
+            if (input.ToLower() == "clear")
+            {
+                FieldBrain.ClearFields(MinMaxInfoCache);
+                return Action.Continue;
+            }
+
             // "save fileName" writes a new GnomeFile to the gnomefile directory
             if (input.StartsWith("save"))
             {
@@ -109,8 +116,7 @@ namespace CsvGnome
                     if(parsedFile != null && parsedFile.Count > 0 && parsedFile.Any(l => !String.IsNullOrWhiteSpace(l)))
                     {
                         // Clear fields and cache
-                        FieldBrain.ClearFields();
-                        MinMaxInfoCache.Clear();
+                        FieldBrain.ClearFields(MinMaxInfoCache);
                         parsedFile.ForEach(interpreterNoIO.InterpretSilent);
                     }
                     
