@@ -110,7 +110,8 @@ namespace CsvGnome
                 if (GnomeFileReader != null)
                 {
                     Interpreter interpreterNoIO = new Interpreter(FieldBrain, Reporter, MinMaxInfoCache);
-                    List<string> parsedFile = GnomeFileReader.ReadGnomeFile(input.Remove(0, "load".Length));
+                    string fileToRead = input.Remove(0, "load".Length).Trim();
+                    List<string> parsedFile = GnomeFileReader.ReadGnomeFile(fileToRead);
                     
                     // We will assume the file contains some valid instructions, if it has anything at all!
                     if(parsedFile != null && parsedFile.Count > 0 && parsedFile.Any(l => !String.IsNullOrWhiteSpace(l)))
@@ -118,6 +119,7 @@ namespace CsvGnome
                         // Clear fields and cache
                         FieldBrain.ClearFields(MinMaxInfoCache);
                         parsedFile.ForEach(interpreterNoIO.InterpretSilent);
+                        Reporter.AddMessage(new Message($"{fileToRead} loaded.", ConsoleColor.Green));
                     }
                     
                 }

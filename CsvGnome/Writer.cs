@@ -29,6 +29,7 @@ namespace CsvGnome
                         sw.WriteLine(GetLine(fields, i));
                     }
                 }
+                reporter.AddMessage(new Message($"{n} lines written.", ConsoleColor.Green));
             }
             catch (DirectoryNotFoundException ex)
             {
