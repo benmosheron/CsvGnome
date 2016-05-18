@@ -62,3 +62,9 @@ Save and load configurations of fields to GnomeFiles with ```save``` and ```load
 * ```gnomefiles``` displays the available gnomefiles, along with their locations.
 * ```save example``` saves the current fields to "example.gnome".
 * ```load example``` loads the previously saved fields from "example.gnome".
+
+### Info
+
+* CsvGnome is the creation of Ben Sheron. I welcome correspondence at benmosheron@gmail.com
+* Source code is available at https://github.com/benmosheron/CsvGnome
+* Any ideas or feedback? File an issue at https://github.com/benmosheron/CsvGnome/issues/new
