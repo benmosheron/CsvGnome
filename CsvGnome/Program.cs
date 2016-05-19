@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,6 +37,13 @@ namespace CsvGnome
         {
             get { return n; }
         }
+
+        private static bool reportArrayContents = GetConfigured_ReportArrayContent();
+
+        /// <summary>
+        /// If true, array contents will be written to the console. If false, only the number of items will be displayed.
+        /// </summary>
+        public static bool ReportArrayContents { get { return reportArrayContents; } }
 
         /// <summary>
         /// Path to output file.
@@ -100,6 +108,12 @@ namespace CsvGnome
             n = nToSet;
         }
 
+        public static void SetReportFullArrayContents(bool b)
+        {
+            ConfigurationManager.AppSettings["ReportArrayContents"] = b.ToString();
+            reportArrayContents = b;
+        }
+
         /// <summary>
         /// Set the location of the output csv file.
         /// </summary>
@@ -128,6 +142,11 @@ namespace CsvGnome
             {
                 FileName = name;
             }
+        }
+
+        private static bool GetConfigured_ReportArrayContent()
+        {
+            return ConfigurationManager.AppSettings["ReportArrayContents"] == true.ToString();
         }
 
         private static void DisplayInfo(Action action)

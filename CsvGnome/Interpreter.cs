@@ -146,6 +146,19 @@ namespace CsvGnome
                 return Action.Continue;
             }
             
+            // "full on" sets array fields to display contents in full
+            if(input == "full on")
+            {
+                Program.SetReportFullArrayContents(true);
+                return Action.Continue;
+            }
+
+            // "full off" sets array fields to report only the number of items
+            if (input == "full off")
+            {
+                Program.SetReportFullArrayContents(false);
+                return Action.Continue;
+            }
 
             // ":" Indicates a data update
             if (input.Contains(":"))

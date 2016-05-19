@@ -89,13 +89,13 @@ namespace CsvGnome
             }
             else if (prototype.StartsWith(Program.SpreadComponentString))
             {
-                // remove "[spread]
+                // remove "[spread]"
                 var array = prototype.Substring(Program.SpreadComponentString.Length);
                 return new ArraySpreadComponent(GetArray(array));
             }
             else if (prototype.StartsWith(Program.CycleComponentString))
             {
-                // remove "[cycle]
+                // remove "[cycle]"
                 var array = prototype.Substring(Program.CycleComponentString.Length);
                 return new ArrayCycleComponent(GetArray(array));
             }

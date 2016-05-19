@@ -59,6 +59,8 @@ namespace CsvGnome
             Console.WriteLine("write                   |writes the csv and continues.");
             Console.WriteLine("exit                    |quits.");
             Console.WriteLine("clear                   |clears all fields.");
+            Console.WriteLine("full on                 |displays arrays of values in full in the console.");
+            Console.WriteLine("full off                |only display the number of items in arrays in the console.");
             Console.WriteLine("help                    |displays help.");
             Console.WriteLine("help special            |displays information on special values.");
             Console.WriteLine("gnomefiles              |displays information on saved gnomefiles.");
@@ -96,6 +98,12 @@ namespace CsvGnome
             Console.WriteLine("[date]");
             Console.WriteLine("  Includes the date and time (at the point of csv creation)");
             Console.WriteLine("");
+            Console.WriteLine("[spread]{a,b,c}");
+            Console.WriteLine("  Spreads the values between curly braces through the file: a,a,a,b,b,b,c,c");
+            Console.WriteLine("");
+            Console.WriteLine("[cycle]{a,b,c}");
+            Console.WriteLine("  Cycles the values between curly braces through the file: a,b,c,a,b,c,a,b");
+            Console.WriteLine("");
             Console.WriteLine("[1=>3]");
             Console.WriteLine("  Repeats the numbers from 1 to 3 inclusive: 1,2,3,1,2,3...");
             Console.WriteLine("[1=>5, 2]");
@@ -112,6 +120,7 @@ namespace CsvGnome
             Console.WriteLine("(2_1)");
             Console.WriteLine("(3_0)");
             Console.WriteLine("(3_1)");
+            Console.WriteLine("");
             Console.WriteLine("Combined values can be in the same, or different fields.");
         }
 

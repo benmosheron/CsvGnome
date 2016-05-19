@@ -18,7 +18,9 @@ namespace CsvGnome
         {
             new Message(Program.CycleComponentString, Program.SpecialColour),
             new Message("{"),
-            new Message($"{valueArray.Length} items", Program.SpecialColour),
+            Program.ReportArrayContents 
+            ? new Message(valueArray.Aggregate((t, n) => $"{t},{n}")) 
+            : new Message($"{valueArray.Length} items", Program.SpecialColour),
             new Message("}"),
         };
 
