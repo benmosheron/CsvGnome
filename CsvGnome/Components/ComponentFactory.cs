@@ -87,6 +87,18 @@ namespace CsvGnome
                     else return new MinMaxComponent(min, max, increment.Value, protoId, cache);
                 }
             }
+            else if (prototype.StartsWith(Program.SpreadComponentString))
+            {
+                // remove "[spread]
+                var array = prototype.Substring(Program.SpreadComponentString.Length);
+                return new ArraySpreadComponent(GetArray(array));
+            }
+            else if (prototype.StartsWith(Program.CycleComponentString))
+            {
+                // remove "[cycle]
+                var array = prototype.Substring(Program.CycleComponentString.Length);
+                return new ArrayCycleComponent(GetArray(array));
+            }
             else if(prototype == Program.DateComponentString)
             {
                 return new DateComponent();
@@ -95,6 +107,17 @@ namespace CsvGnome
             {
                 return new TextComponent(prototype);
             }
+        }
+
+        private string[] GetArray(string prototypeArray)
+        {
+            // Remove { and } from end
+            var trimmedArray = prototypeArray.Trim(new char[] { '{', '}' });
+            var tokens = trimmedArray.Split(new string[] { "," }, StringSplitOptions.None);
+            string[] values;
+            if (tokens == null || !tokens.Any()) values = new string[] { String.Empty };
+            else values = tokens;
+            return values;
         }
     }
 }

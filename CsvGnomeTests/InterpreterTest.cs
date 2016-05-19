@@ -471,6 +471,42 @@ namespace CsvGnomeTests
         }
 
         [TestMethod]
+        public void InterpretComponents_SpreadComponent()
+        {
+            const string ins = "test:[spread]{one,two , three}";
+            IComponent[] expected = new IComponent[]
+            {
+                new ArraySpreadComponent(new string[] {"one", "two ", " three"})
+            };
+
+            FieldBrain fieldBrain = new FieldBrain();
+            Reporter reporter = new Reporter();
+            MinMaxInfoCache cache = new MinMaxInfoCache();
+            var x = new Interpreter(fieldBrain, reporter, cache);
+
+            Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
+            AssertSingleComponentField(fieldBrain, expected);
+        }
+
+        [TestMethod]
+        public void InterpretComponents_CycleComponent()
+        {
+            const string ins = "test:[cycle]{one,two , three}";
+            IComponent[] expected = new IComponent[]
+            {
+                new ArrayCycleComponent(new string[] {"one", "two ", " three"})
+            };
+
+            FieldBrain fieldBrain = new FieldBrain();
+            Reporter reporter = new Reporter();
+            MinMaxInfoCache cache = new MinMaxInfoCache();
+            var x = new Interpreter(fieldBrain, reporter, cache);
+
+            Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
+            AssertSingleComponentField(fieldBrain, expected);
+        }
+
+        [TestMethod]
         public void InterpretComponents_Compound1()
         {
             const string ins = "test:1[date]meow[++]xxx";

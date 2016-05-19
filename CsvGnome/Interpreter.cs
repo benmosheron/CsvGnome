@@ -154,7 +154,7 @@ namespace CsvGnome
                string name = tokens[0];
                string instruction = tokens[1];
                InterpretInstruction(name, instruction);
-                return Action.Continue;
+               return Action.Continue;
             }
 
             // Someone's consfused
@@ -189,11 +189,12 @@ namespace CsvGnome
         private IComponent[] GetComponents(string instruction)
         {
             Regex r = new Regex(Program.CommandRegexPattern);
-            return r
+            var results = r
                 .Split(instruction)
                 .Where(i => !String.IsNullOrEmpty(i))
                 .Select(i => Factory.Create(i))
                 .ToArray();
+            return results;
         }
 
         /// <summary>

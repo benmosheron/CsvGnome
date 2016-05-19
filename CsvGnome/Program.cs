@@ -10,7 +10,7 @@ namespace CsvGnome
     {
         public const string FileExt = ".csv";
         public const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ss";
-        public const string CommandRegexPattern = @"(\[.+?\])";
+        public const string CommandRegexPattern = @"(\[.+?\](?:{.*?})*)";
         public const string DateComponentString = "[date]";
         public const string SpreadComponentString = "[spread]";
         public const string CycleComponentString = "[cycle]";
