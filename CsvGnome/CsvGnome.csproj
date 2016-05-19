@@ -60,6 +60,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Action.cs" />
+    <Compile Include="Components\ArrayCycleComponent.cs" />
+    <Compile Include="Components\ArraySpreadComponent.cs" />
     <Compile Include="Components\MinMaxInfo.cs" />
     <Compile Include="Components\ComponentFactory.cs" />
     <Compile Include="Components\DateComponent.cs" />

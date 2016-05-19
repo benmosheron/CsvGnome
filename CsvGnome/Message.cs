@@ -24,5 +24,15 @@ namespace CsvGnome
             Text = s;
             Colour = c;
         }
+
+        public bool Equals(Message x)
+        {
+            if (x == null) return false;
+            var c = x as Message;
+            if (c == null) return false;
+            if (Text != c.Text) return false;
+            if (Colour != c.Colour) return false;
+            return true;
+        }
     }
 }
