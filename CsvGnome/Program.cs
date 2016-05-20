@@ -146,7 +146,16 @@ namespace CsvGnome
 
         private static bool GetConfigured_ReportArrayContent()
         {
-            return ConfigurationManager.AppSettings["ReportArrayContents"] == true.ToString();
+            bool b = false;
+            try
+            {
+                b = ConfigurationManager.AppSettings["ReportArrayContents"] == true.ToString();
+            }
+            catch(ConfigurationException ex)
+            {
+                // Do nothing
+            }
+            return b;
         }
 
         private static void DisplayInfo(Action action)
