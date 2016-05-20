@@ -18,6 +18,8 @@ namespace CsvGnome
         public const ConsoleColor DefaultColour = ConsoleColor.Gray;
         public const ConsoleColor SpecialColour = ConsoleColor.Cyan;
 
+        private const string ReportArrayContentsConfigKey = "ReportArrayContents";
+
         public static string TimeAtWrite = DateTime.Now.ToString(DateTimeFormat);
 
         /// <summary>
@@ -110,7 +112,7 @@ namespace CsvGnome
 
         public static void SetReportFullArrayContents(bool b)
         {
-            ConfigurationManager.AppSettings["ReportArrayContents"] = b.ToString();
+            SetConfigured_ReportArrayContent(b);
             reportArrayContents = b;
         }
 
@@ -149,13 +151,29 @@ namespace CsvGnome
             bool b = false;
             try
             {
-                b = ConfigurationManager.AppSettings["ReportArrayContents"] == true.ToString();
+                b = ConfigurationManager.AppSettings[ReportArrayContentsConfigKey] == true.ToString();
             }
             catch(ConfigurationException ex)
             {
-                // Do nothing
+                Reporter.AddMessage(new Message(ex.Message, ConsoleColor.Red));
             }
             return b;
+        }
+
+        private static void SetConfigured_ReportArrayContent(bool b)
+        {
+            try
+            {
+                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                config.AppSettings.Settings.Remove(ReportArrayContentsConfigKey);
+                config.AppSettings.Settings.Add(ReportArrayContentsConfigKey, b.ToString());
+                config.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection("appSettings");
+            }
+            catch(ConfigurationErrorsException ex)
+            {
+                Reporter.AddMessage(new Message(ex.Message, ConsoleColor.Red));
+            }
         }
 
         private static void DisplayInfo(Action action)
