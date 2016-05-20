@@ -23,8 +23,8 @@ Special components can be added to values:
 * ```[1=>5]``` cycles the values from one to five.
 * ```[0=>50, 10]``` cycles the values from zero to fifty in steps of ten.
 * ```[1=>5 #position]``` cycles the values from one to five. Tagged with the ID "position", tag another cycling component with the same ID to have them cycle through all possible combinations.
-* ```[spread]{a,b,c} spreads the values from inside the curly braces (a,a,a,b,b,b,c,c).
-* ```[cycle]{a,b,c} cycles the values from inside the curly braces (a,b,c,a,b,c,a,b).
+* ```[spread]{a,b,c}``` spreads the values from inside the curly braces (e.g. for 8 rows: a,a,a,b,b,b,c,c).
+* ```[cycle]{a,b,c}``` cycles the values from inside the curly braces (e.g. for 8 rows: a,b,c,a,b,c,a,b).
   * Use ```full on``` or ```full off`` to display full array contents, or a summary of array contents in the console.
 
 * ```help special``` displays a list of available components.
