@@ -9,10 +9,10 @@ namespace CsvGnome
 {
     public class ComponentFactory
     {
-        private const string IncrementingPattern = @"\[ *\-*\d* *\+\+ *\-*\d* *\]";
+        private const string IncrementingPattern = @"\[ *\-?\d* *\+\+ *\-?\d* *\]";
         private Regex IncrementingRegex = new Regex(IncrementingPattern);
 
-        private const string MinMaxPattern = @"\[ *\-*\d+ *=> *\-*\d+ *,* *\-*\d* *(#.+?)*\]";
+        private const string MinMaxPattern = @"\[ *\-?\d+ *=> *\-?\d+ *,* *\-?\d* *(?:#.+?)*\]";
         private Regex MinMaxRegex = new Regex(MinMaxPattern);
 
         private MinMaxInfoCache cache;
