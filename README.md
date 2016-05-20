@@ -2,37 +2,40 @@
 
 ## A Simple but Clever CSV File Generator for Windows 10.
 
-Specify fields and values with ```:```.
+Specify fields and values with `:`.
 
-* ```fieldName:ValueName``` creates a field (column) with name "fieldName" and all values "ValueName"
+* `fieldName:ValueName` creates a field (column) with name "fieldName" and all values "ValueName"
 
-Change the number of rows to generate by entering a number E.g. ```12``` to write twelve rows of data, this doesn't include the columns row.
+Change the number of rows to generate by entering a number E.g. `12` to write twelve rows of data, this doesn't include the columns row.
 
-* ```help``` displays help.
-* ```exit``` quits.
-* ```write``` writes the CSV file. The file will be written to CsvGnome's Output directory.
-* ```run``` writes the CSV and quits.
-* ```delete fieldName``` deletes the field with name "fieldName".
-* ```clear``` clears all fields.
+* `help` displays help.
+* `exit` quits.
+* `write` writes the CSV file. The file will be written to CsvGnome's Output directory.
+* `run` writes the CSV and quits.
+* `delete fieldName` deletes the field with name "fieldName".
+* `clear` clears all fields.
 
-Special components can be added to values:
-* ```[++]``` counts up from zero.
-* ```[3++]``` counts up from three.
-* ```[19++2]``` counts up from nineteen in steps of two.
-* ```[date]``` the date and time, at the time the file is generated.
-* ```[1=>5]``` cycles the values from one to five.
-* ```[0=>50, 10]``` cycles the values from zero to fifty in steps of ten.
-* ```[1=>5 #position]``` cycles the values from one to five. Tagged with the ID "position", tag another cycling component with the same ID to have them cycle through all possible combinations.
-* ```[spread]{a,b,c}``` spreads the values from inside the curly braces (e.g. for 8 rows: a,a,a,b,b,b,c,c).
-* ```[cycle]{a,b,c}``` cycles the values from inside the curly braces (e.g. for 8 rows: a,b,c,a,b,c,a,b).
-  * Use ```full on``` or ```full off`` to display full array contents, or a summary of array contents in the console.
+Special components can be added to values (`help special` displays a list of available components):
+* `[++]` counts up from zero.
+* `[3++]` counts up from three.
+* `[19++2]` counts up from nineteen in steps of two.
+* `[date]` the date and time, at the time the file is generated.
+* `[1=>5]` cycles the values from one to five.
+* `[0=>50, 10]` cycles the values from zero to fifty in steps of ten.
+* `[1=>5 #position]` cycles the values from one to five. Tagged with the ID "position", tag another cycling component with the same ID to have them cycle through all possible combinations.
 
-* ```help special``` displays a list of available components.
+Specify arrays of values manually with `[spread]` and `[cycle]`
+
+* `[spread]{a,b,c}` spreads the values from inside the curly braces (e.g. `a,a,a,b,b,b,c,c`)
+* `[cycle]{a,b,c}` cycles the values from inside the curly braces (e.g. for 8 rows: `a,b,c,a,b,c,a,b`)
+  * Use `full on` or `full off` to display full array contents, or a summary of array contents in the console.
 
 
 ### Example Input
 ```
+// Enter a number to set the number of rows to generate.
 12
+// Create fields.
 Location:London
 UniqueId:[date]_ID[++]
 x:[1=>2, 1 #pos]
@@ -60,11 +63,11 @@ z:[0=>1 #pos]
 
 ### GnomeFiles
 
-Save and load configurations of fields to GnomeFiles with ```save``` and ```load``` commands. Gnomefiles can be easily edited in a text editor. The GnomeFile "default.gnome" is automatically loaded when CsvGnome runs, you can edit this file to contain a common set of fields.
+Save and load configurations of fields to GnomeFiles with `save` and `load` commands. Gnomefiles can be easily edited in a text editor. The GnomeFile "default.gnome" is automatically loaded when CsvGnome runs, you can edit this file to contain a common set of fields.
 
-* ```gnomefiles``` displays the available gnomefiles, along with their locations.
-* ```save example``` saves the current fields to "example.gnome".
-* ```load example``` loads the previously saved fields from "example.gnome".
+* `gnomefiles` displays the available gnomefiles, along with their locations.
+* `save example` saves the current fields to "example.gnome".
+* `load example` loads the previously saved fields from "example.gnome".
 
 ### Info
 
