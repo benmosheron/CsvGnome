@@ -36,7 +36,7 @@ namespace CsvGnome
         public string GetValue(int i)
         {
             int size = valueArray.Length;
-            int rowsPer = (Program.N + 1) / size;
+            int rowsPer = Math.Max((Program.N + 1) / size, 1);
             int index = (i / rowsPer) % size;
             return valueArray[index];
         }
