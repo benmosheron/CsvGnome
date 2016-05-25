@@ -129,13 +129,13 @@ namespace CsvGnome
             Console.Clear();
             Console.WriteLine($"The GnomeFile directory is: {Program.GetGnomeFileCache.GnomeFileDir}");
             Console.WriteLine("");
-            foreach(string k in Program.GetGnomeFileCache.Files)
+            for (int i = 0; i < Program.GetGnomeFileCache.Files.Length; i++)
             {
-                Console.WriteLine(k);
-                Console.WriteLine(Program.GetGnomeFileCache.GetPath(k));
+                string name = Program.GetGnomeFileCache.Files[i];
+                WriteLine(new Message(name, Program.SpecialColour));
+                WriteLine(new Message(Program.GetGnomeFileCache.GetPath(name)));
                 Console.WriteLine("");
             }
-            
         }
 
         public string OverrideConsole(List<Message> tempMessages)
