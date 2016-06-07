@@ -82,6 +82,8 @@ namespace CsvGnome
             // Read defaults from file
             GnomeFileReader.ReadDefaultGnomeFile().ForEach(InterpreterNoIO.InterpretSilent);
 
+            SetConsoleTitle();
+
             Action nextAction = Action.Continue;
 
             Action[] ContinueWhile = new Action[]
@@ -144,6 +146,16 @@ namespace CsvGnome
             {
                 FileName = name;
             }
+        }
+
+        /// <summary>
+        /// Set the title of the console window
+        /// </summary>
+        public static void SetConsoleTitle()
+        {
+            string title = "CsvGnome";
+            if (GnomeFileReader.LastLoadedFileName != null) title += $": {GnomeFileReader.LastLoadedFileName}";
+            Console.Title = title;
         }
 
         private static bool GetConfigured_ReportArrayContent()

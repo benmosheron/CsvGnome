@@ -15,6 +15,8 @@ namespace CsvGnome
         Reporter Reporter;
         GnomeFileCache GnomeFileCache;
 
+        public string LastLoadedFileName = null;
+
         public GnomeFileReader(Reporter reporter, GnomeFileCache gnomeFileCache)
         {
             Reporter = reporter;
@@ -51,6 +53,10 @@ namespace CsvGnome
                 Reporter.AddMessage(new Message("I don't know why that didn't work:"));
                 Reporter.AddMessage(new Message(ex.Message));
             }
+
+            LastLoadedFileName = name;
+
+            Program.SetConsoleTitle();
 
             return parsedFile;
         }
