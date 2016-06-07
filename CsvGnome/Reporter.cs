@@ -64,6 +64,7 @@ namespace CsvGnome
             Console.WriteLine("help                    |displays help.");
             Console.WriteLine("help special            |displays information on special values.");
             Console.WriteLine("gnomefiles              |displays information on saved gnomefiles.");
+            Console.WriteLine("save                    |saves the currently set up fields to the currently loaded gnomefile.");
             Console.WriteLine("save file1              |saves the currently set up fields to gnomefile: \"file1\" in the gnomefile directory.");
             Console.WriteLine("load file1              |loads gnomefile \"file1\" from the gnomefile directory, overwriting any unsaved fields.");
             Console.WriteLine("delete field1           |deletes field \"field1\".");
@@ -79,6 +80,7 @@ namespace CsvGnome
             Console.WriteLine("Name:Mogget[date]_[++]");
             Console.WriteLine("");
             Console.WriteLine("Enter \"help special\" for a list of special values.");
+            Console.WriteLine("Press [Enter] to return.");
         }
 
         public void HelpSpecial()
@@ -122,6 +124,7 @@ namespace CsvGnome
             Console.WriteLine("(3_1)");
             Console.WriteLine("");
             Console.WriteLine("Combined values can be in the same, or different fields.");
+            Console.WriteLine("Press [Enter] to return.");
         }
 
         public void ShowGnomeFiles()
