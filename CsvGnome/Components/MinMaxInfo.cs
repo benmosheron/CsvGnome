@@ -106,7 +106,6 @@ namespace CsvGnome
             ConsoleColor.White,
             ConsoleColor.Yellow,
             ConsoleColor.Blue,
-            ConsoleColor.DarkBlue,
             ConsoleColor.DarkCyan,
             ConsoleColor.DarkGreen,
             ConsoleColor.DarkMagenta,
