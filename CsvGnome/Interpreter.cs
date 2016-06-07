@@ -98,7 +98,16 @@ namespace CsvGnome
             if (input.StartsWith("save"))
             {
                 // Interpreter unit tests use a null writer
-                if(GnomeFileWriter != null) GnomeFileWriter.Save(input.Remove(0, "save".Length));
+                if (GnomeFileWriter != null)
+                {
+                    string fileName = input.Remove(0, "save".Length);
+                    if (String.IsNullOrWhiteSpace(fileName))
+                    {
+                        if(GnomeFileReader.LastLoadedFileName != null)
+                            fileName = GnomeFileReader.LastLoadedFileName;
+                    }
+                    GnomeFileWriter.Save(fileName);
+                }
                 return Action.Continue;
             }
 
