@@ -26,16 +26,32 @@ namespace CsvGnome.Components.Combinatorial
             string typeName = rawComponent.GetType().FullName;
             switch (typeName) {
                 case c_arrayCycle:
-                    ArrayCycleComponent raw = rawComponent as ArrayCycleComponent;
-                    // Check if a group with this ID already exists.
-                    // if it doesn't exist, create it.
-                    // Get the group.
-                    ArrayCycleCombinatorial arrayCycleCombinatorial = new ArrayCycleCombinatorial(new Group("test"), raw.ValueArray);
-                    return arrayCycleCombinatorial;
+                    return CreateArrayCycleCombinatorial(groupId, rawComponent as ArrayCycleComponent);
                 default:
                     throw new Exception($"Cannot create an ICombinatorial from [{typeName}]");
             }
+        }
 
+        private ArrayCycleCombinatorial CreateArrayCycleCombinatorial(string groupId, ArrayCycleComponent rawComponent)
+        {
+            // Check if a group with this ID already exists.
+            if (!Cache.Contains(groupId))
+            {
+                // if it doesn't exist, create it.
+                Cache.CreateGroup(groupId);
+            }
+
+            // Get the group.
+            Group group = Cache[groupId];
+
+            // Create the component
+            var arrayCycleCombinatorial = new ArrayCycleCombinatorial(group, rawComponent.ValueArray);
+
+            // Update the group.
+            Cache.AddComponentToGroup(groupId, arrayCycleCombinatorial);
+
+            // Return the component.
+            return arrayCycleCombinatorial;
         }
     }
 }

@@ -66,6 +66,7 @@
     <Compile Include="Components\Combinatorial\ArrayCycleCombinatorial.cs" />
     <Compile Include="Components\Combinatorial\Cache.cs" />
     <Compile Include="Components\Combinatorial\CombinatorialBase.cs" />
+    <Compile Include="Components\Combinatorial\CombinatorialGroupException.cs" />
     <Compile Include="Components\Combinatorial\Group.cs" />
     <Compile Include="Components\Combinatorial\Factory.cs" />
     <Compile Include="Components\Combinatorial\ICombinatorial.cs" />
