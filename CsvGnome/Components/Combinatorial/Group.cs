@@ -20,13 +20,22 @@ namespace CsvGnome.Components.Combinatorial
         /// <summary>
         /// Collection of components in this group.
         /// </summary>
-        public IReadOnlyCollection<ICombinatorial> Components => new ReadOnlyCollection<ICombinatorial>(componentList);
+        public IReadOnlyCollection<ICombinatorial> Components =>
+            new ReadOnlyCollection<ICombinatorial>(idToComponent.Select(c=>c.Value).ToList());
 
         /// <summary>
-        /// List of components in this group. The index of every component in this list must be strictly
-        /// equal to its dimension.
+        /// Maps the dimension of components to the components in this group. 
         /// </summary>
-        private List<ICombinatorial> componentList { get; set; }
+        /// <remarks>
+        /// Dimensions should run 0,1,2...etc. but we must allow for higher dimensions being specified
+        /// first when e.g. reading from a gnomefile.
+        /// </remarks>
+        private Dictionary<int, ICombinatorial> idToComponent = new Dictionary<int, ICombinatorial>();
+
+        /// <summary>
+        /// Maps a component in this group to its dimension.
+        /// </summary>
+        private Dictionary<ICombinatorial, int> componentToId => idToComponent.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
 
         /// <summary>
         /// If a new component is added to this group, it will have this dimension.
@@ -39,7 +48,6 @@ namespace CsvGnome.Components.Combinatorial
         public Group(string id)
         {
             Id = id;
-            componentList = new List<ICombinatorial>();
         }
 
         /// <summary>
@@ -48,26 +56,22 @@ namespace CsvGnome.Components.Combinatorial
         /// <exception cref="Exception">Thrown if the component is not in this group.</exception>
         public int DimensionOf(ICombinatorial c)
         {
-            int index = componentList.IndexOf(c);
+            if (!componentToId.ContainsKey(c)) throw new Exception($"Component [{c}] is not in group [{Id}].");
 
-            if (index == -1) throw new Exception($"Component [{c}] is not in group [{Id}].");
-
-            return index;
+            return componentToId[c];
         }
 
+        /// <summary>
+        /// Get the next guaranteed available dimension.
+        /// </summary>
         private int GetNextDimension()
         {
-            if (componentList == null)
-            {
-                throw new Exception("componentList for this group should not be null.");
-            }
-
-            if (!componentList.Any())
+            if (!idToComponent.Any())
             {
                 return 0;
             }
 
-            return componentList.Count;
+            return idToComponent.Keys.Max() + 1;
         }
     }
 }
