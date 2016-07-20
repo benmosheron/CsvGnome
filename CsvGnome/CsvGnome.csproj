@@ -63,6 +63,12 @@
     <Compile Include="Action.cs" />
     <Compile Include="Components\ArrayCycleComponent.cs" />
     <Compile Include="Components\ArraySpreadComponent.cs" />
+    <Compile Include="Components\Combinatorial\ArrayCycleCombinatorial.cs" />
+    <Compile Include="Components\Combinatorial\Cache.cs" />
+    <Compile Include="Components\Combinatorial\CombinatorialBase.cs" />
+    <Compile Include="Components\Combinatorial\Group.cs" />
+    <Compile Include="Components\Combinatorial\Factory.cs" />
+    <Compile Include="Components\Combinatorial\ICombinatorial.cs" />
     <Compile Include="Components\MinMaxInfo.cs" />
     <Compile Include="Components\ComponentFactory.cs" />
     <Compile Include="Components\DateComponent.cs" />
@@ -92,9 +98,7 @@
     <None Include="GnomeFiles\default.gnome">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Output\CsvGnomeOutput.csv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="Output\CsvGnomeOutput.csv" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -17,6 +17,7 @@ namespace CsvGnome
         /// Number of dimensions.
         /// </summary>
         public int Dims { get; private set; }
+
         /// <summary>
         /// Array of mininmum values for each component in this set.
         /// </summary>
