@@ -76,5 +76,27 @@ namespace CsvGnomeTests
             Assert.IsNull(cache[c_groupId].GroupCardinality.IndexOfFirstInfiniteDimension);
             Assert.AreEqual(24, cache[c_groupId].GroupCardinality.Cardinality.Value);
         }
+
+        [TestMethod]
+        public void TestCombinatorialCycle_Command()
+        {
+            Cache cache = new Cache();
+            Factory factory = new Factory(cache);
+
+            const string c_groupId = "Siegward";
+            // dimension 0
+            ArrayCycleComponent raw0 = new ArrayCycleComponent(new string[] { "pickle", "pee" });
+            // dimension 1
+            ArrayCycleComponent raw1 = new ArrayCycleComponent(new string[] { "pump", "a", "rum" });
+
+            ICombinatorial c0 = factory.Create(c_groupId, raw0);
+            ICombinatorial c1 = factory.Create(c_groupId, raw1);
+
+            string expected0 = "[cycle #Siegward/0]{pickle,pee}";
+            string expected1 = "[cycle #Siegward/1]{pump,a,rum}";
+
+            Assert.AreEqual(expected0, (c0 as IComponent).Command);
+            Assert.AreEqual(expected1, (c1 as IComponent).Command);
+        }
     }
 }

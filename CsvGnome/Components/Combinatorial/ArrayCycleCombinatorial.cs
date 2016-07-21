@@ -11,11 +11,17 @@ namespace CsvGnome.Components.Combinatorial
     {
         #region IComponent
 
-        public string Command => valueArrayCommand;
+        public string Command
+        {
+            get
+            {
+                return CommandInitString + "{" + valueArray.Aggregate((t, n) => $"{t},{n}") + "}";
+            }
+        }
 
         public List<Message> Summary => new List<Message>()
         {
-            new Message(Program.CycleComponentString, Program.SpecialColour),
+            new Message(CommandInitString, Program.SpecialColour),
             new Message("{"),
             Program.ReportArrayContents
             ? new Message(valueArray.Aggregate((t, n) => $"{t},{n}"))
@@ -47,7 +53,14 @@ namespace CsvGnome.Components.Combinatorial
 
         private readonly string[] valueArray;
 
-        private string valueArrayCommand => Program.CycleComponentString + "{" + valueArray.Aggregate((t, n) => $"{t},{n}") + "}";
+        private string CommandInitString
+        {
+            get
+            {
+                string groupIdString = $"#{Group.Id}/{Group.RankOf(this)}";
+                return Program.CycleCombinatorialString.Replace("#", groupIdString);
+            }
+        }
 
         /// <summary>
         /// Do not use this! Use the Factory class, which will manage the cache.
