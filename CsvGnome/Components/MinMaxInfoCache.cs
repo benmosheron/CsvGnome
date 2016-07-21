@@ -30,7 +30,7 @@ namespace CsvGnome
 
         public void UpdateCacheForDelete(IEnumerable<MinMaxComponent> toRemove)
         {
-            // Store a dict of the id of each info, and a list of all the dimensions that will be removed from it.
+            // Store a dict of the id of each info, and a list of all the Ranks that will be removed from it.
             Dictionary<string, HashSet<int>> affected = new Dictionary<string, HashSet<int>>();
             foreach(var c in toRemove)
             {
@@ -43,7 +43,7 @@ namespace CsvGnome
             // The remove all affected dims from each affected info
             foreach(string id in affected.Keys)
             {
-                // Sort to ensure we remove higher dimensions first
+                // Sort to ensure we remove higher Ranks first
                 List<int> dims = affected[id].ToList();
                 dims.Sort();
                 dims.Reverse();

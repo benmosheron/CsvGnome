@@ -14,7 +14,7 @@ namespace CsvGnome
         public string Id { get; }
 
         /// <summary>
-        /// Number of dimensions.
+        /// Number of Ranks.
         /// </summary>
         public int Dims { get; private set; }
 

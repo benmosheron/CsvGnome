@@ -75,10 +75,10 @@ namespace CsvGnome
 
         public string GetValue(int i)
         {
-            // If this is the lowest dimension (highest index :/...) use modulo
+            // If this is the lowest Rank (highest index :/...) use modulo
             if (Dim == Info.Dims - 1) return (Info.Mins[Dim] + ((i % Info.Cardinalities[Dim]) * Info.Increments[Dim])).ToString();
 
-            // Higher dimensions have i reduced by the product of lower dimensions' cardinalities
+            // Higher Ranks have i reduced by the product of lower Ranks' cardinalities
             int productLowerDimCardinalities = Info.Cardinalities.Skip(Dim + 1).Aggregate(1, (t, n) => t * n);
 
             return (Info.Mins[Dim] + (((i / productLowerDimCardinalities) % Info.Cardinalities[Dim]) * Info.Increments[Dim])).ToString();
@@ -87,7 +87,7 @@ namespace CsvGnome
         private const int DefaultIncrement = 1;
         private bool incrementProvided = true;
         /// <summary>
-        /// The dimension of this component. Used as an index in the Info's arrays.
+        /// The Rank of this component. Used as an index in the Info's arrays.
         /// </summary>
         public int Dim = 0;
 

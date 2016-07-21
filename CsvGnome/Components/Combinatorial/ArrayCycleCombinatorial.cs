@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CsvGnome.Components.Combinatorial
 {
-    class ArrayCycleCombinatorial : CombinatorialBase, IComponent
+    public class ArrayCycleCombinatorial : CombinatorialBase, IComponent
     {
         #region IComponent
 
@@ -60,7 +60,6 @@ namespace CsvGnome.Components.Combinatorial
             Debug.WriteLineIf(valueArray == null || !valueArray.Any(), "Empty or null array supplied to array component.");
             this.valueArray = valueArray.ToArray();
             if (this.valueArray == null || this.valueArray.Length == 0) this.valueArray = new string[] { String.Empty };
-            
         }
     }
 }

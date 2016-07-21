@@ -21,26 +21,26 @@ namespace CsvGnome.Components.Combinatorial
         /// Collection of components in this group.
         /// </summary>
         public IReadOnlyCollection<ICombinatorial> Components =>
-            new ReadOnlyCollection<ICombinatorial>(dimToComponent.Select(c=>c.Value).ToList());
+            new ReadOnlyCollection<ICombinatorial>(rankToComponent.Select(c=>c.Value).ToList());
 
         /// <summary>
-        /// Maps the dimension of components to the components in this group. 
+        /// Maps the rank of components to the components in this group. 
         /// </summary>
         /// <remarks>
-        /// Dimensions should run 0,1,2...etc. but we must allow for higher dimensions being specified
+        /// Ranks should run 0,1,2...etc. but we must allow for higher ranks being specified
         /// first when e.g. reading from a gnomefile.
         /// </remarks>
-        private Dictionary<int, ICombinatorial> dimToComponent = new Dictionary<int, ICombinatorial>();
+        private Dictionary<int, ICombinatorial> rankToComponent = new Dictionary<int, ICombinatorial>();
 
         /// <summary>
-        /// Maps a component in this group to its dimension.
+        /// Maps a component in this group to its rank.
         /// </summary>
-        private Dictionary<ICombinatorial, int> componentToDim => dimToComponent.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
+        private Dictionary<ICombinatorial, int> componentToRank => rankToComponent.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
 
         /// <summary>
-        /// If a new component is added to this group, it will have this dimension.
+        /// If a new component is added to this group, it will have this rank.
         /// </summary>
-        public int NextDimension => GetNextDimension();
+        public int NextRank => GetNextRank();
 
         /// <summary>
         /// Create a new group with the input id.
@@ -51,38 +51,52 @@ namespace CsvGnome.Components.Combinatorial
         }
 
         /// <summary>
-        /// Get the dimension of a component in this group.
+        /// Get the dimension of a component in this group. Dimensions are the ranks of each component
+        /// mapped to {0, 1, ..., N }.
         /// </summary>
-        /// <exception cref="Exception">Thrown if the component is not in this group.</exception>
+        /// <param name="c"></param>
+        /// <returns></returns>
         public int DimensionOf(ICombinatorial c)
         {
-            if (!componentToDim.ContainsKey(c)) throw new Exception($"Component [{c}] is not in group [{Id}].");
+            List<int> ranks = rankToComponent.Keys.OrderBy(r => r).ToList();
 
-            return componentToDim[c];
+            return ranks.IndexOf(componentToRank[c]);
         }
 
         /// <summary>
-        /// Get the next guaranteed available dimension.
+        /// Get the rank of a component in this group.
         /// </summary>
-        private int GetNextDimension()
+        /// <exception cref="Exception">Thrown if the component is not in this group.</exception>
+        public int RankOf(ICombinatorial c)
         {
-            if (!dimToComponent.Any())
+            if (!componentToRank.ContainsKey(c)) throw new Exception($"Component [{c}] is not in group [{Id}].");
+
+            return componentToRank[c];
+        }
+
+        /// <summary>
+        /// Get the next guaranteed available rank.
+        /// </summary>
+        private int GetNextRank()
+        {
+            if (!rankToComponent.Any())
             {
                 return 0;
             }
 
-            return dimToComponent.Keys.Max() + 1;
+            // Don't return a negative number, even if the previous rank was -99 or something.
+            return Math.Max(0, rankToComponent.Keys.Max() + 1);
         }
 
         /// <summary>
         /// Do not use this! Use the method in the cache.
-        /// Add a component to this group, with the specified dimension.
+        /// Add a component to this group, with the specified rank.
         /// </summary>
-        /// <exception cref="CombinatorialGroupException">Thrown if a component with this dimension already exists in this group.</exception>        
-        public void AddComponent(int dimension, ICombinatorial component)
+        /// <exception cref="CombinatorialGroupException">Thrown if a component with this rank already exists in this group.</exception>        
+        public void AddComponent(int rank, ICombinatorial component)
         {
-            if (dimToComponent.ContainsKey(dimension)) throw new CombinatorialGroupException($"Group already has component with dimension [{dimension}].");
-            dimToComponent[dimension] = component;
+            if (rankToComponent.ContainsKey(rank)) throw new CombinatorialGroupException($"Group already has component with rank [{rank}].");
+            rankToComponent[rank] = component;
         }
     }
 }

@@ -29,19 +29,15 @@ namespace CsvGnome.Components.Combinatorial
             Groups[id] = new Group(id);
         }
 
-
-        public void AddComponentToGroup(string id, ICombinatorial component)
+        /// <summary>
+        /// Adds a component to a group with a specifed rank, and updates the cache.
+        /// </summary>
+        /// <param name="id">Id of the group to add the component to.</param>
+        public void AddComponentToGroup(string id, ICombinatorial component, int rank)
         {
             if (!Groups.ContainsKey(id)) throw new Exception($"Group with id [{id}] does not exist in the cache");
 
-            AddComponentToGroup(id, component, Groups[id].NextDimension);
-        }
-
-        public void AddComponentToGroup(string id, ICombinatorial component, int dimension)
-        {
-            if (!Groups.ContainsKey(id)) throw new Exception($"Group with id [{id}] does not exist in the cache");
-
-            Groups[id].AddComponent(dimension, component);
+            Groups[id].AddComponent(rank, component);
         }
 
 

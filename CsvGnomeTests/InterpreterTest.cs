@@ -179,7 +179,7 @@ namespace CsvGnomeTests
             Assert.IsTrue((fieldBrain.Fields.First() as ComponentField).Components.Zip(expectedComponentsOfField1, (a, e) => a.Equals(e)).All(r => r == true));
             Assert.IsTrue((fieldBrain.Fields.Last() as ComponentField).Components.Zip(expectedComponentsOfField2, (a, e) => a.Equals(e)).All(r => r == true));
 
-            // Assert dimensions
+            // Assert Ranks
             Assert.AreEqual(0, (fieldBrain.Fields.First() as ComponentField).Components.OfType<MinMaxComponent>().First().Dim);
             Assert.AreEqual(1, (fieldBrain.Fields.Last() as ComponentField).Components.OfType<MinMaxComponent>().First().Dim);
         }
@@ -219,7 +219,7 @@ namespace CsvGnomeTests
             Assert.IsTrue((fieldBrain.Fields.First() as ComponentField).Components.Zip(expectedComponentsOfField1, (a, e) => a.Equals(e)).All(r => r == true));
             Assert.IsTrue((fieldBrain.Fields.Last() as ComponentField).Components.Zip(expectedComponentsOfField2, (a, e) => a.Equals(e)).All(r => r == true));
 
-            // Assert dimensions
+            // Assert Ranks
             Assert.AreEqual(0, (fieldBrain.Fields.First() as ComponentField).Components.OfType<MinMaxComponent>().First().Dim);
             Assert.AreEqual(1, (fieldBrain.Fields.First() as ComponentField).Components.OfType<MinMaxComponent>().Last().Dim);
             Assert.AreEqual(2, (fieldBrain.Fields.Last() as ComponentField).Components.OfType<MinMaxComponent>().First().Dim);
