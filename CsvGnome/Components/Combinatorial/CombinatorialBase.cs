@@ -25,7 +25,7 @@ namespace CsvGnome.Components.Combinatorial
         /// <summary>
         /// The number of possible values for this component.
         /// </summary>
-        public virtual int? Cardinality { get { throw new NotImplementedException("CombinatorialBase Cardinality should be overridden."); } }
+        public virtual long? Cardinality { get { throw new NotImplementedException("CombinatorialBase Cardinality should be overridden."); } }
 
         /// <summary>
         /// Create a new component with a group.

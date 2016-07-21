@@ -30,6 +30,6 @@ namespace CsvGnome.Components.Combinatorial
         /// Null corresponds to an infinite number, in which case
         /// all higher dimension components will be constant.
         /// </summary>
-        int? Cardinality { get; }
+        long? Cardinality { get; }
     }
 }

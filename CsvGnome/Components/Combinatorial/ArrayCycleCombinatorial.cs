@@ -41,7 +41,7 @@ namespace CsvGnome.Components.Combinatorial
 
         #region ICombinatorial
 
-        public override int? Cardinality => valueArray.Length;
+        public override long? Cardinality => valueArray.Length;
 
         #endregion
 
