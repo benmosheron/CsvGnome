@@ -22,14 +22,28 @@ namespace CsvGnome.Components.Combinatorial
         /// If provided, indicates that the cardinality only applies up to this dimension.
         /// Higher dimensions will never change.
         /// </summary>
-        public int? IndexOfFinalDimension;
+        public int? IndexOfFirstInfiniteDimension;
+
+        #region Useful Properties
+
+        /// <summary>
+        /// The first dimension is infinite.
+        /// </summary>
+        public bool FirstIsInfinite => IndexOfFirstInfiniteDimension == 0;
+
+        /// <summary>
+        /// There are no infinite dimensions.
+        /// </summary>
+        public bool AllAreFinite => !IndexOfFirstInfiniteDimension.HasValue;
+
+        #endregion
 
         /// <summary>
         /// There are no finite dimensions.
         /// </summary>
         public GroupCardinality()
         {
-            IndexOfFinalDimension = 0;
+            IndexOfFirstInfiniteDimension = 0;
         }
 
         /// <summary>
@@ -46,10 +60,11 @@ namespace CsvGnome.Components.Combinatorial
         /// </summary>
         /// <param name="cardinality">Product of all the cardinalities with dimension lower than the first infinite dimension.</param>
         /// <param name="lastFiniteDimension">The dimension of the first infinite dimension.</param>
-        public GroupCardinality(long cardinality, int lastFiniteDimension)
+        public GroupCardinality(long cardinality, int firstInfiniteDimension)
         {
+            if (IndexOfFirstInfiniteDimension == 0) throw new ArgumentException($"Last finite dimension is 0, but a cardinality was provided.");
             Cardinality = cardinality;
-            IndexOfFinalDimension = lastFiniteDimension;
+            IndexOfFirstInfiniteDimension = firstInfiniteDimension;
         }
     }
 }

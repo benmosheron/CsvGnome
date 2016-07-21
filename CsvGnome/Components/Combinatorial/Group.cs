@@ -77,6 +77,22 @@ namespace CsvGnome.Components.Combinatorial
         }
 
         /// <summary>
+        /// The product of cardinalities of every component with a dimension lower than the input dimension.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">If dimension is zero.</exception>
+        /// <exception cref="InvalidOperationException">If any lower dimensions are infinite.</exception>
+        public long FiniteCardinalityOfLowerDimensions(int dimension)
+        {
+            if (dimension == 0) throw new ArgumentOutOfRangeException(nameof(dimension), "Cannot calculate cardinality for dimensions lower than zero.");
+
+            var lowerDimensions = Components.Where(c => c.Dimension < dimension);
+
+            if (lowerDimensions.Any(c => !c.Cardinality.HasValue)) throw new InvalidOperationException("Lower dimension is infinite.");
+
+            return lowerDimensions.Select(c => c.Cardinality.Value).Aggregate((t, n) => t * n);
+        }
+
+        /// <summary>
         /// Create a new group with the input id.
         /// </summary>
         public Group(string id)

@@ -40,17 +40,55 @@ namespace CsvGnome.Components.Combinatorial
         /// </summary>
         /// <param name="i">Row number.</param>
         /// <returns>Index of the return value.</returns>
-        protected int GetValueIndex(int i)
+        protected long GetValueIndex(long i)
         {
-            return -99;
-            // Copied from MinMaxComponent - we will follow the same method.
-            // If this is the lowest dimension (highest index :/...) use modulo
-            //if (Dim == Info.Dims - 1) return (Info.Mins[Dim] + ((i % Info.Cardinalities[Dim]) * Info.Increments[Dim])).ToString();
+            GroupCardinality groupCardinality = Group.GroupCardinality;
+            // If the group has a single infinite component, it will just increase forever.
+            // All higher dimensions will stay at the zeroth element.
+            if (groupCardinality.FirstIsInfinite)
+            {
+                if (Dimension > 0) return 0;
+                else return i;
+            }
 
-            //// Higher dimensions have i reduced by the product of lower dimensions' cardinalities
-            //int productLowerDimCardinalities = Info.Cardinalities.Skip(Dim + 1).Aggregate(1, (t, n) => t * n);
+            // If the group has finite cardinality, we are good to go!
+            if (groupCardinality.AllAreFinite)
+            {
+                return FiniteValueIndex(i);
+            }
 
-            //return (Info.Mins[Dim] + (((i / productLowerDimCardinalities) % Info.Cardinalities[Dim]) * Info.Increments[Dim])).ToString();
+            // We've got a mix of finite and infinite dimensions.
+
+            // If this component has higher dimension than an infinite, it will be stuck at element zero.
+            if(Dimension > groupCardinality.IndexOfFirstInfiniteDimension)
+            {
+                return 0;
+            }
+            else
+            {
+                // We are either a finite dimension, or the first infinite dimension.
+                return FiniteValueIndex(i);
+            }
+        }
+
+        private long FiniteValueIndex(long i)
+        {
+            // If this is the lowest dimension, use the modulo
+            if (Dimension == 0) return i % Cardinality.Value;
+
+            // Higher dimensions have i reduced by the cardinalities of lower dimensions.
+            long lowerDimensionCardinality = Group.FiniteCardinalityOfLowerDimensions(Dimension);
+
+            if (Cardinality.HasValue)
+            {
+                return (i / lowerDimensionCardinality) % Cardinality.Value;
+            }
+            else
+            {
+                // This component is the lowest dimension infinite component.
+                // Return i divided by the lower dimensions.
+                return i / lowerDimensionCardinality;
+            }
         }
     }
 }

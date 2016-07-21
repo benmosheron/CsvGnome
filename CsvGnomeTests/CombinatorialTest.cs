@@ -68,12 +68,12 @@ namespace CsvGnomeTests
             // dimension 2, cardinality 4
             ArrayCycleComponent raw2 = new ArrayCycleComponent(new string[] { "0", "1", "2", "3" });
             // Create four components with random ranks. The dimensions should go from lowest to highest.
-            ICombinatorial c3 = factory.Create(c_groupId, raw0);
+            ICombinatorial c0 = factory.Create(c_groupId, raw0);
             ICombinatorial c1 = factory.Create(c_groupId, raw1);
-            ICombinatorial c0 = factory.Create(c_groupId, raw2);
+            ICombinatorial c2 = factory.Create(c_groupId, raw2);
 
             Assert.IsNotNull(cache[c_groupId].GroupCardinality.Cardinality);
-            Assert.IsNull(cache[c_groupId].GroupCardinality.IndexOfFinalDimension);
+            Assert.IsNull(cache[c_groupId].GroupCardinality.IndexOfFirstInfiniteDimension);
             Assert.AreEqual(24, cache[c_groupId].GroupCardinality.Cardinality.Value);
         }
     }

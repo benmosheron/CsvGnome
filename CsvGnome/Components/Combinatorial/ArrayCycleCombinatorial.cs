@@ -34,7 +34,7 @@ namespace CsvGnome.Components.Combinatorial
 
         public string GetValue(int i)
         {
-            return valueArray[i % valueArray.Length];
+            return valueArray[GetValueIndex(i)];
         }
 
         #endregion IComponent
