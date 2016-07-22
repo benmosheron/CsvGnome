@@ -27,10 +27,14 @@ namespace CsvGnome
             if (increment != c.increment) return false;
             return true;
         }
+
+        public int Start => start;
+        public int Increment => increment;
+
         /// <summary>
         /// Value to start incrementing from. Default 0.
         /// </summary>
-        private int start;
+        int start;
 
         /// <summary>
         /// Value to add each row. Default 1;

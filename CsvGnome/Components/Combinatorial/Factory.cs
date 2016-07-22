@@ -14,6 +14,7 @@ namespace CsvGnome.Components.Combinatorial
     {
         // Supported raw components
         private const string c_arrayCycle = "CsvGnome.ArrayCycleComponent";
+        private const string c_increment = "CsvGnome.IncrementingComponent";
 
         Cache Cache;
         public Factory(Cache cache)
@@ -33,24 +34,20 @@ namespace CsvGnome.Components.Combinatorial
         /// <summary>
         /// Create an ICombinatorial component from a regular component, by assigning it to a group and specifying a rank.
         /// </summary>
-        public ICombinatorial Create(string groupId, IComponent rawComponent, int? rank)
+        public ICombinatorial Create(string groupId, IComponent rawComponent, int? maybeRank)
         {
             string typeName = rawComponent.GetType().FullName;
             switch (typeName) {
                 case c_arrayCycle:
-                    return CreateArrayCycleCombinatorial(groupId, rawComponent as ArrayCycleComponent, rank);
+                    return CreateArrayCycleCombinatorial(groupId, rawComponent as ArrayCycleComponent, maybeRank);
+                case c_increment:
+                    return CreateIncrementingCombinatorial(groupId, rawComponent as IncrementingComponent, maybeRank);
                 default:
                     throw new Exception($"Cannot create an ICombinatorial from [{typeName}]");
             }
         }
 
-        /// <summary>
-        /// Create an ArrayCycleCombinatorial, adding it to a group and ensure the cache is up to date
-        /// </summary>
-        /// <param name="groupId"></param>
-        /// <param name="rawComponent"></param>
-        /// <returns></returns>
-        private ArrayCycleCombinatorial CreateArrayCycleCombinatorial(string groupId, ArrayCycleComponent rawComponent, int? rank)
+        private Group InitGroup(string groupId, int? maybeRank, out int rank)
         {
             // Check if a group with this ID already exists.
             if (!Cache.Contains(groupId))
@@ -63,16 +60,49 @@ namespace CsvGnome.Components.Combinatorial
             Group group = Cache[groupId];
 
             // If we don't know the rank, get the next rank
-            if (!rank.HasValue)
+            if (!maybeRank.HasValue)
             {
                 rank = group.NextRank;
             }
+            else
+            {
+                rank = maybeRank.Value;
+            }
+
+            return group;
+        }
+
+        /// <summary>
+        /// Create an ArrayCycleCombinatorial, adding it to a group and ensure the cache is up to date
+        /// </summary>
+        /// <param name="groupId"></param>
+        /// <param name="rawComponent"></param>
+        /// <returns></returns>
+        private ArrayCycleCombinatorial CreateArrayCycleCombinatorial(string groupId, ArrayCycleComponent rawComponent, int? maybeRank)
+        {
+            int rank;
+            Group group = InitGroup(groupId, maybeRank, out rank);
 
             // Create the component. Register the group with the component (but beware, the group does not know about the component yet!).
             var arrayCycleCombinatorial = new ArrayCycleCombinatorial(group, rawComponent);
 
             // Update the group.
-            Cache.AddComponentToGroup(groupId, arrayCycleCombinatorial, rank.Value);
+            Cache.AddComponentToGroup(groupId, arrayCycleCombinatorial, rank);
+
+            // Return the component.
+            return arrayCycleCombinatorial;
+        }
+
+        private IncrementingCombinatorial CreateIncrementingCombinatorial(string groupId, IncrementingComponent rawComponent, int? maybeRank)
+        {
+            int rank;
+            Group group = InitGroup(groupId, maybeRank, out rank);
+
+            // Create the component. Register the group with the component (but beware, the group does not know about the component yet!).
+            var arrayCycleCombinatorial = new IncrementingCombinatorial(group, rawComponent);
+
+            // Update the group.
+            Cache.AddComponentToGroup(groupId, arrayCycleCombinatorial, rank);
 
             // Return the component.
             return arrayCycleCombinatorial;
