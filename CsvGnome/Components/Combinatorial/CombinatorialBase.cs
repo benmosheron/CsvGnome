@@ -28,11 +28,27 @@ namespace CsvGnome.Components.Combinatorial
         public virtual long? Cardinality { get { throw new NotImplementedException("CombinatorialBase Cardinality should be overridden."); } }
 
         /// <summary>
+        /// The non-combinatorial version of this component.
+        /// </summary>
+        protected IComponent RawComponent { get; private set; }
+
+        /// <summary>
         /// Create a new component with a group.
         /// </summary>
-        public CombinatorialBase(Group group)
+        public CombinatorialBase(Group group, IComponent rawComponent)
         {
             Group = group;
+            RawComponent = rawComponent;
+        }
+
+        /// <summary>
+        /// Use the raw component to calculate the value by passing it the value index of the row.
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public virtual string GetValue(long i)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -71,6 +87,9 @@ namespace CsvGnome.Components.Combinatorial
             }
         }
 
+        /// <summary>
+        /// Get the index that this component will be at, given row i.
+        /// </summary>
         private long FiniteValueIndex(long i)
         {
             // If this is the lowest dimension, use the modulo

@@ -67,11 +67,11 @@ namespace CsvGnome.Components.Combinatorial
         /// </summary>
         public ArrayCycleCombinatorial(
             Group group,
-            IEnumerable<string> valueArray)
-            :base(group)
+            ArrayCycleComponent rawComponent)
+            :base(group, rawComponent)
         {
-            Debug.WriteLineIf(valueArray == null || !valueArray.Any(), "Empty or null array supplied to array component.");
-            this.valueArray = valueArray.ToArray();
+            this.valueArray = new string[rawComponent.ValueArray.Count];
+            rawComponent.ValueArray.CopyTo(this.valueArray, 0);
             if (this.valueArray == null || this.valueArray.Length == 0) this.valueArray = new string[] { String.Empty };
         }
     }

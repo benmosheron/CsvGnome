@@ -69,7 +69,7 @@ namespace CsvGnome.Components.Combinatorial
             }
 
             // Create the component. Register the group with the component (but beware, the group does not know about the component yet!).
-            var arrayCycleCombinatorial = new ArrayCycleCombinatorial(group, rawComponent.ValueArray);
+            var arrayCycleCombinatorial = new ArrayCycleCombinatorial(group, rawComponent);
 
             // Update the group.
             Cache.AddComponentToGroup(groupId, arrayCycleCombinatorial, rank.Value);
