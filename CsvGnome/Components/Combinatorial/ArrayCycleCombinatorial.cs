@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,7 @@ namespace CsvGnome.Components.Combinatorial
             new Message("{"),
             Program.ReportArrayContents
             ? new Message(valueArray.Aggregate((t, n) => $"{t},{n}"))
-            : new Message($"{valueArray.Length} items", Program.SpecialColour),
+            : new Message($"{valueArray.Count} items", Program.SpecialColour),
             new Message("}"),
         };
 
@@ -42,11 +43,13 @@ namespace CsvGnome.Components.Combinatorial
 
         #region ICombinatorial
 
-        public override long? Cardinality => valueArray.Length;
+        public override long? Cardinality => valueArray.Count;
 
         #endregion
 
-        private readonly string[] valueArray;
+        private ArrayCycleComponent RawArrayCycleComponent => RawComponent as ArrayCycleComponent;
+
+        private ReadOnlyCollection<string> valueArray => RawArrayCycleComponent.ValueArray;
 
         private string CommandInitString
         {
@@ -65,9 +68,7 @@ namespace CsvGnome.Components.Combinatorial
             ArrayCycleComponent rawComponent)
             :base(group, rawComponent)
         {
-            this.valueArray = new string[rawComponent.ValueArray.Count];
-            rawComponent.ValueArray.CopyTo(this.valueArray, 0);
-            if (this.valueArray == null || this.valueArray.Length == 0) this.valueArray = new string[] { String.Empty };
+
         }
     }
 }

@@ -8,14 +8,8 @@ namespace CsvGnome.Components.Combinatorial
 {
     public class IncrementingCombinatorial: CombinatorialBase, IComponent
     {
-        #region ICombinatorial
-
         public override long? Cardinality => null;
 
-        #endregion
-
-        public const int DefaultStart = 0;
-        public const int DefaultIncrement = 1;
         public string Command { get; }
         public List<Message> Summary => new List<Message> { new Message(Command, Program.SpecialColour) };
 
@@ -29,15 +23,17 @@ namespace CsvGnome.Components.Combinatorial
             return true;
         }
 
+        private IncrementingComponent RawIncrementingComponent => RawComponent as IncrementingComponent;
+
         /// <summary>
         /// Value to start incrementing from. Default 0.
         /// </summary>
-        private int start;
+        private int start => RawIncrementingComponent.Start;
 
         /// <summary>
         /// Value to add each row. Default 1;
         /// </summary>
-        private int increment;
+        private int increment => RawIncrementingComponent.Increment;
 
         /// <summary>
         /// Do not use this! Use the Factory class, which will manage the cache.
@@ -47,14 +43,11 @@ namespace CsvGnome.Components.Combinatorial
             IncrementingComponent rawComponent)
             :base(group, rawComponent)
         {
-            start = rawComponent.Start;
-            increment = rawComponent.Increment;
-
             StringBuilder sb = new StringBuilder();
             sb.Append("[");
-            if (start != DefaultStart) sb.Append(start);
+            if (start != IncrementingComponent.DefaultStart) sb.Append(start);
             sb.Append("++");
-            if (increment != DefaultIncrement) sb.Append(increment);
+            if (increment != IncrementingComponent.DefaultIncrement) sb.Append(increment);
             sb.Append("]");
 
             Command = sb.ToString();
@@ -65,8 +58,7 @@ namespace CsvGnome.Components.Combinatorial
         /// </summary>
         public string getFormat()
         {
-            int minDigits = (Math.Max(Math.Abs(start) + (Program.N * Math.Abs(increment)) - 1, 1)).ToString().Length;
-            return "D" + minDigits.ToString();
+            return RawIncrementingComponent.getFormat();
         }
     }
 }

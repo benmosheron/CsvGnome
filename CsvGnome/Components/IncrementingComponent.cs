@@ -63,7 +63,7 @@ namespace CsvGnome
         /// <summary>
         /// Format of integer (e.g. "D3" to always print 3 digits)
         /// </summary>
-        private string getFormat()
+        public string getFormat()
         {
             int minDigits = (Math.Max(Math.Abs(start) + (Program.N * Math.Abs(increment)) - 1, 1)).ToString().Length;
             return "D" + minDigits.ToString();
