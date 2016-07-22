@@ -26,7 +26,7 @@ namespace CsvGnome
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
-        string GetValue(int i);
+        string GetValue(long i);
 
         bool Equals(IComponent x);
     }

@@ -38,11 +38,6 @@ namespace CsvGnome.Components.Combinatorial
             return true;
         }
 
-        public string GetValue(int i)
-        {
-            return valueArray[GetValueIndex(i)];
-        }
-
         #endregion IComponent
 
         #region ICombinatorial

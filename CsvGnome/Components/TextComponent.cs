@@ -10,7 +10,7 @@ namespace CsvGnome
     {
         public string Command => text;
         public List<Message> Summary => new List<Message> { new Message(text) };
-        public string GetValue(int i) => text;
+        public string GetValue(long i) => text;
         public bool Equals(IComponent x)
         {
             if (x == null) return false;

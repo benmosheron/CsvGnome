@@ -73,7 +73,7 @@ namespace CsvGnome
             return true;
         }
 
-        public string GetValue(int i)
+        public string GetValue(long i)
         {
             // If this is the lowest Rank (highest index :/...) use modulo
             if (Dim == Info.Dims - 1) return (Info.Mins[Dim] + ((i % Info.Cardinalities[Dim]) * Info.Increments[Dim])).ToString();

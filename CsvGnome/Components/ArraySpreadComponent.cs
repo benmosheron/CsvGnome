@@ -33,11 +33,11 @@ namespace CsvGnome
             return true;
         }
 
-        public string GetValue(int i)
+        public string GetValue(long i)
         {
-            int size = valueArray.Length;
-            int rowsPer = Math.Max((Program.N + 1) / size, 1);
-            int index = (i / rowsPer) % size;
+            long size = valueArray.Length;
+            long rowsPer = Math.Max((Program.N + 1) / size, 1);
+            long index = (i / rowsPer) % size;
             return valueArray[index];
         }
 

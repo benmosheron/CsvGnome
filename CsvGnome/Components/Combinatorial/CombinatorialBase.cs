@@ -48,7 +48,7 @@ namespace CsvGnome.Components.Combinatorial
         /// <returns></returns>
         public virtual string GetValue(long i)
         {
-            throw new NotImplementedException();
+            return RawComponent.GetValue(GetValueIndex(i));
         }
 
         /// <summary>

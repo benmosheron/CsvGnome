@@ -17,7 +17,7 @@ namespace CsvGnome
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
-        public string GetValue(int i) => (start + (i * increment)).ToString(getFormat());
+        public string GetValue(long i) => (start + (i * increment)).ToString(getFormat());
         public bool Equals(IComponent x)
         {
             if (x == null) return false;

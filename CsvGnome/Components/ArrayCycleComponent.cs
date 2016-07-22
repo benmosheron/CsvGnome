@@ -34,7 +34,7 @@ namespace CsvGnome
             return true;
         }
 
-        public string GetValue(int i)
+        public string GetValue(long i)
         {
             return valueArray[i % valueArray.Length];
         }

@@ -10,7 +10,7 @@ namespace CsvGnome
     {
         public string Command => Program.DateComponentString;
         public List<Message> Summary => new List<Message> { new Message(Program.DateComponentString, Program.SpecialColour) };
-        public string GetValue(int i)
+        public string GetValue(long i)
         {
             return Program.TimeAtWrite;
         }
