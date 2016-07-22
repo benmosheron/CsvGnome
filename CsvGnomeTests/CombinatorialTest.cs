@@ -120,6 +120,28 @@ namespace CsvGnomeTests
         }
 
         [TestMethod]
+        public void Incrementing_Command()
+        {
+            Cache cache = new Cache();
+            Factory factory = new Factory(cache);
+
+            const string c_groupId = "Sieglinde";
+            // dimension 0
+            IncrementingComponent raw0 = new IncrementingComponent(0,1);
+            // dimension 1
+            IncrementingComponent raw1 = new IncrementingComponent(23,-9);
+
+            ICombinatorial c0 = factory.Create(c_groupId, raw0);
+            ICombinatorial c1 = factory.Create(c_groupId, raw1);
+
+            string expected0 = "[++ #Sieglinde/0]";
+            string expected1 = "[23++-9 #Sieglinde/1]";
+
+            Assert.AreEqual(expected0, (c0 as IComponent).Command);
+            Assert.AreEqual(expected1, (c1 as IComponent).Command);
+        }
+
+        [TestMethod]
         public void IncrementingAfterCycle()
         {
             Cache cache = new Cache();

@@ -10,7 +10,21 @@ namespace CsvGnome.Components.Combinatorial
     {
         public override long? Cardinality => null;
 
-        public string Command { get; }
+        public string Command
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("[");
+                if (start != IncrementingComponent.DefaultStart) sb.Append(start);
+                sb.Append("++");
+                if (increment != IncrementingComponent.DefaultIncrement) sb.Append(increment);
+                sb.Append($" #{Group.Id}/{Group.RankOf(this)}");
+                sb.Append("]");
+
+                return sb.ToString();
+            }
+        }
         public List<Message> Summary => new List<Message> { new Message(Command, Program.SpecialColour) };
 
         public bool Equals(IComponent x)
@@ -43,14 +57,7 @@ namespace CsvGnome.Components.Combinatorial
             IncrementingComponent rawComponent)
             :base(group, rawComponent)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("[");
-            if (start != IncrementingComponent.DefaultStart) sb.Append(start);
-            sb.Append("++");
-            if (increment != IncrementingComponent.DefaultIncrement) sb.Append(increment);
-            sb.Append("]");
 
-            Command = sb.ToString();
         }
 
         /// <summary>
