@@ -31,6 +31,7 @@ namespace CsvGnome
             // [++]
             // [1++2]
             // [-99++-109]
+            // [1++3 every 10]
             if (IncrementingRegex.IsMatch(prototype))
             {
                 // remove "[" and "]"

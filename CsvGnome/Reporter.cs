@@ -31,7 +31,6 @@ namespace CsvGnome
             if (!fields.Any()) return;
 
             var names = fields.Select(f => f.Name);
-            
 
             int maxLength = names.Max(f => f.Length);
             var namesForDisplay = names.Select(n => RightPad(n, maxLength)).ToList();
@@ -96,6 +95,10 @@ namespace CsvGnome
             Console.WriteLine("[1++10]");
             Console.WriteLine("  A simple counter with starting point and increment:");
             Console.WriteLine("  1,11,21,...");
+            Console.WriteLine("");
+            Console.WriteLine("[1++2 every 3]");
+            Console.WriteLine("  Only increments every 3 rows:");
+            Console.WriteLine("  1,1,1,3,3,3,5,5,5,...");
             Console.WriteLine("");
             Console.WriteLine("[date]");
             Console.WriteLine("  Includes the date and time (at the point of csv creation)");
