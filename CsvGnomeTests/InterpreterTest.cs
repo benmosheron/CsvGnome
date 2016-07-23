@@ -317,6 +317,21 @@ namespace CsvGnomeTests
         }
 
         [TestMethod]
+        public void InterpretComponents_IncrementingEvery()
+        {
+            const string ins = "test:[3++2 every 7]";
+            IComponent[] expected = new IComponent[] { new IncrementingComponent(3, 2, 7) };
+
+            FieldBrain fieldBrain = new FieldBrain();
+            Reporter reporter = new Reporter();
+            MinMaxInfoCache cache = new MinMaxInfoCache();
+            var x = new Interpreter(fieldBrain, reporter, cache);
+
+            Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
+            AssertSingleComponentField(fieldBrain, expected);
+        }
+
+        [TestMethod]
         public void InterpretComponents_IncrementingNegative()
         {
             const string ins = "test:[++][++-11][-110++-2]";

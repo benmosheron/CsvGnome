@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="ArrayComponentTest.cs" />
     <Compile Include="CombinatorialTest.cs" />
+    <Compile Include="IncrementingComponentTest.cs" />
     <Compile Include="InterpreterTest.cs" />
     <Compile Include="MinMaxComponentTest.cs" />
     <Compile Include="MinMaxInfoCacheTest.cs" />

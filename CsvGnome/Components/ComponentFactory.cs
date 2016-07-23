@@ -9,7 +9,10 @@ namespace CsvGnome
 {
     public class ComponentFactory
     {
-        private const string IncrementingPattern = @"\[ *\-?\d* *\+\+ *\-?\d* *\]";
+        // * zero or more
+        // + one or more
+        // ? zero or one
+        private const string IncrementingPattern = @"\[ *\-?\d* *\+\+ *\-?\d* *(every +\d+ *)?\]";
         private Regex IncrementingRegex = new Regex(IncrementingPattern);
 
         private const string MinMaxPattern = @"\[ *\-?\d+ *=> *\-?\d+ *,* *\-?\d* *(?:#.+?)*\]";
@@ -33,15 +36,17 @@ namespace CsvGnome
                 // remove "[" and "]"
                 string protoInc = prototype.Substring(1, prototype.Length - 2);
 
-                // split on "++" for the start and increment
-                string[] tokens = protoInc.Split(new string[] { "++" },StringSplitOptions.None);
+                // split on "++" and "every" for the start, increment and every.
+                string[] tokens = protoInc.Split(new string[] { "++", "every" },StringSplitOptions.None);
 
                 int start;
                 int increment;
+                int every;
                 if (!int.TryParse(tokens[0], out start)) start = IncrementingComponent.DefaultStart;
                 if (!int.TryParse(tokens[1], out increment)) increment = IncrementingComponent.DefaultIncrement;
+                if (tokens.Length <= 2 || !int.TryParse(tokens[2], out every)) every = IncrementingComponent.DefaultEvery;
 
-                return new IncrementingComponent(start, increment);
+                return new IncrementingComponent(start, increment, every);
             }
             // e.g. [11=>21,2 #testId]
             else if (MinMaxRegex.IsMatch(prototype))
