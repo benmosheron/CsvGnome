@@ -52,5 +52,25 @@ namespace CsvGnomeTests
             InterpreterTest.AssertSingleComponentField(fieldBrain, new IComponent[] { expected as IComponent });
         }
 
+        [TestMethod]
+        public void InterpretComponents_ExtraSpaces()
+        {
+            const string groupId = "Patches";
+            string ins = $"test:[     ++   #{groupId}/0  ]";
+            Cache cache = new Cache();
+            Factory factory = new Factory(cache);
+
+            IComponent expectedRaw = new IncrementingComponent(0);
+            ICombinatorial expected = factory.Create(groupId, expectedRaw);
+
+            FieldBrain fieldBrain;
+            Interpreter x;
+            Utilties.InterpreterTestInit(out fieldBrain, out x);
+
+            Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
+            InterpreterTest.AssertSingleComponentField(fieldBrain, new IComponent[] { expected as IComponent });
+        }
+
+
     }
 }

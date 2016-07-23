@@ -13,7 +13,7 @@ namespace CsvGnome
         // + one or more
         // ? zero or one
         // (?:) non-capturing group
-        private const string GroupPattern = @"(#\w+(?:\/\d+)?)";
+        private const string GroupPattern = @"( *#\w+(?:\/\d+)? *)";
         private Regex GroupRegex = new Regex(GroupPattern);
 
         private const string IncrementingPattern = @"\[ *\-?\d* *\+\+ *\-?\d* *(every +\d+ *)?\]";
@@ -89,7 +89,7 @@ namespace CsvGnome
                 string[] infoAndGroup = GroupRegex.Split(prototype);
 
                 // A single member should be the group
-                groupProtoType = infoAndGroup.Single(s => GroupRegex.IsMatch(s));
+                groupProtoType = infoAndGroup.Single(s => GroupRegex.IsMatch(s)).Trim();
 
                 // Return the prototype with the group removed
                 return infoAndGroup.Where(s => !GroupRegex.IsMatch(s)).Aggregate((t, n) => t + n);
