@@ -12,9 +12,16 @@ namespace CsvGnome
     /// </summary>
     public class Interpreter
     {
+        /// <summary>
+        /// E.g. [something]{something else}
+        /// </summary>
+        public const string CommandRegexPattern = @"(\[.+?\](?:{.*?})?)";
+        private Regex CommandRegex = new Regex(CommandRegexPattern);
+
         private readonly FieldBrain FieldBrain;
         private readonly Reporter Reporter;
         private readonly ComponentFactory Factory;
+        private readonly Components.Combinatorial.Factory CombinatorialFactory;
         private readonly GnomeFileWriter GnomeFileWriter;
         private readonly GnomeFileReader GnomeFileReader;
         private readonly MinMaxInfoCache MinMaxInfoCache;
@@ -25,8 +32,8 @@ namespace CsvGnome
         /// <param name="fieldBrain"></param>
         /// <param name="reporter"></param>
         /// <param name="cache"></param>
-        public Interpreter(FieldBrain fieldBrain, Reporter reporter, MinMaxInfoCache cache)
-            :this(fieldBrain, reporter, cache, null, null)
+        public Interpreter(FieldBrain fieldBrain, Reporter reporter, Components.Combinatorial.Factory combinatorialFactory, MinMaxInfoCache cache)
+            :this(fieldBrain, reporter, combinatorialFactory, cache, null, null)
         { }
 
         /// <summary>
@@ -37,11 +44,12 @@ namespace CsvGnome
         /// <param name="cache"></param>
         /// <param name="gnomeFileWriter"></param>
         /// <param name="gnomeFileReader"></param>
-        public Interpreter(FieldBrain fieldBrain, Reporter reporter, MinMaxInfoCache cache, GnomeFileWriter gnomeFileWriter, GnomeFileReader gnomeFileReader)
+        public Interpreter(FieldBrain fieldBrain, Reporter reporter, Components.Combinatorial.Factory combinatorialFactory, MinMaxInfoCache cache, GnomeFileWriter gnomeFileWriter, GnomeFileReader gnomeFileReader)
         {
             FieldBrain = fieldBrain;
             Reporter = reporter;
-            Factory = new ComponentFactory(cache);
+            Factory = new ComponentFactory(combinatorialFactory, cache);
+            CombinatorialFactory = combinatorialFactory;
             MinMaxInfoCache = cache;
             GnomeFileWriter = gnomeFileWriter;
             GnomeFileReader = gnomeFileReader;
@@ -118,7 +126,7 @@ namespace CsvGnome
                 // Otherwise the interpreter could read a "load" instruction
                 if (GnomeFileReader != null)
                 {
-                    Interpreter interpreterNoIO = new Interpreter(FieldBrain, Reporter, MinMaxInfoCache);
+                    Interpreter interpreterNoIO = new Interpreter(FieldBrain, Reporter, CombinatorialFactory, MinMaxInfoCache);
                     string fileToRead = input.Remove(0, "load".Length).Trim();
                     List<string> parsedFile = GnomeFileReader.ReadGnomeFile(fileToRead);
                     
@@ -210,8 +218,7 @@ namespace CsvGnome
 
         private IComponent[] GetComponents(string instruction)
         {
-            Regex r = new Regex(Program.CommandRegexPattern);
-            var results = r
+            var results = CommandRegex
                 .Split(instruction)
                 .Where(i => !String.IsNullOrEmpty(i))
                 .Select(i => Factory.Create(i))

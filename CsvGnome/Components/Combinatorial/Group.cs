@@ -11,7 +11,7 @@ namespace CsvGnome.Components.Combinatorial
     /// Group of combinatorial components.
     /// </summary>
     public class Group
-    { 
+    {
         /// <summary>
         /// Identifier of the group. Input via command as e.g. #idOfGroup
         /// </summary>
@@ -21,7 +21,7 @@ namespace CsvGnome.Components.Combinatorial
         /// Collection of components in this group. Ordered by dimension.
         /// </summary>
         public IReadOnlyCollection<ICombinatorial> Components =>
-            new ReadOnlyCollection<ICombinatorial>(rankToComponent.Select(c=>c.Value).OrderBy(c => c.Dimension).ToList());
+            new ReadOnlyCollection<ICombinatorial>(rankToComponent.Select(c => c.Value).OrderBy(c => c.Dimension).ToList());
 
         /// <summary>
         /// Maps the rank of components to the components in this group. 
@@ -50,7 +50,7 @@ namespace CsvGnome.Components.Combinatorial
             get
             {
                 // If every component has a finite cardinality, return the product.
-                if(Components.All(c => c.Cardinality.HasValue))
+                if (Components.All(c => c.Cardinality.HasValue))
                 {
                     return new GroupCardinality(Components.Select(c => c.Cardinality.Value).Aggregate((t, n) => t * n));
                 }
@@ -147,6 +147,11 @@ namespace CsvGnome.Components.Combinatorial
         {
             if (rankToComponent.ContainsKey(rank)) throw new CombinatorialGroupException($"Group already has component with rank [{rank}].");
             rankToComponent[rank] = component;
+        }
+
+        public bool Equals(Group x)
+        {
+            return Id == x.Id;
         }
     }
 }

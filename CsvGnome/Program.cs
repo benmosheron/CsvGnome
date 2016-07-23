@@ -11,7 +11,6 @@ namespace CsvGnome
     {
         public const string FileExt = ".csv";
         public const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ss";
-        public const string CommandRegexPattern = @"(\[.+?\](?:{.*?})*)";
         public const string DateComponentString = "[date]";
         public const string SpreadComponentString = "[spread]";
         public const string CycleComponentString = "[cycle]";
@@ -68,14 +67,16 @@ namespace CsvGnome
         /// </summary>
         public static GnomeFileCache GetGnomeFileCache => GnomeFileCache;
 
+        static readonly Components.Combinatorial.Cache CombinatorialCache = new Components.Combinatorial.Cache();
+        static readonly Components.Combinatorial.Factory CombinatorialFactory = new Components.Combinatorial.Factory(CombinatorialCache);
         static readonly MinMaxInfoCache MinMaxInfoCache = new MinMaxInfoCache();
         static readonly FieldBrain FieldBrain = new FieldBrain();
         static readonly Reporter Reporter = new Reporter();
         static readonly GnomeFileCache GnomeFileCache = new GnomeFileCache(Reporter);
         static readonly GnomeFileWriter GnomeFileWriter = new GnomeFileWriter(Reporter, FieldBrain, GnomeFileCache);
         static readonly GnomeFileReader GnomeFileReader = new GnomeFileReader(Reporter, GnomeFileCache);
-        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, MinMaxInfoCache, GnomeFileWriter, GnomeFileReader);
-        static readonly Interpreter InterpreterNoIO = new Interpreter(FieldBrain, Reporter, MinMaxInfoCache);
+        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, CombinatorialFactory, MinMaxInfoCache, GnomeFileWriter, GnomeFileReader);
+        static readonly Interpreter InterpreterNoIO = new Interpreter(FieldBrain, Reporter, CombinatorialFactory, MinMaxInfoCache);
         static readonly Writer Writer = new Writer();
 
         static void Main(string[] args)

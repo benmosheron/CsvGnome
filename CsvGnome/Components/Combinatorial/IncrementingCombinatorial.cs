@@ -29,12 +29,7 @@ namespace CsvGnome.Components.Combinatorial
 
         public bool Equals(IComponent x)
         {
-            if (x == null) return false;
-            var c = x as IncrementingCombinatorial;
-            if (c == null) return false;
-            if (start != c.start) return false;
-            if (increment != c.increment) return false;
-            return true;
+            return base.Equals(x);
         }
 
         private IncrementingComponent RawIncrementingComponent => RawComponent as IncrementingComponent;

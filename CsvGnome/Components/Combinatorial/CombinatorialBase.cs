@@ -76,7 +76,7 @@ namespace CsvGnome.Components.Combinatorial
             // We've got a mix of finite and infinite dimensions.
 
             // If this component has higher dimension than an infinite, it will be stuck at element zero.
-            if(Dimension > groupCardinality.IndexOfFirstInfiniteDimension)
+            if (Dimension > groupCardinality.IndexOfFirstInfiniteDimension)
             {
                 return 0;
             }
@@ -108,6 +108,18 @@ namespace CsvGnome.Components.Combinatorial
                 // Return i divided by the lower dimensions.
                 return i / lowerDimensionCardinality;
             }
+        }
+
+        public bool Equals(Object x)
+        {
+            if (x == null) return false;
+            var c = x as CombinatorialBase;
+            if (c == null) return false;
+            if (!Group.Equals(c.Group)) return false;
+            if (Cardinality != c.Cardinality) return false;
+            if (Dimension != c.Dimension) return false;
+            if (!RawComponent.Equals(c.RawComponent)) return false;
+            return true;
         }
     }
 }
