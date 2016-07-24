@@ -16,19 +16,27 @@ namespace CsvGnome.Components.Combinatorial
         {
             get
             {
-                return CommandInitString + "{" + valueArray.Aggregate((t, n) => $"{t},{n}") + "}";
+                return $"[cycle {GetGroupString()}]{{{valueArray.Aggregate((t, n) => $"{t},{n}")}}}";
             }
         }
 
-        public List<Message> Summary => new List<Message>()
+        protected override List<Message> GetPreGroupMessage()
         {
-            new Message(CommandInitString, Program.SpecialColour),
-            new Message("{"),
-            Program.ReportArrayContents
-            ? new Message(valueArray.Aggregate((t, n) => $"{t},{n}"))
-            : new Message($"{valueArray.Count} items", Program.SpecialColour),
-            new Message("}"),
-        };
+            return new List<Message>() { new Message("[cycle ", Program.SpecialColour) };
+        }
+
+        protected override List<Message> GetPostGroupMessage()
+        {
+            return new List<Message>()
+            {
+                new Message("]", Program.SpecialColour),
+                new Message("{"),
+                Program.ReportArrayContents
+                ? new Message(valueArray.Aggregate((t, n) => $"{t},{n}"))
+                : new Message($"{valueArray.Count} items", Program.SpecialColour),
+                new Message("}"),
+            };
+        }
 
         public bool Equals(IComponent x)
         {
@@ -46,15 +54,6 @@ namespace CsvGnome.Components.Combinatorial
         private ArrayCycleComponent RawArrayCycleComponent => RawComponent as ArrayCycleComponent;
 
         private ReadOnlyCollection<string> valueArray => RawArrayCycleComponent.ValueArray;
-
-        private string CommandInitString
-        {
-            get
-            {
-                string groupIdString = $"#{Group.Id}/{Group.RankOf(this)}";
-                return Program.CycleCombinatorialString.Replace("#", groupIdString);
-            }
-        }
 
         /// <summary>
         /// Do not use this! Use the Factory class, which will manage the cache.

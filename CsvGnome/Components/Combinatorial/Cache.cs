@@ -26,7 +26,7 @@ namespace CsvGnome.Components.Combinatorial
         public void CreateGroup(string id)
         {
             if (Contains(id)) throw new Exception($"Group [{id}] already exists");
-            Groups[id] = new Group(id);
+            Groups[id] = new Group(id, Colour.Get());
         }
 
         /// <summary>

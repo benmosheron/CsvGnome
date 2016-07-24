@@ -110,6 +110,46 @@ namespace CsvGnome.Components.Combinatorial
             }
         }
 
+        /// <summary>
+        /// Get the summary for this component. Combines a pre- and post-group message with the group.
+        /// </summary>
+        public List<Message> Summary
+        {
+            get
+            {
+                List<Message> summary = new List<Message>();
+                summary.AddRange(GetPreGroupMessage());
+                summary.AddRange(GetGroupMessage());
+                summary.AddRange(GetPostGroupMessage());
+                return summary;
+            }
+        }
+
+        protected virtual List<Message> GetPreGroupMessage()
+        {
+            throw new NotImplementedException("Override PreGroupMessage in child class.");
+        }
+
+        public List<Message> GetGroupMessage()
+        {
+            return new List<Message>()
+            {
+                new Message("#", Program.SpecialColour),
+                new Message(Group.Id, Group.Colour),
+                new Message($"/{Group.RankOf(this)}", Program.SpecialColour)
+            };
+        }
+
+        protected virtual List<Message> GetPostGroupMessage()
+        {
+            throw new NotImplementedException("Override PostGroupMessage in child class.");
+        }
+
+        public string GetGroupString()
+        {
+            return $"#{Group.Id}/{Group.RankOf(this)}";
+        }
+
         public bool Equals(Object x)
         {
             if (x == null) return false;

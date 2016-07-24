@@ -14,7 +14,6 @@ namespace CsvGnome
         public const string DateComponentString = "[date]";
         public const string SpreadComponentString = "[spread]";
         public const string CycleComponentString = "[cycle]";
-        public const string CycleCombinatorialString = "[cycle #]";
         public const ConsoleColor DefaultColour = ConsoleColor.Gray;
         public const ConsoleColor SpecialColour = ConsoleColor.Cyan;
 

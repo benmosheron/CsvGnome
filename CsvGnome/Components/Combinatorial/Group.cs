@@ -76,6 +76,8 @@ namespace CsvGnome.Components.Combinatorial
             }
         }
 
+        public ConsoleColor Colour { get; }
+
         /// <summary>
         /// The product of cardinalities of every component with a dimension lower than the input dimension.
         /// </summary>
@@ -95,9 +97,10 @@ namespace CsvGnome.Components.Combinatorial
         /// <summary>
         /// Create a new group with the input id.
         /// </summary>
-        public Group(string id)
+        public Group(string id, ConsoleColor colour)
         {
             Id = id;
+            Colour = colour;
         }
 
         /// <summary>
