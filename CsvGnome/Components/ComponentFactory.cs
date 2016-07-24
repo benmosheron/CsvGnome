@@ -60,9 +60,7 @@ namespace CsvGnome
             }
             else if (prototype.StartsWith(Program.CycleComponentString))
             {
-                // remove "[cycle]"
-                var array = prototype.Substring(Program.CycleComponentString.Length);
-                return new ArrayCycleComponent(GetArray(array));
+                return CreateArrayCycleComponent(prototype, groupPrototype);
             }
             else if(prototype == Program.DateComponentString)
             {
@@ -116,17 +114,7 @@ namespace CsvGnome
 
             IncrementingComponent rawComponent = new IncrementingComponent(start, increment, every);
 
-            if (groupPrototype == null)
-            {
-                return rawComponent;
-            }
-            else
-            {
-                int? rank = null;
-                string groupId = GetGroupId(groupPrototype, out rank);
-                return CombinatorialFactory.Create(groupId, rawComponent, rank) as IComponent;
-            }
-            
+            return Choose(rawComponent, groupPrototype);
         }
 
         private IComponent CreateMinMaxComponent(string prototype)
@@ -173,6 +161,15 @@ namespace CsvGnome
             }
         }
 
+        private IComponent CreateArrayCycleComponent(string prototype, string groupPrototype)
+        {
+            // remove "[cycle]"
+            var array = prototype.Substring(Program.CycleComponentString.Length);
+            ArrayCycleComponent rawComponent = new ArrayCycleComponent(GetArray(array));
+
+            return Choose(rawComponent, groupPrototype);
+        }
+
         private string GetGroupId(string groupPrototype, out int? rank)
         {
             rank = null;
@@ -192,6 +189,20 @@ namespace CsvGnome
             }
 
             return proto;
+        }
+
+        private IComponent Choose(IComponent rawComponent, string groupPrototype)
+        {
+            if (groupPrototype == null)
+            {
+                return rawComponent;
+            }
+            else
+            {
+                int? rank = null;
+                string groupId = GetGroupId(groupPrototype, out rank);
+                return CombinatorialFactory.Create(groupId, rawComponent, rank) as IComponent;
+            }
         }
 
         private string[] GetArray(string prototypeArray)

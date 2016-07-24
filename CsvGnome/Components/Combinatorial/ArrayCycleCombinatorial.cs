@@ -32,11 +32,7 @@ namespace CsvGnome.Components.Combinatorial
 
         public bool Equals(IComponent x)
         {
-            if (x == null) return false;
-            var c = x as ArrayCycleComponent;
-            if (c == null) return false;
-            if (Command != c.Command) return false;
-            return true;
+            return base.Equals(x);
         }
 
         #endregion IComponent
