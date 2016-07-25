@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CsvGnome.Components.Combinatorial
 {
     /// <summary>
-    /// <para>Creates, updates and deletes combinatorial components.</para>
+    /// <para>Creates combinatorial components.</para>
     /// <para>Ensures the cache is up to date.</para>
     /// </summary>
     public class Factory

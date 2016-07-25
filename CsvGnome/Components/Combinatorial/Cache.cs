@@ -40,6 +40,13 @@ namespace CsvGnome.Components.Combinatorial
             Groups[id].AddComponent(rank, component);
         }
 
+        public void Clear()
+        {
+            // Do we need to delete every component's group reference?
+            // GC should handle it as longas all fields/components are deleted.
+            Groups.Clear();
+        }
+
 
         public Group this[string id] => Groups[id];
     }

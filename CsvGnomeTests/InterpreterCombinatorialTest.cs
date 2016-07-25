@@ -101,5 +101,53 @@ namespace CsvGnomeTests
             Assert.IsTrue((expected2 as IncrementingCombinatorial).Equals(componentsFirst[1]));
         }
 
+        [TestMethod]
+        public void Delete()
+        {
+            const string groupId = "Siegward";
+            string ins = $"test:[++ #{groupId}]";
+
+            Cache cache;
+            Interpreter interpreter;
+            Utilties.InterpreterTestInit(out cache, out interpreter);
+
+            // Create the combinatorial field
+            interpreter.Interpret(ins);
+
+            // delete it
+            interpreter.Interpret("delete test");
+
+            // The group should contain no components, and the next rank should be zero
+            Group group = cache[groupId];
+            Assert.IsNotNull(group);
+            Assert.IsFalse(group.Components.Any());
+            Assert.AreEqual(0, group.NextRank);
+        }
+
+        [TestMethod]
+        public void Clear()
+        {
+            const string groupId0 = "Gwynevere";
+            const string groupId1 = "Gwyndolin";
+            string ins0 = $"test:[++ #{groupId0}/0]";
+            string ins1 = $"test:[++ #{groupId0}/1]";
+            string ins2 = $"test:[++ #{groupId1}]";
+
+            Cache cache;
+            Interpreter interpreter;
+            Utilties.InterpreterTestInit(out cache, out interpreter);
+
+            // Create the combinatorial field
+            interpreter.Interpret(ins0);
+            interpreter.Interpret(ins1);
+
+            // clear
+            interpreter.Interpret("clear");
+
+            // The group should contain no components, and the next rank should be zero
+            Assert.IsFalse(cache.Contains(groupId0));
+            Assert.IsFalse(cache.Contains(groupId1));
+        }
+
     }
 }

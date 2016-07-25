@@ -10,16 +10,42 @@ namespace CsvGnomeTests
 {
     public static class Utilties
     {
+        private static void CreateAll(
+            out Reporter reporter,
+            out MinMaxInfoCache minMaxInfoCache,
+            out Cache cache,
+            out Factory combinatorialFactory,
+            out Deleter combinatorialDeleter,
+            out FieldBrain fieldBrain,
+            out Interpreter interpreter)
+        {
+            reporter = new Reporter();
+            minMaxInfoCache = new MinMaxInfoCache();
+            cache = new Cache();
+            combinatorialFactory = new Factory(cache);
+            combinatorialDeleter = new Deleter(cache);
+            fieldBrain = new FieldBrain(combinatorialFactory, combinatorialDeleter);
+            interpreter = new Interpreter(fieldBrain, reporter, minMaxInfoCache);
+        }
+
         public static void InterpreterTestInit(
             out FieldBrain fieldBrain,
             out Interpreter interpreter)
         {
-            Reporter reporter = new Reporter();
-            MinMaxInfoCache minMaxInfoCache = new MinMaxInfoCache();
-            Cache cache = new Cache();
-            Factory combinatorialFactory = new Factory(cache);
-            fieldBrain = new FieldBrain();
-            interpreter = new Interpreter(fieldBrain, reporter, combinatorialFactory, minMaxInfoCache);
+            Reporter reporter;
+            MinMaxInfoCache minMaxInfoCache;
+            Cache cache;
+            Factory combinatorialFactory;
+            Deleter combinatorialDeleter;
+
+            CreateAll(
+                out reporter,
+                out minMaxInfoCache,
+                out cache,
+                out combinatorialFactory,
+                out combinatorialDeleter,
+                out fieldBrain,
+                out interpreter);
         }
 
         public static void InterpreterTestInit(
@@ -27,12 +53,42 @@ namespace CsvGnomeTests
             out MinMaxInfoCache minMaxInfoCache,
             out Interpreter interpreter)
         {
-            Reporter reporter = new Reporter();
-            minMaxInfoCache = new MinMaxInfoCache();
-            Cache cache = new Cache();
-            Factory combinatorialFactory = new Factory(cache);
-            fieldBrain = new FieldBrain();
-            interpreter = new Interpreter(fieldBrain, reporter, combinatorialFactory, minMaxInfoCache);
+            Reporter reporter;
+            Cache cache;
+            Factory combinatorialFactory;
+            Deleter combinatorialDeleter;
+
+            CreateAll(
+                out reporter,
+                out minMaxInfoCache,
+                out cache,
+                out combinatorialFactory,
+                out combinatorialDeleter,
+                out fieldBrain,
+                out interpreter);
+        }
+
+        /// <summary>
+        /// Create an interpreter and combinatorial cache
+        /// </summary>
+        public static void InterpreterTestInit(
+            out Cache cache,
+            out Interpreter interpreter)
+        {
+            Reporter reporter;
+            MinMaxInfoCache minMaxInfoCache;
+            Factory combinatorialFactory;
+            Deleter combinatorialDeleter;
+            FieldBrain fieldBrain;
+
+            CreateAll(
+                out reporter,
+                out minMaxInfoCache,
+                out cache,
+                out combinatorialFactory,
+                out combinatorialDeleter,
+                out fieldBrain,
+                out interpreter);
         }
     }
 }

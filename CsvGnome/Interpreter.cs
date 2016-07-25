@@ -21,10 +21,12 @@ namespace CsvGnome
         private readonly FieldBrain FieldBrain;
         private readonly Reporter Reporter;
         private readonly ComponentFactory Factory;
-        private readonly Components.Combinatorial.Factory CombinatorialFactory;
         private readonly GnomeFileWriter GnomeFileWriter;
         private readonly GnomeFileReader GnomeFileReader;
         private readonly MinMaxInfoCache MinMaxInfoCache;
+
+        private Components.Combinatorial.Factory CombinatorialFactory => FieldBrain.CombinatorialFactory;
+
 
         /// <summary>
         /// Overload with no I/O for reading from gnomefiles and unit tests.
@@ -32,8 +34,8 @@ namespace CsvGnome
         /// <param name="fieldBrain"></param>
         /// <param name="reporter"></param>
         /// <param name="cache"></param>
-        public Interpreter(FieldBrain fieldBrain, Reporter reporter, Components.Combinatorial.Factory combinatorialFactory, MinMaxInfoCache cache)
-            :this(fieldBrain, reporter, combinatorialFactory, cache, null, null)
+        public Interpreter(FieldBrain fieldBrain, Reporter reporter, MinMaxInfoCache cache)
+            :this(fieldBrain, reporter, cache, null, null)
         { }
 
         /// <summary>
@@ -44,12 +46,11 @@ namespace CsvGnome
         /// <param name="cache"></param>
         /// <param name="gnomeFileWriter"></param>
         /// <param name="gnomeFileReader"></param>
-        public Interpreter(FieldBrain fieldBrain, Reporter reporter, Components.Combinatorial.Factory combinatorialFactory, MinMaxInfoCache cache, GnomeFileWriter gnomeFileWriter, GnomeFileReader gnomeFileReader)
+        public Interpreter(FieldBrain fieldBrain, Reporter reporter, MinMaxInfoCache cache, GnomeFileWriter gnomeFileWriter, GnomeFileReader gnomeFileReader)
         {
             FieldBrain = fieldBrain;
             Reporter = reporter;
-            Factory = new ComponentFactory(combinatorialFactory, cache);
-            CombinatorialFactory = combinatorialFactory;
+            Factory = new ComponentFactory(CombinatorialFactory, cache);
             MinMaxInfoCache = cache;
             GnomeFileWriter = gnomeFileWriter;
             GnomeFileReader = gnomeFileReader;
@@ -126,7 +127,7 @@ namespace CsvGnome
                 // Otherwise the interpreter could read a "load" instruction
                 if (GnomeFileReader != null)
                 {
-                    Interpreter interpreterNoIO = new Interpreter(FieldBrain, Reporter, CombinatorialFactory, MinMaxInfoCache);
+                    Interpreter interpreterNoIO = new Interpreter(FieldBrain, Reporter, MinMaxInfoCache);
                     string fileToRead = input.Remove(0, "load".Length).Trim();
                     List<string> parsedFile = GnomeFileReader.ReadGnomeFile(fileToRead);
                     

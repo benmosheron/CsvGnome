@@ -153,6 +153,16 @@ namespace CsvGnome.Components.Combinatorial
             rankToComponent[rank] = component;
         }
 
+        /// <summary>
+        /// Do not use this! Use the method in the cache.
+        /// Delete a component to this group, with the specified rank.
+        /// </summary>
+        public void DeleteComponent(ICombinatorial component)
+        {
+            int rankOfComponentToRemove = RankOf(component);
+            rankToComponent.Remove(rankOfComponentToRemove);
+        }
+
         public override bool Equals(Object x)
         {
             if (x == null) return false;

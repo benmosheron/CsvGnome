@@ -11,12 +11,27 @@ namespace CsvGnome
     /// </summary>
     public class FieldBrain
     {
+        public readonly Components.Combinatorial.Factory CombinatorialFactory;
+        private readonly Components.Combinatorial.Deleter CombinatorialDeleter;
+
         private List<IField> fields = Defaults.GetFields();
 
         /// <summary>
         /// Fields (read only, updates will not be committed).
         /// </summary>
         public List<IField> Fields => fields.ToList();
+
+        /// <summary>
+        /// Create a new FieldBrain, with combinatorial classes for managing the cache. Handles deletion of fields. 
+        /// Field creation is delegated to the interpreter's ComponentFactory.
+        /// </summary>
+        public FieldBrain(
+            Components.Combinatorial.Factory combinatorialFactory,
+            Components.Combinatorial.Deleter combinatorialDeleter)
+        {
+            CombinatorialFactory = combinatorialFactory;
+            CombinatorialDeleter = combinatorialDeleter;
+        }
 
         /// <summary>
         /// True if a field with matching name is present;
@@ -33,6 +48,7 @@ namespace CsvGnome
         {
             fields.Clear();
             cache.Clear();
+            CombinatorialDeleter.Clear();
         }
 
         public void DeleteField(string name, MinMaxInfoCache cache)
@@ -53,6 +69,13 @@ namespace CsvGnome
                 {
                     cache.UpdateCacheForDelete(minMaxsToRemove);
                 }
+
+                var combinatorialsToDelete = cfToRemove.Components
+                    .OfType<Components.Combinatorial.ICombinatorial>()
+                    .ToList();
+
+                combinatorialsToDelete.ForEach(CombinatorialDeleter.Delete);
+                    
             }
 
             fields.Remove(toRemove);
