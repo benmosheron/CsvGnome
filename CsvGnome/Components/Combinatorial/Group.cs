@@ -149,12 +149,21 @@ namespace CsvGnome.Components.Combinatorial
         public void AddComponent(int rank, ICombinatorial component)
         {
             if (rankToComponent.ContainsKey(rank)) throw new CombinatorialGroupException($"Group already has component with rank [{rank}].");
+            if (componentToRank.ContainsKey(component)) throw new CombinatorialGroupException($"Group already has this component in.");
             rankToComponent[rank] = component;
         }
 
-        public bool Equals(Group x)
+        public override bool Equals(Object x)
         {
-            return Id == x.Id;
+            if (x == null) return false;
+            Group g = x as Group;
+            if (g == null) return false;
+            return Id == g.Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
         }
     }
 }

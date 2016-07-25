@@ -41,12 +41,15 @@ namespace CsvGnomeTests
 
             const string c_groupId = "Siegward";
             ArrayCycleComponent raw0 = new ArrayCycleComponent(null);
+            ArrayCycleComponent raw1 = new ArrayCycleComponent(null);
+            ArrayCycleComponent raw2 = new ArrayCycleComponent(null);
+            ArrayCycleComponent raw3 = new ArrayCycleComponent(null);
 
             // Create four components with random ranks. The dimensions should go from lowest to highest.
-            ICombinatorial c3 = factory.Create(c_groupId, raw0, 30);
-            ICombinatorial c1 = factory.Create(c_groupId, raw0, -99);
+            ICombinatorial c3 = factory.Create(c_groupId, raw3, 30);
+            ICombinatorial c1 = factory.Create(c_groupId, raw1, -99);
             ICombinatorial c0 = factory.Create(c_groupId, raw0, -1000);
-            ICombinatorial c2 = factory.Create(c_groupId, raw0, 0);
+            ICombinatorial c2 = factory.Create(c_groupId, raw2, 0);
 
             Assert.AreEqual(0, c0.Dimension);
             Assert.AreEqual(1, c1.Dimension);

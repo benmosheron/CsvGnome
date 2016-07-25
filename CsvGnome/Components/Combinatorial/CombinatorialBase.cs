@@ -150,16 +150,25 @@ namespace CsvGnome.Components.Combinatorial
             return $"#{Group.Id}/{Group.RankOf(this)}";
         }
 
-        public bool Equals(Object x)
+        public override bool Equals(Object x)
         {
             if (x == null) return false;
             var c = x as CombinatorialBase;
             if (c == null) return false;
             if (!Group.Equals(c.Group)) return false;
             if (Cardinality != c.Cardinality) return false;
-            if (Dimension != c.Dimension) return false;
             if (!RawComponent.Equals(c.RawComponent)) return false;
             return true;
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = Group.GetHashCode();
+            hash = (hash * 7) + Cardinality.GetHashCode();
+            hash = (hash * 7) + RawComponent.GetHashCode();
+            hash = (hash * 7) + Group.Id.GetHashCode();
+
+            return hash;
         }
     }
 }
