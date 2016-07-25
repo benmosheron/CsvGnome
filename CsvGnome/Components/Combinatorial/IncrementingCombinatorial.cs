@@ -19,13 +19,31 @@ namespace CsvGnome.Components.Combinatorial
                 if (start != IncrementingComponent.DefaultStart) sb.Append(start);
                 sb.Append("++");
                 if (increment != IncrementingComponent.DefaultIncrement) sb.Append(increment);
-                sb.Append($" #{Group.Id}/{Group.RankOf(this)}");
+                if (every != IncrementingComponent.DefaultEvery) sb.Append($" every {every}");
+                sb.Append($" {GetGroupString()}");
                 sb.Append("]");
 
                 return sb.ToString();
             }
         }
-        public List<Message> Summary => new List<Message> { new Message(Command, Program.SpecialColour) };
+
+        protected override List<Message> GetPreGroupMessage()
+        {
+            List<Message> m = new List<Message>();
+            m.Add(new Message("[", Program.SpecialColour));
+            if (start != IncrementingComponent.DefaultStart) m.Add(new Message(start.ToString(), Program.SpecialColour));
+            m.Add(new Message("++", Program.SpecialColour));
+            if (increment != IncrementingComponent.DefaultIncrement) m.Add(new Message(increment.ToString(), Program.SpecialColour));
+            if (every != IncrementingComponent.DefaultEvery) m.Add(new Message($" every {every}", Program.SpecialColour));
+            m.Add(new Message(" ", Program.SpecialColour));
+
+            return m;
+        }
+
+        protected override List<Message> GetPostGroupMessage()
+        {
+            return new Message("]", Program.SpecialColour).ToList();
+        }
 
         public bool Equals(IComponent x)
         {
@@ -43,6 +61,11 @@ namespace CsvGnome.Components.Combinatorial
         /// Value to add each row. Default 1;
         /// </summary>
         private int increment => RawIncrementingComponent.Increment;
+
+        /// <summary>
+        /// Rows to wait before incrementing.
+        /// </summary>
+        private int every => RawIncrementingComponent.Every;
 
         /// <summary>
         /// Do not use this! Use the Factory class, which will manage the cache.

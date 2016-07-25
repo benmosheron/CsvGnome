@@ -25,6 +25,14 @@ namespace CsvGnome
             Colour = c;
         }
 
+        /// <summary>
+        /// Return a List of Message with this as the only element.
+        /// </summary>
+        public List<Message> ToList()
+        {
+            return new List<Message>() { this };
+        }
+
         public bool Equals(Message x)
         {
             if (x == null) return false;
