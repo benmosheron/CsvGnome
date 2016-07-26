@@ -185,6 +185,34 @@ namespace CsvGnomeTests
             }
         }
 
+        [TestMethod]
+        public void Command()
+        {
+            MinMaxComponent m0 = new MinMaxComponent(0,10,3);
+            MinMaxComponent m1 = new MinMaxComponent(0,-10,-3);
+
+            string expected0 = "[0=>10,3]";
+            string expected1 = "[0=>-10,-3]";
+
+            Assert.AreEqual(expected0, m0.Command);
+            Assert.AreEqual(expected1, m1.Command);
+        }
+
+        [TestMethod]
+        public void Cardinality()
+        {
+            MinMaxComponent m0 = new MinMaxComponent(0, 10, 3); //0, 3, 6, 9
+            MinMaxComponent m1 = new MinMaxComponent(0, -10, -3); //0,-3,-6,-9
+            MinMaxComponent m2 = new MinMaxComponent(15, -11);
+
+            long expected0 = 4;
+            long expected1 = 4;
+            long expected2 = 27;
+
+            Assert.AreEqual(expected0, m0.Cardinality);
+            Assert.AreEqual(expected1, m1.Cardinality);
+            Assert.AreEqual(expected2, m2.Cardinality);
+        }
 
     }
 }

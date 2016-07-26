@@ -26,7 +26,6 @@ namespace CsvGnome
 
         private Components.Combinatorial.Factory CombinatorialFactory => FieldBrain.CombinatorialFactory;
 
-
         /// <summary>
         /// Overload with no I/O for reading from gnomefiles and unit tests.
         /// </summary>
@@ -179,11 +178,20 @@ namespace CsvGnome
             // ":" Indicates a data update
             if (input.Contains(":"))
             {
-               var tokens = input.Split(new char[] { ':' }, 2);
-               string name = tokens[0];
-               string instruction = tokens[1];
-               InterpretInstruction(name, instruction);
-               return Action.Continue;
+                var tokens = input.Split(new char[] { ':' }, 2);
+                string name = tokens[0];
+                string instruction = tokens[1];
+
+                try
+                {
+                    InterpretInstruction(name, instruction);
+                }
+                catch (InfiniteMinMaxException infiniteMinMaxException)
+                {
+                    // Thrown by MinMaxComponent() if it would be infinite
+                    Reporter.Error(new Message(infiniteMinMaxException.Message).ToList());
+                }
+                return Action.Continue;
             }
 
             // Someone's consfused

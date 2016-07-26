@@ -309,13 +309,15 @@ namespace CsvGnomeTests
 
             ICombinatorial c0 = factory.Create(c_groupId, raw0);
 
-            string[] expectedValues = new string[] { "0", "1", "2" };
+            string[] expectedValues = new string[] { "0", "1" };
 
             int index = 0;
-            int maxIndex = expectedValues.Length;
+            int maxIndex = expectedValues.Length - 1;
             for (int i = 0; i < 20; i++)
             {
-                Assert.AreEqual(expectedValues[index], (c0 as IComponent).GetValue(i));
+                var expected = expectedValues[index];
+                var actual = (c0 as IComponent).GetValue(i);
+                Assert.AreEqual(expected, actual);
 
                 index++;
                 if (index > maxIndex) index = 0;
@@ -342,7 +344,7 @@ namespace CsvGnomeTests
             string[] expectedValues2 = new string[] { "0", "0", "0", "0", "2", "2", "2", "2", "4", "4", "4", "4" };
 
             int index = 0;
-            int maxIndex = expectedValues0.Length;
+            int maxIndex = expectedValues0.Length - 1;
             for (int i = 0; i < 20; i++)
             {
                 Assert.AreEqual(expectedValues0[index], (c0 as IComponent).GetValue(i));
@@ -371,8 +373,8 @@ namespace CsvGnomeTests
             ICombinatorial c1 = factory.Create(c_groupId, raw1);
             ICombinatorial c2 = factory.Create(c_groupId, raw2);
 
-            string expectedCommand0 = $"[0=>1 #{c_groupId}/0]";
-            string expectedCommand1 = $"[0=>-1 #{c_groupId}/1]";
+            string expectedCommand0 = $"[0=>1,1 #{c_groupId}/0]";
+            string expectedCommand1 = $"[0=>-1,-1 #{c_groupId}/1]";
             string expectedCommand2 = $"[0=>-10,-3 #{c_groupId}/2]";
 
             Assert.AreEqual(expectedCommand0, (c0 as IComponent).Command);

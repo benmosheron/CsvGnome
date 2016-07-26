@@ -25,7 +25,7 @@ namespace CsvGnome
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append($"[{Min}=>{Max}");
-                if (incrementProvided) sb.Append($",{Increment}");
+                sb.Append($",{Increment}");
                 sb.Append("]");
                 return sb.ToString();
             }
@@ -42,7 +42,7 @@ namespace CsvGnome
                 m.Add(new Message($"{Min}"));
                 m.Add(new Message("=>", Program.SpecialColour));
                 m.Add(new Message($"{Max}"));
-                if (incrementProvided) m.Add(new Message($",{Increment}"));
+                m.Add(new Message($",{Increment}"));
                 m.Add(new Message("]", Program.SpecialColour));
                 return m;
             }
@@ -65,24 +65,34 @@ namespace CsvGnome
         }
 
         private const int DefaultIncrement = 1;
-        private bool incrementProvided = true;
         public int Min { get; private set; }
         public int Max { get; private set; }
         public int Increment { get; private set; }
-        public int Cardinality => ((Max - Min) / Increment) + 1;
+        public long Cardinality => (Math.Abs(Max - Min) / Math.Abs(Increment)) + 1;
 
-        // MinMaxField - no combinatorics
         public MinMaxComponent(int min, int max)
-            :this(min, max, DefaultIncrement)
+            :this(min, max, DefaultIncrement * (min < max ? 1 : -1))
         {
-            incrementProvided = false;
+
         }
 
+        /// <summary>
+        /// Create a new MinMaxComponenet
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if the min, max and increment provided would result in an infinite cardinality.</exception>
         public MinMaxComponent(int min, int max, int increment)
         {
             Min = min;
             Max = max;
             Increment = increment;
+            // Check for infinite ranges.
+            if (max < min && increment > 0) throw new InfiniteMinMaxException($"Cannot create MinMaxComponent {Command}, it would have an infinite range. Try using an incrementing component [{Min}++{Increment}].");
+            if (min < max && increment < 0) throw new InfiniteMinMaxException($"Cannot create MinMaxComponent {Command}, it would have an infinite range. Try using an incrementing component [{Min}++{Increment}].");
         }
+    }
+
+    public class InfiniteMinMaxException : Exception
+    {
+        public InfiniteMinMaxException(string message) : base(message) { }
     }
 }

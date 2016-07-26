@@ -149,9 +149,15 @@ namespace CsvGnome
             Console.Clear();
             foreach(Message m in tempMessages)
             {
-                Console.WriteLine(m.Text);
+                WriteLine(m);
             }
             return Console.ReadLine();
+        }
+
+        public string Error(List<Message> tempMessages)
+        {
+            tempMessages.Insert(0, new Message("Error:", ConsoleColor.Red));
+            return OverrideConsole(tempMessages);
         }
 
         private void Write(Message m)

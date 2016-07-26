@@ -10,13 +10,7 @@ namespace CsvGnome.Components.Combinatorial
     {
         #region IComponent
 
-        public string Command
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public string Command => $"[{RawMinMaxComponent.Min}=>{RawMinMaxComponent.Max},{RawMinMaxComponent.Increment} {GetGroupString()}]";
 
         public bool Equals(IComponent x)
         {
@@ -24,6 +18,32 @@ namespace CsvGnome.Components.Combinatorial
         }
 
         #endregion
+
+        private MinMaxComponent RawMinMaxComponent => RawComponent as MinMaxComponent;
+
+        public override long? Cardinality
+        {
+            get
+            {
+                return RawMinMaxComponent.Cardinality;
+            }
+        }
+
+        protected override List<Message> GetPreGroupMessage()
+        {
+            List<Message> m = new List<Message>();
+            m.Add(new Message("[", Program.SpecialColour));
+            m.Add(new Message($"{RawMinMaxComponent.Min}"));
+            m.Add(new Message("=>", Program.SpecialColour));
+            m.Add(new Message($"{RawMinMaxComponent.Max}"));
+            m.Add(new Message($",{RawMinMaxComponent.Increment} "));
+            return m;
+        }
+
+        protected override List<Message> GetPostGroupMessage()
+        {
+            return new Message("]", Program.SpecialColour).ToList();
+        }
 
         public MinMaxCombinatorial(Group group, MinMaxComponent rawComponent) 
             : base(group, rawComponent)

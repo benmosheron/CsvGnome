@@ -45,10 +45,7 @@ namespace CsvGnome
             // e.g. [11=>21,2 #testId]
             else if (MinMaxRegex.IsMatch(prototype))
             {
-                // NOTE! we pass the raw prototype in here/
-                // This is temporary until MinMaxComponent has been converted
-                // to ICombinatorial and we can get rid of the separate info/cache.
-                return CreateMinMaxComponent(rawPrototype);
+                return CreateMinMaxComponent(prototype, groupPrototype);
             }
             else if (prototype.StartsWith(Program.SpreadComponentString))
             {
@@ -115,7 +112,20 @@ namespace CsvGnome
             return Choose(rawComponent, groupPrototype);
         }
 
-        private IComponent CreateMinMaxComponent(string prototype)
+        private MinMaxComponent GetRawMinMax(int min, int max, int? increment)
+        {
+            if (!increment.HasValue)
+            {
+                return new MinMaxComponent(min, max);
+
+            }
+            else
+            {
+                return new MinMaxComponent(min, max, increment.Value);
+            }
+        }
+
+        private IComponent CreateMinMaxComponent(string prototype, string groupPrototype)
         {
             // remove "[" and "]"
             string protoMinMax = prototype.Substring(1, prototype.Length - 2);
@@ -135,16 +145,8 @@ namespace CsvGnome
             string[] tokens2 = protoMinMax.Split(new string[] { "=>" }, StringSplitOptions.None);
             int min = int.Parse(tokens2[0]);
             int max = int.Parse(tokens2[1]);
-
-            if (!increment.HasValue)
-            {
-                return new MinMaxComponent(min, max);
-
-            }
-            else
-            {
-                return new MinMaxComponent(min, max, increment.Value);
-            }
+            MinMaxComponent raw = GetRawMinMax(min, max, increment);
+            return Choose(raw, groupPrototype);
         }
 
         private IComponent CreateArrayCycleComponent(string prototype, string groupPrototype)

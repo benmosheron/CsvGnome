@@ -15,6 +15,7 @@ namespace CsvGnome.Components.Combinatorial
         // Supported raw components
         private const string c_arrayCycle = "CsvGnome.ArrayCycleComponent";
         private const string c_increment = "CsvGnome.IncrementingComponent";
+        private const string c_minMax = "CsvGnome.MinMaxComponent";
 
         Cache Cache;
         public Factory(Cache cache)
@@ -42,6 +43,8 @@ namespace CsvGnome.Components.Combinatorial
                     return CreateArrayCycleCombinatorial(groupId, rawComponent as ArrayCycleComponent, maybeRank);
                 case c_increment:
                     return CreateIncrementingCombinatorial(groupId, rawComponent as IncrementingComponent, maybeRank);
+                case c_minMax:
+                    return CreateMinMaxCombinatorial(groupId, rawComponent as MinMaxComponent, maybeRank);
                 default:
                     throw new Exception($"Cannot create an ICombinatorial from [{typeName}]");
             }
@@ -107,5 +110,21 @@ namespace CsvGnome.Components.Combinatorial
             // Return the component.
             return arrayCycleCombinatorial;
         }
+
+        private MinMaxCombinatorial CreateMinMaxCombinatorial(string groupId, MinMaxComponent rawComponent, int? maybeRank)
+        {
+            int rank;
+            Group group = InitGroup(groupId, maybeRank, out rank);
+
+            // Create the component. Register the group with the component (but beware, the group does not know about the component yet!).
+            var minMaxCombinatorial = new MinMaxCombinatorial(group, rawComponent);
+
+            // Update the group.
+            Cache.AddComponentToGroup(groupId, minMaxCombinatorial, rank);
+
+            // Return the component.
+            return minMaxCombinatorial;
+        }
+
     }
 }
