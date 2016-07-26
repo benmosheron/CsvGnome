@@ -148,6 +148,39 @@ namespace CsvGnomeTests
             Assert.IsFalse(cache.Contains(groupId0));
             Assert.IsFalse(cache.Contains(groupId1));
         }
+        [TestMethod]
+        public void InterpretComponents_MinMaxCombinatorial()
+        {
+            const string groupId0 = "Reah";
+            const string groupId1 = "Astraea";
+            string ins0 = $"test0:[1=>10 #{groupId0}/0][3=>7, 3 #{groupId0}/2]";
+            string ins1 = $"test1:[9=>3 #{groupId0}/1][1=>2 #{groupId1}]";
+
+            Cache cache = new Cache();
+            Factory factory = new Factory(cache);
+
+            IComponent expectedRaw0 = new MinMaxComponent(1, 10);
+            IComponent expectedRaw1 = new MinMaxComponent(9, 3);
+            IComponent expectedRaw2 = new MinMaxComponent(3, 7, 3);
+            IComponent expectedRaw3 = new MinMaxComponent(1, 2);
+            ICombinatorial expected0 = factory.Create(groupId0, expectedRaw0);
+            ICombinatorial expected1 = factory.Create(groupId0, expectedRaw1);
+            ICombinatorial expected2 = factory.Create(groupId0, expectedRaw2);
+            ICombinatorial expected3 = factory.Create(groupId1, expectedRaw3);
+
+            FieldBrain fieldBrain;
+            Interpreter x;
+            Utilties.InterpreterTestInit(out fieldBrain, out x);
+            x.Interpret(ins0);
+            x.Interpret(ins1);
+
+            var componentsFirst = (fieldBrain.Fields[0] as ComponentField).Components;
+            var componentsSecond = (fieldBrain.Fields[1] as ComponentField).Components;
+            Assert.IsTrue((expected0 as MinMaxCombinatorial).Equals(componentsFirst[0]));
+            Assert.IsTrue((expected1 as MinMaxCombinatorial).Equals(componentsSecond[0]));
+            Assert.IsTrue((expected2 as MinMaxCombinatorial).Equals(componentsFirst[1]));
+            Assert.IsTrue((expected3 as MinMaxCombinatorial).Equals(componentsFirst[3]));
+        }
 
     }
 }

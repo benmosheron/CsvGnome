@@ -47,12 +47,21 @@ namespace CsvGnome.Components.Combinatorial
 
         #region ICombinatorial
 
+        /// <summary>
+        /// Number of elements in the raw component's value array.
+        /// </summary>
         public override long? Cardinality => valueArray.Count;
 
         #endregion
 
+        /// <summary>
+        /// Access the raw component.
+        /// </summary>
         private ArrayCycleComponent RawArrayCycleComponent => RawComponent as ArrayCycleComponent;
 
+        /// <summary>
+        /// Access the raw component's value array.
+        /// </summary>
         private ReadOnlyCollection<string> valueArray => RawArrayCycleComponent.ValueArray;
 
         /// <summary>

@@ -74,6 +74,7 @@
     <Compile Include="Components\Combinatorial\GroupCardinality.cs" />
     <Compile Include="Components\Combinatorial\ICombinatorial.cs" />
     <Compile Include="Components\Combinatorial\IncrementingCombinatorial.cs" />
+    <Compile Include="Components\Combinatorial\MinMaxCombinatorial.cs" />
     <Compile Include="Components\MinMaxInfo.cs" />
     <Compile Include="Components\ComponentFactory.cs" />
     <Compile Include="Components\DateComponent.cs" />

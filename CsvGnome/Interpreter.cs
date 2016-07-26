@@ -123,7 +123,7 @@ namespace CsvGnome
             // "load fileName" loads a GnomeFile from the gnomefile directory
             if (input.StartsWith("load"))
             {
-                // Use a seperate interpreter with no I/O for reading files
+                // Use a separate interpreter with no I/O for reading files
                 // Otherwise the interpreter could read a "load" instruction
                 if (GnomeFileReader != null)
                 {
