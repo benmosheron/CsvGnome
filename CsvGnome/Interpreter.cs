@@ -23,7 +23,6 @@ namespace CsvGnome
         private readonly ComponentFactory Factory;
         private readonly GnomeFileWriter GnomeFileWriter;
         private readonly GnomeFileReader GnomeFileReader;
-        private readonly MinMaxInfoCache MinMaxInfoCache;
 
         private Components.Combinatorial.Factory CombinatorialFactory => FieldBrain.CombinatorialFactory;
 
@@ -34,8 +33,8 @@ namespace CsvGnome
         /// <param name="fieldBrain"></param>
         /// <param name="reporter"></param>
         /// <param name="cache"></param>
-        public Interpreter(FieldBrain fieldBrain, Reporter reporter, MinMaxInfoCache cache)
-            :this(fieldBrain, reporter, cache, null, null)
+        public Interpreter(FieldBrain fieldBrain, Reporter reporter)
+            :this(fieldBrain, reporter, null, null)
         { }
 
         /// <summary>
@@ -46,12 +45,11 @@ namespace CsvGnome
         /// <param name="cache"></param>
         /// <param name="gnomeFileWriter"></param>
         /// <param name="gnomeFileReader"></param>
-        public Interpreter(FieldBrain fieldBrain, Reporter reporter, MinMaxInfoCache cache, GnomeFileWriter gnomeFileWriter, GnomeFileReader gnomeFileReader)
+        public Interpreter(FieldBrain fieldBrain, Reporter reporter, GnomeFileWriter gnomeFileWriter, GnomeFileReader gnomeFileReader)
         {
             FieldBrain = fieldBrain;
             Reporter = reporter;
-            Factory = new ComponentFactory(CombinatorialFactory, cache);
-            MinMaxInfoCache = cache;
+            Factory = new ComponentFactory(CombinatorialFactory);
             GnomeFileWriter = gnomeFileWriter;
             GnomeFileReader = gnomeFileReader;
         }
@@ -99,7 +97,7 @@ namespace CsvGnome
             // "clear" clears all fields
             if (input.ToLower() == "clear")
             {
-                FieldBrain.ClearFields(MinMaxInfoCache);
+                FieldBrain.ClearFields();
                 return Action.Continue;
             }
 
@@ -127,7 +125,7 @@ namespace CsvGnome
                 // Otherwise the interpreter could read a "load" instruction
                 if (GnomeFileReader != null)
                 {
-                    Interpreter interpreterNoIO = new Interpreter(FieldBrain, Reporter, MinMaxInfoCache);
+                    Interpreter interpreterNoIO = new Interpreter(FieldBrain, Reporter);
                     string fileToRead = input.Remove(0, "load".Length).Trim();
                     List<string> parsedFile = GnomeFileReader.ReadGnomeFile(fileToRead);
                     
@@ -135,7 +133,7 @@ namespace CsvGnome
                     if(parsedFile != null && parsedFile.Count > 0 && parsedFile.Any(l => !String.IsNullOrWhiteSpace(l)))
                     {
                         // Clear fields and cache
-                        FieldBrain.ClearFields(MinMaxInfoCache);
+                        FieldBrain.ClearFields();
                         parsedFile.ForEach(interpreterNoIO.InterpretSilent);
                         Reporter.AddMessage(new Message($"{fileToRead} loaded.", ConsoleColor.Green));
                     }
@@ -146,7 +144,7 @@ namespace CsvGnome
 
             if (input.StartsWith("delete"))
             {
-                FieldBrain.DeleteField(input.Remove(0, "delete".Length), MinMaxInfoCache);
+                FieldBrain.DeleteField(input.Remove(0, "delete".Length));
                 return Action.Continue;
             }
 
@@ -203,7 +201,7 @@ namespace CsvGnome
         {
             // If we are overwriting a field, explicitely delete the existing information first.
             // This prevents a can of worms when overwriting a field with combined minMax components
-            if (FieldBrain.Fields.Any(f => f.Name == name)) FieldBrain.DeleteField(name, MinMaxInfoCache);
+            if (FieldBrain.Fields.Any(f => f.Name == name)) FieldBrain.DeleteField(name);
 
             // Try and create a component field
             // Break instruction into components

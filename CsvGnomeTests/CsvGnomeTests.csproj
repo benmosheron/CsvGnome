@@ -58,7 +58,6 @@
     <Compile Include="InterpreterCombinatorialTest.cs" />
     <Compile Include="InterpreterTest.cs" />
     <Compile Include="MinMaxComponentTest.cs" />
-    <Compile Include="MinMaxInfoCacheTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilties.cs" />
   </ItemGroup>

@@ -44,14 +44,13 @@ namespace CsvGnome
         /// <summary>
         /// Delete all fields.
         /// </summary>
-        public void ClearFields(MinMaxInfoCache cache)
+        public void ClearFields()
         {
             fields.Clear();
-            cache.Clear();
             CombinatorialDeleter.Clear();
         }
 
-        public void DeleteField(string name, MinMaxInfoCache cache)
+        public void DeleteField(string name)
         {
             IField toRemove = fields.LastOrDefault(f => f.Name == name.Trim());
             if (toRemove == null) return;
@@ -61,15 +60,6 @@ namespace CsvGnome
             ComponentField cfToRemove = toRemove as ComponentField;
             if (cfToRemove != null)
             {
-                var minMaxsToRemove = cfToRemove.Components
-                    .OfType<MinMaxComponent>()
-                    .Where(c => c.Info.Id != null);
-
-                if (minMaxsToRemove.Any())
-                {
-                    cache.UpdateCacheForDelete(minMaxsToRemove);
-                }
-
                 var combinatorialsToDelete = cfToRemove.Components
                     .OfType<Components.Combinatorial.ICombinatorial>()
                     .ToList();

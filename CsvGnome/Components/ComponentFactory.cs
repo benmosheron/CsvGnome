@@ -23,12 +23,10 @@ namespace CsvGnome
         private Regex MinMaxRegex = new Regex(MinMaxPattern);
 
         private Components.Combinatorial.Factory CombinatorialFactory;
-        private MinMaxInfoCache minMaxCache;
 
-        public ComponentFactory(Components.Combinatorial.Factory combinatorialFactory, MinMaxInfoCache minMaxCache)
+        public ComponentFactory(Components.Combinatorial.Factory combinatorialFactory)
         {
             CombinatorialFactory = combinatorialFactory;
-            this.minMaxCache = minMaxCache;
         }
 
         public IComponent Create(string rawPrototype)
@@ -121,16 +119,7 @@ namespace CsvGnome
         {
             // remove "[" and "]"
             string protoMinMax = prototype.Substring(1, prototype.Length - 2);
-            string protoId = null;
             int? increment = null;
-            // Does it have an ID at the end? (signified by #)
-            if (protoMinMax.Contains("#"))
-            {
-                // Everything right of # is the id (the gnome removes whitespace in the ids!)
-                string[] tokens = protoMinMax.Split(new string[] { "#" }, StringSplitOptions.None);
-                protoMinMax = tokens[0];
-                protoId = tokens[1].Trim();
-            }
 
             // Does it specify an increment? (signified by ,)
             if (protoMinMax.Contains(","))
@@ -147,17 +136,14 @@ namespace CsvGnome
             int min = int.Parse(tokens2[0]);
             int max = int.Parse(tokens2[1]);
 
-            if (String.IsNullOrWhiteSpace(protoId))
+            if (!increment.HasValue)
             {
-                if (!increment.HasValue)
-                    return new MinMaxComponent(min, max);
-                else return new MinMaxComponent(min, max, increment.Value);
+                return new MinMaxComponent(min, max);
+
             }
             else
             {
-                if (!increment.HasValue)
-                    return new MinMaxComponent(min, max, protoId, minMaxCache);
-                else return new MinMaxComponent(min, max, increment.Value, protoId, minMaxCache);
+                return new MinMaxComponent(min, max, increment.Value);
             }
         }
 

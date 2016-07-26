@@ -75,13 +75,11 @@
     <Compile Include="Components\Combinatorial\ICombinatorial.cs" />
     <Compile Include="Components\Combinatorial\IncrementingCombinatorial.cs" />
     <Compile Include="Components\Combinatorial\MinMaxCombinatorial.cs" />
-    <Compile Include="Components\MinMaxInfo.cs" />
     <Compile Include="Components\ComponentFactory.cs" />
     <Compile Include="Components\DateComponent.cs" />
     <Compile Include="Components\IComponent.cs" />
     <Compile Include="Components\IncrementingComponent.cs" />
     <Compile Include="Components\MinMaxComponent.cs" />
-    <Compile Include="Components\MinMaxInfoCache.cs" />
     <Compile Include="Components\TextComponent.cs" />
     <Compile Include="Defaults.cs" />
     <Compile Include="Fields\ComponentField.cs" />

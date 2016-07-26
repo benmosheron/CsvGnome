@@ -103,26 +103,6 @@ namespace CsvGnomeTests
         }
 
         [TestMethod]
-        public void InterpretClear()
-        {
-            FieldBrain fieldBrain;
-            MinMaxInfoCache cache;
-            Interpreter x;
-            Utilties.InterpreterTestInit(out fieldBrain, out cache, out x);
-
-            // Add some fields
-            x.Interpret("woo:hoo");
-            x.Interpret("x:[1=>3 #p]");
-            x.Interpret("y:[1=>3 #p]");
-            Assert.IsTrue(cache.Cache.Keys.Count == 1);
-            Assert.IsTrue(fieldBrain.Fields.Count == 3);
-            // Clear all
-            Assert.AreEqual(CsvGnome.Action.Continue, x.Interpret("clear"));
-            Assert.IsTrue(!fieldBrain.Fields.Any());
-            Assert.IsTrue(!cache.Cache.Keys.Any());
-        }
-
-        [TestMethod]
         public void Interpret_Delete()
         {
             FieldBrain fieldBrain;
@@ -135,84 +115,6 @@ namespace CsvGnomeTests
             Assert.IsTrue(fieldBrain.Fields.Any());
             Assert.AreEqual(CsvGnome.Action.Continue, x.Interpret("delete test"));
             Assert.IsTrue(!fieldBrain.Fields.Any());
-        }
-
-        [TestMethod]
-        public void InterpretDelete_MinMaxSameIdOneDeleted()
-        {
-            const string ins1 = "test1:[1=>9,2 #testId]";
-            const string ins2 = "test2:[10=>19,2 #testId]";
-            const string ins3 = "test3:[20=>29,2 #testId]";
-            const string ins4 = "delete test2";
-            MinMaxInfoCache temp = new MinMaxInfoCache();
-
-            IComponent[] expectedComponentsOfField1 = new IComponent[]
-            {
-                new MinMaxComponent(1, 9, 2, "testId", temp)
-            };
-
-            IComponent[] expectedComponentsOfField2 = new IComponent[]
-            {
-                new MinMaxComponent(20, 29, 2, "testId", temp)
-            };
-
-            FieldBrain fieldBrain;
-            Interpreter x;
-            Utilties.InterpreterTestInit(out fieldBrain, out x);
-
-            x.Interpret(ins1);
-            x.Interpret(ins2);
-            x.Interpret(ins3);
-            x.Interpret(ins4);
-
-            Assert.IsTrue(fieldBrain.Fields.Count == 2);
-            Assert.IsTrue((fieldBrain.Fields.First() as ComponentField).Components.Zip(expectedComponentsOfField1, (a, e) => a.Equals(e)).All(r => r == true));
-            Assert.IsTrue((fieldBrain.Fields.Last() as ComponentField).Components.Zip(expectedComponentsOfField2, (a, e) => a.Equals(e)).All(r => r == true));
-
-            // Assert Ranks
-            Assert.AreEqual(0, (fieldBrain.Fields.First() as ComponentField).Components.OfType<MinMaxComponent>().First().Dim);
-            Assert.AreEqual(1, (fieldBrain.Fields.Last() as ComponentField).Components.OfType<MinMaxComponent>().First().Dim);
-        }
-
-        [TestMethod]
-        public void InterpretDelete_MinMaxSameIdOneDeletedMultiComponentFields()
-        {
-            const string ins1 = "test1:[1=>9,2 #testId][1=>92,2 #testId]";
-            const string ins2 = "test2:[10=>19,2 #testId][1=>9,2 #testId]";
-            const string ins3 = "test3:[20=>29,2 #testId][1=>9,2 #testId]";
-            const string ins4 = "delete test2";
-            MinMaxInfoCache temp = new MinMaxInfoCache();
-
-            IComponent[] expectedComponentsOfField1 = new IComponent[]
-            {
-                new MinMaxComponent(1, 9, 2, "testId", temp),
-                new MinMaxComponent(1, 92, 2, "testId", temp)
-            };
-
-            IComponent[] expectedComponentsOfField2 = new IComponent[]
-            {
-                new MinMaxComponent(20, 29, 2, "testId", temp),
-                new MinMaxComponent(1, 9, 2, "testId", temp)
-            };
-
-            FieldBrain fieldBrain;
-            Interpreter x;
-            Utilties.InterpreterTestInit(out fieldBrain, out x);
-
-            x.Interpret(ins1);
-            x.Interpret(ins2);
-            x.Interpret(ins3);
-            x.Interpret(ins4);
-
-            Assert.IsTrue(fieldBrain.Fields.Count == 2);
-            Assert.IsTrue((fieldBrain.Fields.First() as ComponentField).Components.Zip(expectedComponentsOfField1, (a, e) => a.Equals(e)).All(r => r == true));
-            Assert.IsTrue((fieldBrain.Fields.Last() as ComponentField).Components.Zip(expectedComponentsOfField2, (a, e) => a.Equals(e)).All(r => r == true));
-
-            // Assert Ranks
-            Assert.AreEqual(0, (fieldBrain.Fields.First() as ComponentField).Components.OfType<MinMaxComponent>().First().Dim);
-            Assert.AreEqual(1, (fieldBrain.Fields.First() as ComponentField).Components.OfType<MinMaxComponent>().Last().Dim);
-            Assert.AreEqual(2, (fieldBrain.Fields.Last() as ComponentField).Components.OfType<MinMaxComponent>().First().Dim);
-            Assert.AreEqual(3, (fieldBrain.Fields.Last() as ComponentField).Components.OfType<MinMaxComponent>().Last().Dim);
         }
 
         [TestMethod]
@@ -383,72 +285,6 @@ namespace CsvGnomeTests
         {
             const string ins = "test:[1=>11,2]";
             IComponent[] expected = new IComponent[] { new MinMaxComponent(1, 11, 2) };
-
-            FieldBrain fieldBrain;
-            Interpreter x;
-            Utilties.InterpreterTestInit(out fieldBrain, out x);
-
-            Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
-            AssertSingleComponentField(fieldBrain, expected);
-        }
-
-        [TestMethod]
-        public void InterpretComponents_MinMaxId()
-        {
-            const string ins = "test:[1=>3 #testId]";
-
-            MinMaxInfoCache temp = new MinMaxInfoCache();
-            IComponent[] expected = new IComponent[] { new MinMaxComponent(1, 3, "testId", temp) };
-
-            FieldBrain fieldBrain;
-            Interpreter x;
-            Utilties.InterpreterTestInit(out fieldBrain, out x);
-
-            Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
-            AssertSingleComponentField(fieldBrain, expected);
-        }
-
-        [TestMethod]
-        public void InterpretComponents_MinMaxIncrementId()
-        {
-            const string ins = "test:[11=>21,2#testId]";
-            MinMaxInfoCache temp = new MinMaxInfoCache();
-            IComponent[] expected = new IComponent[] { new MinMaxComponent(11, 21, 2, "testId", temp) };
-
-            FieldBrain fieldBrain;
-            Interpreter x;
-            Utilties.InterpreterTestInit(out fieldBrain, out x);
-
-            Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
-            AssertSingleComponentField(fieldBrain, expected);
-        }
-
-        [TestMethod]
-        public void InterpretComponents_MinMaxSpaces()
-        {
-            const string ins = "test:[ 11 => 21 , 2 #testId ]";
-            MinMaxInfoCache temp = new MinMaxInfoCache();
-            IComponent[] expected = new IComponent[] { new MinMaxComponent(11, 21, 2, "testId", temp) };
-
-            FieldBrain fieldBrain;
-            Interpreter x;
-            Utilties.InterpreterTestInit(out fieldBrain, out x);
-
-            Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
-            AssertSingleComponentField(fieldBrain, expected);
-        }
-
-        [TestMethod]
-        public void InterpretComponents_MinMaxSameId()
-        {
-            const string ins = "test:[1=>9,2 #testId][0=>9 #testId][0=>1 #testId]";
-            MinMaxInfoCache temp = new MinMaxInfoCache();
-            IComponent[] expected = new IComponent[]
-            {
-                new MinMaxComponent(1, 9, 2, "testId", temp),
-                new MinMaxComponent(0, 9, "testId", temp),
-                new MinMaxComponent(0, 1, "testId", temp)
-            };
 
             FieldBrain fieldBrain;
             Interpreter x;

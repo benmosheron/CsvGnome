@@ -69,14 +69,13 @@ namespace CsvGnome
         static readonly Components.Combinatorial.Cache CombinatorialCache = new Components.Combinatorial.Cache();
         static readonly Components.Combinatorial.Factory CombinatorialFactory = new Components.Combinatorial.Factory(CombinatorialCache);
         static readonly Components.Combinatorial.Deleter CombinatorialDeleter = new Components.Combinatorial.Deleter(CombinatorialCache);
-        static readonly MinMaxInfoCache MinMaxInfoCache = new MinMaxInfoCache();
         static readonly FieldBrain FieldBrain = new FieldBrain(CombinatorialFactory, CombinatorialDeleter);
         static readonly Reporter Reporter = new Reporter();
         static readonly GnomeFileCache GnomeFileCache = new GnomeFileCache(Reporter);
         static readonly GnomeFileWriter GnomeFileWriter = new GnomeFileWriter(Reporter, FieldBrain, GnomeFileCache);
         static readonly GnomeFileReader GnomeFileReader = new GnomeFileReader(Reporter, GnomeFileCache);
-        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, MinMaxInfoCache, GnomeFileWriter, GnomeFileReader);
-        static readonly Interpreter InterpreterNoIO = new Interpreter(FieldBrain, Reporter, MinMaxInfoCache);
+        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, GnomeFileWriter, GnomeFileReader);
+        static readonly Interpreter InterpreterNoIO = new Interpreter(FieldBrain, Reporter);
         static readonly Writer Writer = new Writer();
 
         static void Main(string[] args)

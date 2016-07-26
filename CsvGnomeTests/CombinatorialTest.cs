@@ -2,6 +2,7 @@
 using CsvGnome.Components.Combinatorial;
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace CsvGnomeTests
 {
@@ -295,5 +296,89 @@ namespace CsvGnomeTests
                 Assert.AreEqual(expected4i, ((IComponent)c4).GetValue(i));
             }
         }
+
+        [TestMethod]
+        public void MinMax_Single()
+        {
+            Cache cache = new Cache();
+            Factory factory = new Factory(cache);
+
+            const string c_groupId = "Capra";
+            // dimension 0
+            MinMaxComponent raw0 = new MinMaxComponent(0, 1);
+
+            ICombinatorial c0 = factory.Create(c_groupId, raw0);
+
+            string[] expectedValues = new string[] { "0", "1", "2" };
+
+            int index = 0;
+            int maxIndex = expectedValues.Length;
+            for (int i = 0; i < 20; i++)
+            {
+                Assert.AreEqual(expectedValues[index], (c0 as IComponent).GetValue(i));
+
+                index++;
+                if (index > maxIndex) index = 0;
+            }
+        }
+
+        [TestMethod]
+        public void MinMax_Multi()
+        {
+            Cache cache = new Cache();
+            Factory factory = new Factory(cache);
+
+            const string c_groupId = "Capra";
+            MinMaxComponent raw0 = new MinMaxComponent(0, 1);
+            ArrayCycleComponent raw1 = new ArrayCycleComponent(new string[] {"washing", "pole" });
+            MinMaxComponent raw2 = new MinMaxComponent(0, 4, 2);
+
+            ICombinatorial c0 = factory.Create(c_groupId, raw0);
+            ICombinatorial c1 = factory.Create(c_groupId, raw1);
+            ICombinatorial c2 = factory.Create(c_groupId, raw2);
+
+            string[] expectedValues0 = new string[] { "0", "1", "0", "1", "0", "1", "0", "1", "0", "1", "0", "1" };
+            string[] expectedValues1 = new string[] { "washing", "washing", "pole", "pole", "washing", "washing", "pole", "pole", "washing", "washing", "pole", "pole" };
+            string[] expectedValues2 = new string[] { "0", "0", "0", "0", "2", "2", "2", "2", "4", "4", "4", "4" };
+
+            int index = 0;
+            int maxIndex = expectedValues0.Length;
+            for (int i = 0; i < 20; i++)
+            {
+                Assert.AreEqual(expectedValues0[index], (c0 as IComponent).GetValue(i));
+                Assert.AreEqual(expectedValues1[index], (c1 as IComponent).GetValue(i));
+                Assert.AreEqual(expectedValues2[index], (c2 as IComponent).GetValue(i));
+
+                index++;
+                if (index > maxIndex) index = 0;
+            }
+        }
+
+
+        [TestMethod]
+        public void MinMax_Command()
+        {
+            Cache cache = new Cache();
+            Factory factory = new Factory(cache);
+
+            const string c_groupId = "Capra";
+            // dimension 0
+            MinMaxComponent raw0 = new MinMaxComponent(0, 1);
+            MinMaxComponent raw1 = new MinMaxComponent(0, -1);
+            MinMaxComponent raw2 = new MinMaxComponent(0, -10, -3);
+
+            ICombinatorial c0 = factory.Create(c_groupId, raw0);
+            ICombinatorial c1 = factory.Create(c_groupId, raw1);
+            ICombinatorial c2 = factory.Create(c_groupId, raw2);
+
+            string expectedCommand0 = $"[0=>1 #{c_groupId}/0]";
+            string expectedCommand1 = $"[0=>-1 #{c_groupId}/1]";
+            string expectedCommand2 = $"[0=>-10,-3 #{c_groupId}/2]";
+
+            Assert.AreEqual(expectedCommand0, (c0 as IComponent).Command);
+            Assert.AreEqual(expectedCommand1, (c1 as IComponent).Command);
+            Assert.AreEqual(expectedCommand2, (c2 as IComponent).Command);
+        }
+
     }
 }
