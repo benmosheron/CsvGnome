@@ -30,7 +30,7 @@ namespace CsvGnome
             }
             catch (UnauthorizedAccessException ex)
             {
-                Reporter.AddMessage(new Message("I couldn't access the default GnomeFile directory."));
+                Reporter.AddMessage(new Message($"I couldn't access the default GnomeFile directory. [{dir}] {ex.Message}"));
             }
 
             GnomeFileDir = Path.Combine(dir, "GnomeFiles");

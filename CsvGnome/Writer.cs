@@ -31,12 +31,12 @@ namespace CsvGnome
                 }
                 reporter.AddMessage(new Message($"{n} lines written.", ConsoleColor.Green));
             }
-            catch (DirectoryNotFoundException ex)
+            catch (DirectoryNotFoundException)
             {
                 reporter.AddMessage(new Message("I couldn't find the directory:"));
                 reporter.AddMessage(new Message(pathAndFile));
             }
-            catch (FileNotFoundException ex)
+            catch (FileNotFoundException)
             {
                 reporter.AddMessage(new Message("I couldn't find the file:"));
                 reporter.AddMessage(new Message(pathAndFile));

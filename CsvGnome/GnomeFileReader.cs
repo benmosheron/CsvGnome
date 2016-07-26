@@ -38,12 +38,12 @@ namespace CsvGnome
             try {
                 parsedFile = File.ReadAllLines(pathAndFile).ToList();
             }
-            catch(DirectoryNotFoundException ex)
+            catch(DirectoryNotFoundException)
             {
                 Reporter.AddMessage(new Message("I couldn't find the directory:"));
                 Reporter.AddMessage(new Message(pathAndFile));
             }
-            catch(FileNotFoundException ex)
+            catch(FileNotFoundException)
             {
                 Reporter.AddMessage(new Message("I couldn't find the file:"));
                 Reporter.AddMessage(new Message(pathAndFile));

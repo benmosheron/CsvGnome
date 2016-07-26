@@ -119,10 +119,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "C:\CsvGnome\LICENSE" "C:\CsvGnome\CsvGnome\bin\Debug"
-copy /Y "C:\CsvGnome\LICENSE" "C:\CsvGnome\CsvGnome\bin\Release"
-copy /Y "C:\CsvGnome\README.md" "C:\CsvGnome\CsvGnome\bin\Debug"
-copy /Y "C:\CsvGnome\README.md" "C:\CsvGnome\CsvGnome\bin\Release"</PostBuildEvent>
+    <PostBuildEvent>copy /Y "C:\CsvGnome\LICENSE" $(TargetDir)
+copy /Y "C:\CsvGnome\README.md" $(TargetDir)
+if not exist $(TargetDir)\Output mkdir $(TargetDir)\Output</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

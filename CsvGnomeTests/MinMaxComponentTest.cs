@@ -150,7 +150,6 @@ namespace CsvGnomeTests
         [TestMethod]
         public void ExceptionForInfinite()
         {
-            const int N = 100;
             const int start = 0;
             const int end = -2;
             const int increment = 1;
@@ -169,7 +168,6 @@ namespace CsvGnomeTests
         [TestMethod]
         public void ExceptionForInfiniteNegativeIncrement()
         {
-            const int N = 100;
             const int start = 0;
             const int end = 2;
             const int increment = -1;
