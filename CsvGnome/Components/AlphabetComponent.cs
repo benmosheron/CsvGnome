@@ -23,7 +23,7 @@ namespace CsvGnome.Components
 
         public List<Message> Summary => new Message(Command, Program.SpecialColour).ToList();
 
-        private char[] Values;
+        public char[] Values { get; private set; }
 
         public AlphabetComponent(char start, char end)
         {

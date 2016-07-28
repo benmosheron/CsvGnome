@@ -25,6 +25,11 @@ namespace CsvGnome
             Colour = c;
         }
 
+        public static Message NewSpecial(string s)
+        {
+            return new Message(s, Program.SpecialColour);
+        }
+
         /// <summary>
         /// Return a List of Message with this as the only element.
         /// </summary>

@@ -65,6 +65,7 @@
     <Compile Include="Components\AlphabetComponent.cs" />
     <Compile Include="Components\ArrayCycleComponent.cs" />
     <Compile Include="Components\ArraySpreadComponent.cs" />
+    <Compile Include="Components\Combinatorial\AlphabetCombinatorial.cs" />
     <Compile Include="Components\Combinatorial\ArrayCycleCombinatorial.cs" />
     <Compile Include="Components\Combinatorial\Cache.cs" />
     <Compile Include="Components\Combinatorial\CombinatorialBase.cs" />
