@@ -355,7 +355,7 @@ namespace CsvGnomeTests
             Assert.IsTrue(fb.Fields.First() is ComponentField);
             Assert.IsTrue(fb.Fields.First().Name == "test");
             Assert.AreEqual(expected.Length, (fb.Fields.First() as ComponentField).Components.Length);
-            Assert.IsTrue((fb.Fields.First() as ComponentField).Components.Zip(expected, (a, e) => a.Equals(e)).All(r => r == true));
+            Assert.IsTrue((fb.Fields.First() as ComponentField).Components.Zip(expected, (a, e) => a.EqualsComponent(e)).All(r => r == true));
         }
     }
 }

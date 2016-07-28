@@ -96,9 +96,9 @@ namespace CsvGnomeTests
 
             var componentsFirst = (fieldBrain.Fields[0] as ComponentField).Components;
             var componentsSecond = (fieldBrain.Fields[1] as ComponentField).Components;
-            Assert.IsTrue((expected0 as ArrayCycleCombinatorial).Equals(componentsFirst[0]));
-            Assert.IsTrue((expected1 as IncrementingCombinatorial).Equals(componentsSecond[0]));
-            Assert.IsTrue((expected2 as IncrementingCombinatorial).Equals(componentsFirst[1]));
+            Assert.IsTrue((expected0 as ArrayCycleCombinatorial).EqualsComponent(componentsFirst[0]));
+            Assert.IsTrue((expected1 as IncrementingCombinatorial).EqualsComponent(componentsSecond[0]));
+            Assert.IsTrue((expected2 as IncrementingCombinatorial).EqualsComponent(componentsFirst[1]));
         }
 
         [TestMethod]
@@ -176,10 +176,10 @@ namespace CsvGnomeTests
 
             var componentsFirst = (fieldBrain.Fields[0] as ComponentField).Components;
             var componentsSecond = (fieldBrain.Fields[1] as ComponentField).Components;
-            Assert.IsTrue((expected0 as MinMaxCombinatorial).Equals(componentsFirst[0]));
-            Assert.IsTrue((expected1 as MinMaxCombinatorial).Equals(componentsSecond[0]));
-            Assert.IsTrue((expected2 as MinMaxCombinatorial).Equals(componentsFirst[1]));
-            Assert.IsTrue((expected3 as MinMaxCombinatorial).Equals(componentsSecond[1]));
+            Assert.IsTrue((expected0 as MinMaxCombinatorial).EqualsComponent(componentsFirst[0]));
+            Assert.IsTrue((expected1 as MinMaxCombinatorial).EqualsComponent(componentsSecond[0]));
+            Assert.IsTrue((expected2 as MinMaxCombinatorial).EqualsComponent(componentsFirst[1]));
+            Assert.IsTrue((expected3 as MinMaxCombinatorial).EqualsComponent(componentsSecond[1]));
         }
 
     }

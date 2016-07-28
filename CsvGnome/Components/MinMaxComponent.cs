@@ -48,7 +48,7 @@ namespace CsvGnome
             }
         }
 
-        public bool Equals(IComponent x)
+        public bool EqualsComponent(IComponent x)
         {
             if (x == null) return false;
             var c = x as MinMaxComponent;

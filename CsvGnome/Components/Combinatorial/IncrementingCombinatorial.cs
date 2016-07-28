@@ -45,11 +45,6 @@ namespace CsvGnome.Components.Combinatorial
             return new Message("]", Program.SpecialColour).ToList();
         }
 
-        public bool Equals(IComponent x)
-        {
-            return base.Equals(x);
-        }
-
         private IncrementingComponent RawIncrementingComponent => RawComponent as IncrementingComponent;
 
         /// <summary>

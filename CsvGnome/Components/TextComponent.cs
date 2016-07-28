@@ -11,7 +11,7 @@ namespace CsvGnome
         public string Command => text;
         public List<Message> Summary => new List<Message> { new Message(text) };
         public string GetValue(long i) => text;
-        public bool Equals(IComponent x)
+        public bool EqualsComponent(IComponent x)
         {
             if (x == null) return false;
             var c = x as TextComponent;

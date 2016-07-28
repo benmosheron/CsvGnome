@@ -28,6 +28,6 @@ namespace CsvGnome
         /// <returns></returns>
         string GetValue(long i);
 
-        bool Equals(IComponent x);
+        bool EqualsComponent(IComponent x);
     }
 }

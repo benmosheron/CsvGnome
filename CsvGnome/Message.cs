@@ -33,7 +33,7 @@ namespace CsvGnome
             return new List<Message>() { this };
         }
 
-        public bool Equals(Message x)
+        public bool EqualsMessage(Message x)
         {
             if (x == null) return false;
             var c = x as Message;

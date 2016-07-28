@@ -14,7 +14,7 @@ namespace CsvGnome
         {
             return Program.TimeAtWrite;
         }
-        public bool Equals(IComponent x)
+        public bool EqualsComponent(IComponent x)
         {
             if (x == null) return false;
             var c = x as DateComponent;

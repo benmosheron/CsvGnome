@@ -43,7 +43,7 @@ namespace CsvGnomeTests
             ArraySpreadComponent s2 = new ArraySpreadComponent(Values);
             // Not same instance
             Assert.AreNotEqual(s1, s2);
-            Assert.IsTrue(s1.Equals(s2));
+            Assert.IsTrue(s1.EqualsComponent(s2));
         }
 
         [TestMethod]
@@ -52,7 +52,7 @@ namespace CsvGnomeTests
             ArrayCycleComponent c1 = new ArrayCycleComponent(Values);
             ArrayCycleComponent c2 = new ArrayCycleComponent(Values);
             Assert.AreNotEqual(c1, c2);
-            Assert.IsTrue(c1.Equals(c2));
+            Assert.IsTrue(c1.EqualsComponent(c2));
         }
 
         [TestMethod]
@@ -68,7 +68,7 @@ namespace CsvGnomeTests
             };
 
             var s = new ArraySpreadComponent(Values);
-            Assert.IsTrue(s.Summary.Zip(expectedSummary, (a, e) => a.Equals(e)).All(z => z));
+            Assert.IsTrue(s.Summary.Zip(expectedSummary, (a, e) => a.EqualsMessage(e)).All(z => z));
         }
 
         [TestMethod]
@@ -84,7 +84,7 @@ namespace CsvGnomeTests
             };
 
             var c = new ArrayCycleComponent(Values);
-            Assert.IsTrue(c.Summary.Zip(expectedSummary, (a, e) => a.Equals(e)).All(z => z));
+            Assert.IsTrue(c.Summary.Zip(expectedSummary, (a, e) => a.EqualsMessage(e)).All(z => z));
         }
 
         [TestMethod]

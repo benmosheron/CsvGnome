@@ -163,17 +163,17 @@ namespace CsvGnome.Components.Combinatorial
             rankToComponent.Remove(rankOfComponentToRemove);
         }
 
-        public override bool Equals(Object x)
-        {
-            if (x == null) return false;
-            Group g = x as Group;
-            if (g == null) return false;
-            return Id == g.Id;
-        }
+        //public override bool Equals(Object x)
+        //{
+        //    if (x == null) return false;
+        //    Group g = x as Group;
+        //    if (g == null) return false;
+        //    return Id == g.Id;
+        //}
 
-        public override int GetHashCode()
-        {
-            return Id.GetHashCode();
-        }
+        //public override int GetHashCode()
+        //{
+        //    return Id.GetHashCode();
+        //}
     }
 }

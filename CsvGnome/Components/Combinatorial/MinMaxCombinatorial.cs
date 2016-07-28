@@ -8,16 +8,7 @@ namespace CsvGnome.Components.Combinatorial
 {
     public class MinMaxCombinatorial : CombinatorialCore, IComponent
     {
-        #region IComponent
-
         public string Command => $"[{RawMinMaxComponent.Min}=>{RawMinMaxComponent.Max},{RawMinMaxComponent.Increment} {GetGroupString()}]";
-
-        public bool Equals(IComponent x)
-        {
-            return base.Equals(x);
-        }
-
-        #endregion
 
         private MinMaxComponent RawMinMaxComponent => RawComponent as MinMaxComponent;
 

@@ -20,7 +20,7 @@ namespace CsvGnome
         /// <returns></returns>
         public string GetValue(long i) => GetValueNumeric(i).ToString(getFormat());
         private long GetValueNumeric(long i) => start + ((i / every) * increment);
-        public bool Equals(IComponent x)
+        public bool EqualsComponent(IComponent x)
         {
             if (x == null) return false;
             var c = x as IncrementingComponent;

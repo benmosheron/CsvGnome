@@ -18,11 +18,6 @@ namespace CsvGnome.Components.Combinatorial
             }
         }
 
-        public bool Equals(IComponent x)
-        {
-            return base.Equals(x);
-        }
-
         /// <summary>
         /// Number of elements in the raw component's value array.
         /// </summary>
