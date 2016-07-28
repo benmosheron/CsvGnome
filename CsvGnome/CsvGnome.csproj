@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Action.cs" />
     <Compile Include="Colour.cs" />
+    <Compile Include="Components\AlphabetComponent.cs" />
     <Compile Include="Components\ArrayCycleComponent.cs" />
     <Compile Include="Components\ArraySpreadComponent.cs" />
     <Compile Include="Components\Combinatorial\ArrayCycleCombinatorial.cs" />

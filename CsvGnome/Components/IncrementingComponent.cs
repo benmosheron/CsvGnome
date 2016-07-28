@@ -13,13 +13,14 @@ namespace CsvGnome
         public const int DefaultEvery = 1;
         public string Command { get; }
         public List<Message> Summary => new List<Message> { new Message(Command, Program.SpecialColour) };
+
         /// <summary>
-        /// Get value to write on ith row
+        /// Get value to write on ith row (zero indexed).
         /// </summary>
-        /// <param name="i"></param>
-        /// <returns></returns>
         public string GetValue(long i) => GetValueNumeric(i).ToString(getFormat());
+
         private long GetValueNumeric(long i) => start + ((i / every) * increment);
+
         public bool EqualsComponent(IComponent x)
         {
             if (x == null) return false;
