@@ -8,6 +8,22 @@ namespace CsvGnome.Components.Combinatorial
 {
     public class IncrementingCombinatorial: CombinatorialCore, IComponent
     {
+        /// <summary>
+        /// Do not use this! Use the Factory class, which will manage the cache.
+        /// </summary>
+        public IncrementingCombinatorial(
+            Group group,
+            IncrementingComponent rawComponent)
+            : base(group, rawComponent)
+        {
+
+        }
+
+        public static IncrementingCombinatorial Make(Group group, IncrementingComponent rawComponent)
+        {
+            return new IncrementingCombinatorial(group, rawComponent);
+        }
+
         public override long? Cardinality => null;
 
         public string Command
@@ -61,17 +77,6 @@ namespace CsvGnome.Components.Combinatorial
         /// Rows to wait before incrementing.
         /// </summary>
         private int every => RawIncrementingComponent.Every;
-
-        /// <summary>
-        /// Do not use this! Use the Factory class, which will manage the cache.
-        /// </summary>
-        public IncrementingCombinatorial(
-            Group group,
-            IncrementingComponent rawComponent)
-            :base(group, rawComponent)
-        {
-
-        }
 
         /// <summary>
         /// Format of integer (e.g. "D3" to always print 3 digits)

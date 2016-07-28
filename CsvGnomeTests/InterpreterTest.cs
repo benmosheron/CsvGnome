@@ -329,6 +329,23 @@ namespace CsvGnomeTests
         }
 
         [TestMethod]
+        public void InterpretComponents_AlphabetComponent()
+        {
+            const string ins = "test:[a=>z]";
+            IComponent[] expected = new IComponent[]
+            {
+                new AlphabetComponent('a','z')
+            };
+
+            FieldBrain fieldBrain;
+            Interpreter x;
+            Utilties.InterpreterTestInit(out fieldBrain, out x);
+
+            Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
+            AssertSingleComponentField(fieldBrain, expected);
+        }
+
+        [TestMethod]
         public void InterpretComponents_Compound1()
         {
             const string ins = "test:1[date]meow[++]xxx";

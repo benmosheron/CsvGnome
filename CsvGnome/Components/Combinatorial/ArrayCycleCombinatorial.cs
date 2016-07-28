@@ -10,6 +10,22 @@ namespace CsvGnome.Components.Combinatorial
 {
     public class ArrayCycleCombinatorial : CombinatorialCore, IComponent
     {
+        /// <summary>
+        /// Do not use this! Use the Factory class, which will manage the cache.
+        /// </summary>
+        public ArrayCycleCombinatorial(
+            Group group,
+            ArrayCycleComponent rawComponent)
+            : base(group, rawComponent)
+        {
+
+        }
+
+        public static ArrayCycleCombinatorial Make(Group group, ArrayCycleComponent rawComponent)
+        {
+            return new ArrayCycleCombinatorial(group, rawComponent);
+        }
+
         public string Command
         {
             get
@@ -50,16 +66,5 @@ namespace CsvGnome.Components.Combinatorial
         /// Access the raw component's value array.
         /// </summary>
         private ReadOnlyCollection<string> valueArray => RawArrayCycleComponent.ValueArray;
-
-        /// <summary>
-        /// Do not use this! Use the Factory class, which will manage the cache.
-        /// </summary>
-        public ArrayCycleCombinatorial(
-            Group group,
-            ArrayCycleComponent rawComponent)
-            :base(group, rawComponent)
-        {
-
-        }
     }
 }

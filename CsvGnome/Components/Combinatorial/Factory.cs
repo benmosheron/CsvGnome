@@ -86,47 +86,17 @@ namespace CsvGnome.Components.Combinatorial
         /// <returns></returns>
         private ArrayCycleCombinatorial CreateArrayCycleCombinatorial(string groupId, ArrayCycleComponent rawComponent, int? maybeRank)
         {
-            int rank;
-            Group group = InitGroup(groupId, maybeRank, out rank);
-
-            // Create the component. Register the group with the component (but beware, the group does not know about the component yet!).
-            var arrayCycleCombinatorial = new ArrayCycleCombinatorial(group, rawComponent);
-
-            // Update the group.
-            Cache.AddComponentToGroup(groupId, arrayCycleCombinatorial, rank);
-
-            // Return the component.
-            return arrayCycleCombinatorial;
+            return CreateCombinatorial(groupId, rawComponent, maybeRank, ArrayCycleCombinatorial.Make);
         }
 
         private IncrementingCombinatorial CreateIncrementingCombinatorial(string groupId, IncrementingComponent rawComponent, int? maybeRank)
         {
-            int rank;
-            Group group = InitGroup(groupId, maybeRank, out rank);
-
-            // Create the component. Register the group with the component (but beware, the group does not know about the component yet!).
-            var arrayCycleCombinatorial = new IncrementingCombinatorial(group, rawComponent);
-
-            // Update the group.
-            Cache.AddComponentToGroup(groupId, arrayCycleCombinatorial, rank);
-
-            // Return the component.
-            return arrayCycleCombinatorial;
+            return CreateCombinatorial(groupId, rawComponent, maybeRank, IncrementingCombinatorial.Make);
         }
 
         private MinMaxCombinatorial CreateMinMaxCombinatorial(string groupId, MinMaxComponent rawComponent, int? maybeRank)
         {
-            int rank;
-            Group group = InitGroup(groupId, maybeRank, out rank);
-
-            // Create the component. Register the group with the component (but beware, the group does not know about the component yet!).
-            var minMaxCombinatorial = new MinMaxCombinatorial(group, rawComponent);
-
-            // Update the group.
-            Cache.AddComponentToGroup(groupId, minMaxCombinatorial, rank);
-
-            // Return the component.
-            return minMaxCombinatorial;
+            return CreateCombinatorial(groupId, rawComponent, maybeRank, MinMaxCombinatorial.Make);
         }
 
         private AlphabetCombinatorial CreateAlphabetCombinatorial(string groupId, AlphabetComponent rawComponent, int? maybeRank)
