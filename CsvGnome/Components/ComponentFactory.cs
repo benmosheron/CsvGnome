@@ -19,7 +19,7 @@ namespace CsvGnome
         private const string IncrementingPattern = @"\[ *\-?\d* *\+\+ *\-?\d* *(every +\d+ *)?\]";
         private Regex IncrementingRegex = new Regex(IncrementingPattern);
 
-        private const string MinMaxPattern = @"\[ *\-?\d+ *=> *\-?\d+ *,* *\-?\d* *(?:#.+?)*\]";
+        private const string MinMaxPattern = @"\[ *\-?\d+ *=> *\-?\d+ *,* *\-?\d* *\]";
         private Regex MinMaxRegex = new Regex(MinMaxPattern);
 
         private Components.Combinatorial.Factory CombinatorialFactory;
