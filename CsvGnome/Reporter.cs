@@ -99,6 +99,7 @@ namespace CsvGnome
             Console.WriteLine("[1++2 every 3]");
             Console.WriteLine("  Only increments every 3 rows:");
             Console.WriteLine("  1,1,1,3,3,3,5,5,5,...");
+            Console.WriteLine("  Can be given and ID to be used combinatorially.");
             Console.WriteLine("");
             Console.WriteLine("[date]");
             Console.WriteLine("  Includes the date and time (at the point of csv creation)");
@@ -108,6 +109,12 @@ namespace CsvGnome
             Console.WriteLine("");
             Console.WriteLine("[cycle]{a,b,c}");
             Console.WriteLine("  Cycles the values between curly braces through the file: a,b,c,a,b,c,a,b");
+            Console.WriteLine("  Can be given and ID to be used combinatorially.");
+            Console.WriteLine("");
+            Console.WriteLine("[a=>z]");
+            Console.WriteLine("  Cycles the characters from a to z.");
+            Console.WriteLine("  Use a mixture of upper and lower case to cycle both cases. E.g. [b=>C]: b,c,B,C");
+            Console.WriteLine("  Can be given and ID to be used combinatorially.");
             Console.WriteLine("");
             Console.WriteLine("[1=>3]");
             Console.WriteLine("  Repeats the numbers from 1 to 3 inclusive: 1,2,3,1,2,3...");
