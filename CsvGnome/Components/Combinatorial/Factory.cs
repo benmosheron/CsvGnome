@@ -16,6 +16,7 @@ namespace CsvGnome.Components.Combinatorial
         private const string c_arrayCycle = "CsvGnome.ArrayCycleComponent";
         private const string c_increment = "CsvGnome.IncrementingComponent";
         private const string c_minMax = "CsvGnome.MinMaxComponent";
+        private const string c_alphabet = "CsvGnome.AlphabetComponent";
 
         Cache Cache;
         public Factory(Cache cache)
@@ -45,6 +46,8 @@ namespace CsvGnome.Components.Combinatorial
                     return CreateIncrementingCombinatorial(groupId, rawComponent as IncrementingComponent, maybeRank);
                 case c_minMax:
                     return CreateMinMaxCombinatorial(groupId, rawComponent as MinMaxComponent, maybeRank);
+                case c_alphabet:
+                    return CreateAlphabetCombinatorial(groupId, rawComponent as AlphabetComponent, maybeRank);
                 default:
                     throw new Exception($"Cannot create an ICombinatorial from [{typeName}]");
             }
@@ -125,6 +128,29 @@ namespace CsvGnome.Components.Combinatorial
             // Return the component.
             return minMaxCombinatorial;
         }
+
+        private AlphabetCombinatorial CreateAlphabetCombinatorial(string groupId, AlphabetComponent rawComponent, int? maybeRank)
+        {
+            return CreateCombinatorial(groupId, rawComponent, maybeRank, AlphabetCombinatorial.Make);
+        }
+
+        private T2 CreateCombinatorial<T1,T2>(string groupId, T1 rawComponent, int? maybeRank, Func<Group,T1,T2> generator) 
+            where T1:IComponent
+            where T2:ICombinatorial
+        {
+            int rank;
+            Group group = InitGroup(groupId, maybeRank, out rank);
+
+            // Create the component. Register the group with the component (but beware, the group does not know about the component yet!).
+            var combinatorial = generator(group, rawComponent);
+
+            // Update the group.
+            Cache.AddComponentToGroup(groupId, combinatorial, rank);
+
+            // Return the combinatorial.
+            return combinatorial;
+        }
+
 
     }
 }

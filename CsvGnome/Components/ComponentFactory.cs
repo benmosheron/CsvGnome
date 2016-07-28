@@ -22,6 +22,9 @@ namespace CsvGnome
         private const string MinMaxPattern = @"\[ *\-?\d+ *=> *\-?\d+ *,* *\-?\d* *\]";
         private Regex MinMaxRegex = new Regex(MinMaxPattern);
 
+        private const string AlphabetPattern = @"\[ *[a-zA-Z] *=> *[a-zA-Z] *\]";
+        private Regex AlphabetRegex = new Regex(AlphabetPattern);
+
         private Components.Combinatorial.Factory CombinatorialFactory;
 
         public ComponentFactory(Components.Combinatorial.Factory combinatorialFactory)
@@ -46,6 +49,10 @@ namespace CsvGnome
             else if (MinMaxRegex.IsMatch(prototype))
             {
                 return CreateMinMaxComponent(prototype, groupPrototype);
+            }
+            else if (AlphabetRegex.IsMatch(prototype))
+            {
+                return CreateAlphabetComponent(prototype, groupPrototype);
             }
             else if (prototype.StartsWith(Program.SpreadComponentString))
             {
@@ -154,6 +161,18 @@ namespace CsvGnome
             // remove "[cycle]"
             var array = prototype.Substring(Program.CycleComponentString.Length);
             ArrayCycleComponent rawComponent = new ArrayCycleComponent(GetArray(array));
+
+            return Choose(rawComponent, groupPrototype);
+        }
+
+        private IComponent CreateAlphabetComponent(string prototype, string groupPrototype)
+        {
+            // remove "[" and "]"
+            string protoInc = prototype.Substring(1, prototype.Length - 2);
+
+            // split on "=>" for the start, and end.
+            string[] tokens = protoInc.Split(new string[] { "=>" }, StringSplitOptions.None);
+            AlphabetComponent rawComponent = new AlphabetComponent(tokens[0].Trim().First(), tokens[1].Trim().First());
 
             return Choose(rawComponent, groupPrototype);
         }

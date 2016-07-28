@@ -12,6 +12,14 @@ namespace CsvGnome.Components.Combinatorial
         {
         }
 
+        /// <summary>
+        /// Static "constructor" allows us to create these from a generic factory method.
+        /// </summary>
+        public static AlphabetCombinatorial Make(Group group, AlphabetComponent rawComponent)
+        {
+            return new AlphabetCombinatorial(group, rawComponent);
+        }
+
         public AlphabetComponent RawAlphabetComponent => RawComponent as AlphabetComponent;
 
         public override long? Cardinality => RawAlphabetComponent.Values.Length;
