@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CsvGnome.Components.Combinatorial
 {
-    public class IncrementingCombinatorial: CombinatorialBase, IComponent
+    public class IncrementingCombinatorial: CombinatorialCore, IComponent
     {
         public override long? Cardinality => null;
 

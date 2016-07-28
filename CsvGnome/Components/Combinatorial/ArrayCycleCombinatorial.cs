@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace CsvGnome.Components.Combinatorial
 {
-    public class ArrayCycleCombinatorial : CombinatorialBase, IComponent
+    public class ArrayCycleCombinatorial : CombinatorialCore, IComponent
     {
-        #region IComponent
-
         public string Command
         {
             get
@@ -19,6 +17,16 @@ namespace CsvGnome.Components.Combinatorial
                 return $"[cycle {GetGroupString()}]{{{valueArray.Aggregate((t, n) => $"{t},{n}")}}}";
             }
         }
+
+        public bool Equals(IComponent x)
+        {
+            return base.Equals(x);
+        }
+
+        /// <summary>
+        /// Number of elements in the raw component's value array.
+        /// </summary>
+        public override long? Cardinality => valueArray.Count;
 
         protected override List<Message> GetPreGroupMessage()
         {
@@ -37,22 +45,6 @@ namespace CsvGnome.Components.Combinatorial
                 new Message("}"),
             };
         }
-
-        public bool Equals(IComponent x)
-        {
-            return base.Equals(x);
-        }
-
-        #endregion IComponent
-
-        #region ICombinatorial
-
-        /// <summary>
-        /// Number of elements in the raw component's value array.
-        /// </summary>
-        public override long? Cardinality => valueArray.Count;
-
-        #endregion
 
         /// <summary>
         /// Access the raw component.

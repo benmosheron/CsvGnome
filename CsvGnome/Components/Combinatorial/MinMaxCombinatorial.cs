@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CsvGnome.Components.Combinatorial
 {
-    public class MinMaxCombinatorial : CombinatorialBase, IComponent
+    public class MinMaxCombinatorial : CombinatorialCore, IComponent
     {
         #region IComponent
 

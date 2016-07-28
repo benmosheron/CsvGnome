@@ -159,7 +159,7 @@ namespace CsvGnomeTests
                 MinMaxComponent m = new MinMaxComponent(start, end, increment);
                 Assert.Fail("Expected ArgumentOutOfRangeException");
             }
-            catch (ArgumentOutOfRangeException)
+            catch (InfiniteMinMaxException)
             {
                 // Success!
             }
@@ -177,7 +177,7 @@ namespace CsvGnomeTests
                 MinMaxComponent m = new MinMaxComponent(start, end, increment);
                 Assert.Fail("Expected ArgumentOutOfRangeException");
             }
-            catch (ArgumentOutOfRangeException)
+            catch (InfiniteMinMaxException)
             {
                 // Success!
             }
