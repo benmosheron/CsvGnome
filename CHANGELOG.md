@@ -1,4 +1,14 @@
-# Change Log
+## 1.4.0
+* Overhauled combinatorial fields. The following components can now be given an ID to combinatorially cycle through fields in a group:
+** `[++ #example/3]`
+** `[1=>3 #example/0]`
+** `[a=>c #example/1]`
+** `[cycle #example/2]{cat,dog}`
+* You can now specify the rank of a combinatorial component. Lower ranks go through a complete cycle before incrementing the next rank up.
+* MinMax components e.g. `[0=>-30, -3]` work with negative numbers. Make sure you get the signs right, or you'll get an error.
+* New Alphabet component `[a=>z]` will cycle through alphabet characters, between the input start and end.
+* Cleared up the code base in general.
+* New unit tests across the board.
 
 ## 1.3.0
 * Fixed bug where array components would not work for large arrays.
