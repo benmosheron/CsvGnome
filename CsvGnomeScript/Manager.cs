@@ -20,10 +20,23 @@ namespace CsvGnomeScript
             Functions.UpdateWithFunctions("lua" ,reader.Read(path));
         }
 
+        /// <summary>
+        /// Get the value generating function for a given language and function.
+        /// </summary>
+        /// <exception cref="InvalidLanguageException">Thrown if the given language does not have any functions stored.</exception>
+        /// <exception cref="InvalidFunctionException">Thrown if the given function does not exist in the given language's store.</exception> 
         public Func<long, object[]> GetValueFunction(string language, string functionName)
         {
+            if (!Functions.Languages.ContainsKey(language))
+            {
+                throw new InvalidLanguageException(language);
+            }
+
+            if (!Functions.Languages[language].ValueFunctions.ContainsKey(functionName))
+            {
+                throw new InvalidFunctionException(language, functionName);
+            }
             return Functions.Languages[language].ValueFunctions[functionName];
         }
-        
     }
 }

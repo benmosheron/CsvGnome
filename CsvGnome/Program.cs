@@ -62,26 +62,35 @@ namespace CsvGnome
         public static string File => $"{FilePath}{FileName}{FileExt}";
 
         /// <summary>
+        /// Path of the file containing lua functions.
+        /// </summary>
+        public static string LuaFunctionsFile = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), @"Scripts\functions.lua");
+
+        /// <summary>
         /// Public access to the program's gnomefilecache.
         /// </summary>
         public static GnomeFileCache GetGnomeFileCache => GnomeFileCache;
 
+        static readonly Reporter Reporter = new Reporter();
+        static readonly CsvGnomeScript.Manager ScriptManager = new CsvGnomeScript.Manager();
         static readonly Components.Combinatorial.Cache CombinatorialCache = new Components.Combinatorial.Cache();
         static readonly Components.Combinatorial.Factory CombinatorialFactory = new Components.Combinatorial.Factory(CombinatorialCache);
         static readonly Components.Combinatorial.Deleter CombinatorialDeleter = new Components.Combinatorial.Deleter(CombinatorialCache);
         static readonly FieldBrain FieldBrain = new FieldBrain(CombinatorialFactory, CombinatorialDeleter);
-        static readonly Reporter Reporter = new Reporter();
         static readonly GnomeFileCache GnomeFileCache = new GnomeFileCache(Reporter);
         static readonly GnomeFileWriter GnomeFileWriter = new GnomeFileWriter(Reporter, FieldBrain, GnomeFileCache);
         static readonly GnomeFileReader GnomeFileReader = new GnomeFileReader(Reporter, GnomeFileCache);
-        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, GnomeFileWriter, GnomeFileReader);
-        static readonly Interpreter InterpreterNoIO = new Interpreter(FieldBrain, Reporter);
+        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, ScriptManager, GnomeFileWriter, GnomeFileReader);
+        static readonly Interpreter InterpreterNoIO = new Interpreter(FieldBrain, Reporter, ScriptManager);
         static readonly Writer Writer = new Writer();
 
         static void Main(string[] args)
         {
             // Read defaults from file
             GnomeFileReader.ReadDefaultGnomeFile().ForEach(InterpreterNoIO.InterpretSilent);
+
+            // Read script files
+            ReadScriptFiles();
 
             SetConsoleTitle();
 
@@ -157,6 +166,19 @@ namespace CsvGnome
             string title = "CsvGnome";
             if (GnomeFileReader.LastLoadedFileName != null) title += $": {GnomeFileReader.LastLoadedFileName}";
             Console.Title = title;
+        }
+
+        private static void ReadScriptFiles()
+        {
+            try
+            {
+                ScriptManager.ReadFile(LuaFunctionsFile);
+            }
+            catch (Exception ex)
+            {
+                // Swallow all exceptions here, script functions will not work.
+                Reporter.Error(new Message($"Error loading functions from file: {LuaFunctionsFile}. [{ex.Message}]").ToList());
+            }
         }
 
         private static bool GetConfigured_ReportArrayContent()

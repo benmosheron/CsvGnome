@@ -63,6 +63,10 @@
     <Compile Include="Utilties.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CsvGnomeScript\CsvGnomeScript.csproj">
+      <Project>{9d24f971-078d-406c-8485-821b81d8f947}</Project>
+      <Name>CsvGnomeScript</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CsvGnome\CsvGnome.csproj">
       <Project>{80aba683-8d79-4d74-8fcf-0bb8b2694d8c}</Project>
       <Name>CsvGnome</Name>

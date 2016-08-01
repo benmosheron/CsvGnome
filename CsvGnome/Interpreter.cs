@@ -13,7 +13,8 @@ namespace CsvGnome
     public class Interpreter
     {
         /// <summary>
-        /// E.g. [something]{something else}
+        /// E.g. [something]
+        /// or   [something]{something else}
         /// </summary>
         public const string CommandRegexPattern = @"(\[.+?\](?:{.*?})?)";
         private Regex CommandRegex = new Regex(CommandRegexPattern);
@@ -21,6 +22,7 @@ namespace CsvGnome
         private readonly FieldBrain FieldBrain;
         private readonly Reporter Reporter;
         private readonly ComponentFactory Factory;
+        private readonly CsvGnomeScript.Manager ScriptManager;
         private readonly GnomeFileWriter GnomeFileWriter;
         private readonly GnomeFileReader GnomeFileReader;
 
@@ -32,8 +34,8 @@ namespace CsvGnome
         /// <param name="fieldBrain"></param>
         /// <param name="reporter"></param>
         /// <param name="cache"></param>
-        public Interpreter(FieldBrain fieldBrain, Reporter reporter)
-            :this(fieldBrain, reporter, null, null)
+        public Interpreter(FieldBrain fieldBrain, Reporter reporter, CsvGnomeScript.Manager scriptManager)
+            :this(fieldBrain, reporter, scriptManager, null, null)
         { }
 
         /// <summary>
@@ -44,11 +46,17 @@ namespace CsvGnome
         /// <param name="cache"></param>
         /// <param name="gnomeFileWriter"></param>
         /// <param name="gnomeFileReader"></param>
-        public Interpreter(FieldBrain fieldBrain, Reporter reporter, GnomeFileWriter gnomeFileWriter, GnomeFileReader gnomeFileReader)
+        public Interpreter(
+            FieldBrain fieldBrain, 
+            Reporter reporter,
+            CsvGnomeScript.Manager scriptManager,
+            GnomeFileWriter gnomeFileWriter, 
+            GnomeFileReader gnomeFileReader)
         {
             FieldBrain = fieldBrain;
             Reporter = reporter;
-            Factory = new ComponentFactory(CombinatorialFactory);
+            ScriptManager = scriptManager;
+            Factory = new ComponentFactory(CombinatorialFactory, ScriptManager);
             GnomeFileWriter = gnomeFileWriter;
             GnomeFileReader = gnomeFileReader;
         }
@@ -124,7 +132,7 @@ namespace CsvGnome
                 // Otherwise the interpreter could read a "load" instruction
                 if (GnomeFileReader != null)
                 {
-                    Interpreter interpreterNoIO = new Interpreter(FieldBrain, Reporter);
+                    Interpreter interpreterNoIO = new Interpreter(FieldBrain, Reporter, ScriptManager);
                     string fileToRead = input.Remove(0, "load".Length).Trim();
                     List<string> parsedFile = GnomeFileReader.ReadGnomeFile(fileToRead);
                     
@@ -225,11 +233,20 @@ namespace CsvGnome
 
         private IComponent[] GetComponents(string instruction)
         {
-            var results = CommandRegex
-                .Split(instruction)
-                .Where(i => !String.IsNullOrEmpty(i))
-                .Select(i => Factory.Create(i))
-                .ToArray();
+            IComponent[] results;
+            try
+            {
+                results = CommandRegex
+                    .Split(instruction)
+                    .Where(i => !String.IsNullOrEmpty(i))
+                    .Select(i => Factory.Create(i))
+                    .ToArray();
+            }
+            catch(ComponentCreationException ex)
+            {
+                Reporter.Error(new Message($"Error interpreting instruction {instruction}. [{ex.Message}]").ToList());
+                results = new IComponent[0];
+            }
             return results;
         }
 

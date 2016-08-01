@@ -78,10 +78,12 @@
     <Compile Include="Components\Combinatorial\ICombinatorial.cs" />
     <Compile Include="Components\Combinatorial\IncrementingCombinatorial.cs" />
     <Compile Include="Components\Combinatorial\MinMaxCombinatorial.cs" />
+    <Compile Include="Components\ComponentCreationException.cs" />
     <Compile Include="Components\ComponentFactory.cs" />
     <Compile Include="Components\DateComponent.cs" />
     <Compile Include="Components\IComponent.cs" />
     <Compile Include="Components\IncrementingComponent.cs" />
+    <Compile Include="Components\LuaComponent.cs" />
     <Compile Include="Components\MinMaxComponent.cs" />
     <Compile Include="Components\TextComponent.cs" />
     <Compile Include="Defaults.cs" />
@@ -105,9 +107,16 @@
     <None Include="GnomeFiles\default.gnome">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Output\CsvGnomeOutput.csv" />
+    <None Include="Scripts\functions.lua">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\CsvGnomeScript\CsvGnomeScript.csproj">
+      <Project>{9d24f971-078d-406c-8485-821b81d8f947}</Project>
+      <Name>CsvGnomeScript</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
       <Visible>False</Visible>
@@ -120,11 +129,15 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Output\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /Y "C:\CsvGnome\LICENSE" $(TargetDir)
 copy /Y "C:\CsvGnome\README.md" $(TargetDir)
-if not exist $(TargetDir)\Output mkdir $(TargetDir)\Output</PostBuildEvent>
+if not exist $(TargetDir)\Output mkdir $(TargetDir)\Output
+if not exist $(TargetDir)\Scripts mkdir $(TargetDir)\Scripts</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

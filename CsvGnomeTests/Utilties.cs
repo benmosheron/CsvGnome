@@ -1,5 +1,6 @@
 ﻿using CsvGnome;
 using CsvGnome.Components.Combinatorial;
+using CsvGnomeScript;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace CsvGnomeTests
             out Factory combinatorialFactory,
             out Deleter combinatorialDeleter,
             out FieldBrain fieldBrain,
+            out Manager manager,
             out Interpreter interpreter)
         {
             reporter = new Reporter();
@@ -23,7 +25,8 @@ namespace CsvGnomeTests
             combinatorialFactory = new Factory(cache);
             combinatorialDeleter = new Deleter(cache);
             fieldBrain = new FieldBrain(combinatorialFactory, combinatorialDeleter);
-            interpreter = new Interpreter(fieldBrain, reporter);
+            manager = new Manager();
+            interpreter = new Interpreter(fieldBrain, reporter, manager);
         }
 
         public static void InterpreterTestInit(
@@ -34,6 +37,7 @@ namespace CsvGnomeTests
             Cache cache;
             Factory combinatorialFactory;
             Deleter combinatorialDeleter;
+            Manager manager;
 
             CreateAll(
                 out reporter,
@@ -41,6 +45,7 @@ namespace CsvGnomeTests
                 out combinatorialFactory,
                 out combinatorialDeleter,
                 out fieldBrain,
+                out manager,
                 out interpreter);
         }
 
@@ -55,6 +60,7 @@ namespace CsvGnomeTests
             Factory combinatorialFactory;
             Deleter combinatorialDeleter;
             FieldBrain fieldBrain;
+            Manager manager;
 
             CreateAll(
                 out reporter,
@@ -62,6 +68,7 @@ namespace CsvGnomeTests
                 out combinatorialFactory,
                 out combinatorialDeleter,
                 out fieldBrain,
+                out manager,
                 out interpreter);
         }
     }

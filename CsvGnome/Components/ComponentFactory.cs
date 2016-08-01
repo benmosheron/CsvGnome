@@ -25,13 +25,24 @@ namespace CsvGnome
         private const string AlphabetPattern = @"\[ *[a-zA-Z] *=> *[a-zA-Z] *\]";
         private Regex AlphabetRegex = new Regex(AlphabetPattern);
 
-        private Components.Combinatorial.Factory CombinatorialFactory;
+        private const string LuaPattern = @"\[ *lua (?:[a-zA-Z]|_)\w* *\]";
+        private Regex LuaRegex = new Regex(LuaPattern);
 
-        public ComponentFactory(Components.Combinatorial.Factory combinatorialFactory)
+        private Components.Combinatorial.Factory CombinatorialFactory;
+        private CsvGnomeScript.Manager ScriptManager;
+
+        public ComponentFactory(
+            Components.Combinatorial.Factory combinatorialFactory,
+            CsvGnomeScript.Manager scriptManager)
         {
             CombinatorialFactory = combinatorialFactory;
+            ScriptManager = scriptManager;
         }
 
+        /// <summary>
+        /// Create a component from the prototpye command.
+        /// </summary>
+        /// <exception cref="ComponentCreationException">Thrown if a lua component throws an error on creation due to an invalid function.</exception>
         public IComponent Create(string rawPrototype)
         {
             string groupPrototype = null;
@@ -53,6 +64,10 @@ namespace CsvGnome
             else if (AlphabetRegex.IsMatch(prototype))
             {
                 return CreateAlphabetComponent(prototype, groupPrototype);
+            }
+            else if (LuaRegex.IsMatch(prototype))
+            {
+                return CreateLuaComponent(prototype);
             }
             else if (prototype.StartsWith(Program.SpreadComponentString))
             {
@@ -175,6 +190,30 @@ namespace CsvGnome
             AlphabetComponent rawComponent = new AlphabetComponent(tokens[0].Trim().First(), tokens[1].Trim().First());
 
             return Choose(rawComponent, groupPrototype);
+        }
+
+        /// <summary>
+        /// Create a component which evaluates a function from functions.lua.
+        /// </summary>
+        /// <exception cref="ComponentCreationException">Thrown if the function does not exist.</exception>
+        private IComponent CreateLuaComponent(string prototype)
+        {
+            // remove "[" and "]"
+            string protoInc = prototype.Substring(1, prototype.Length - 2);
+
+            // remove "lua" and trim
+            string protoNoLua = protoInc.Replace("lua", String.Empty).Trim();
+
+            IComponent component;
+            try
+            {
+                component = new LuaComponent(protoNoLua, ScriptManager.GetValueFunction("lua", protoNoLua));
+                return component;
+            }
+            catch (CsvGnomeScript.InvalidFunctionException ex)
+            {
+                throw new ComponentCreationException($"Function \"{ex.Function}\" was not found, or could not be parsed from functions.lua.", ex);
+            }
         }
 
         private string GetGroupId(string groupPrototype, out int? rank)
