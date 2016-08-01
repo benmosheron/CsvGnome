@@ -1,16 +1,18 @@
 ﻿using CsvGnomeScript;
 using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CsvGnomeScriptTest
 {
     [TestClass]
-    public class LuaTest
+    public class ManagerTest
     {
         [TestMethod]
-        public void ScriptReader()
+        public void Lua()
         {
             const string c_testFileName = "functions.lua";
 
@@ -21,15 +23,15 @@ namespace CsvGnomeScriptTest
                 ["getI"] = i => i.ToString()
             };
 
-            LuaScriptReader reader = new LuaScriptReader();
-            LuaScriptFunctions f = reader.Read(c_testFileName);
+            Manager m = new Manager();
+            m.ReadFile(c_testFileName);
 
             foreach (string functionName in expected.Keys)
             {
                 long i = 99;
                 Assert.AreEqual(
                     expected[functionName](i),
-                    f.ValueFunctions[functionName](i).First().ToString());
+                    m.GetValueFunction("lua",functionName)(i).First().ToString());
             }
         }
     }

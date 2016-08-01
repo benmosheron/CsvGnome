@@ -9,21 +9,20 @@ namespace CsvGnomeScript
     /// <summary>
     /// Manages reading of script files, and retrieval of function delegates.
     /// </summary>
-    /// <remarks>
-    /// Intended to be the single public access point for CsvGnome.
-    /// </remarks>
     public class Manager
     {
         private ScriptFunctionStore Functions = new ScriptFunctionStore();
 
         public void ReadFile(string path)
         {
-            throw new NotImplementedException();
+            // For now, we can only do lua files.
+            LuaScriptReader reader = new LuaScriptReader();
+            Functions.UpdateWithFunctions("lua" ,reader.Read(path));
         }
 
-        public Func<long, string> GetValueFunction(string language, string function)
+        public Func<long, object[]> GetValueFunction(string language, string functionName)
         {
-            throw new NotImplementedException();
+            return Functions.Languages[language].ValueFunctions[functionName];
         }
         
     }

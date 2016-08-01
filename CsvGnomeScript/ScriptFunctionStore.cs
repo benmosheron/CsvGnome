@@ -13,8 +13,6 @@ namespace CsvGnomeScript
         /// <summary>
         /// Update the function store with a set of functions for the provided language. The store will be initialsed if it has not been already.
         /// </summary>
-        /// <param name="language"></param>
-        /// <param name="functionsToAdd"></param>
         public void UpdateWithFunctions(string language, IScriptFunctions functionsToAdd)
         {
             if (!Languages.ContainsKey(language))

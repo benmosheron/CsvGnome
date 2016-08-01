@@ -46,6 +46,7 @@
     <Compile Include="IScriptFunctions.cs" />
     <Compile Include="LuaScriptFunctions.cs" />
     <Compile Include="LuaScriptReader.cs" />
+    <Compile Include="Manager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptFunctionStore.cs" />
   </ItemGroup>

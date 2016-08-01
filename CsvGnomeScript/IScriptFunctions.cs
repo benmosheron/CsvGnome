@@ -9,7 +9,5 @@ namespace CsvGnomeScript
     public interface IScriptFunctions
     {
         Dictionary<string, Func<long, object[]>> ValueFunctions { get; }
-
-        string GetValue(string functionName, long i);
     }
 }
