@@ -9,6 +9,7 @@
 * New Alphabet component `[a=>z]` will cycle through alphabet characters, between the input start and end.
 * Cleared up the code base in general.
 * New unit tests across the board.
+* Added lua scripting functionality. Lua functions which take a single parameter - the row number - can be added to Scripts\functions.lua. These functions wille be called by `[lua <functio name>]` components.
 
 ## 1.3.0
 * Fixed bug where array components would not work for large arrays.
