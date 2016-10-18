@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
+//using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,7 +67,7 @@ namespace CsvGnome
         /// Public access to the program's gnomefilecache.
         /// </summary>
         public static GnomeFileCache GetGnomeFileCache => GnomeFileCache;
-
+        
         static readonly Reporter Reporter = new Reporter();
         static readonly CsvGnomeScript.Manager ScriptManager = new CsvGnomeScript.Manager();
         static readonly Components.Combinatorial.Cache CombinatorialCache = new Components.Combinatorial.Cache();
@@ -81,6 +81,8 @@ namespace CsvGnome
         static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, ScriptManager, DateProvider, GnomeFileWriter, GnomeFileReader);
         static readonly Interpreter InterpreterNoIO = new Interpreter(FieldBrain, Reporter, ScriptManager, DateProvider);
         static readonly Writer Writer = new Writer();
+
+        static readonly Configuration.IProvider ConfigurationProvider = new Configuration.Provider(Reporter);
 
         static void Main(string[] args)
         {
@@ -184,9 +186,9 @@ namespace CsvGnome
             bool b = false;
             try
             {
-                b = ConfigurationManager.AppSettings[ReportArrayContentsConfigKey] == true.ToString();
+                b = System.Configuration.ConfigurationManager.AppSettings[ReportArrayContentsConfigKey] == true.ToString();
             }
-            catch(ConfigurationException ex)
+            catch(System.Configuration.ConfigurationException ex)
             {
                 Reporter.AddMessage(new Message(ex.Message, ConsoleColor.Red));
             }
@@ -197,13 +199,13 @@ namespace CsvGnome
         {
             try
             {
-                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                System.Configuration.Configuration config = System.Configuration.ConfigurationManager.OpenExeConfiguration(System.Configuration.ConfigurationUserLevel.None);
                 config.AppSettings.Settings.Remove(ReportArrayContentsConfigKey);
                 config.AppSettings.Settings.Add(ReportArrayContentsConfigKey, b.ToString());
-                config.Save(ConfigurationSaveMode.Modified);
-                ConfigurationManager.RefreshSection("appSettings");
+                config.Save(System.Configuration.ConfigurationSaveMode.Modified);
+                System.Configuration.ConfigurationManager.RefreshSection("appSettings");
             }
-            catch(ConfigurationErrorsException ex)
+            catch(System.Configuration.ConfigurationErrorsException ex)
             {
                 Reporter.AddMessage(new Message(ex.Message, ConsoleColor.Red));
             }
