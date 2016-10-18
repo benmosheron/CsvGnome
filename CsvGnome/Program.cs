@@ -10,7 +10,6 @@ namespace CsvGnome
     public class Program
     {
         public const string FileExt = ".csv";
-        public const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ss";
         public const string DateComponentString = "[date]";
         public const string SpreadComponentString = "[spread]";
         public const string CycleComponentString = "[cycle]";
@@ -19,14 +18,12 @@ namespace CsvGnome
 
         private const string ReportArrayContentsConfigKey = "ReportArrayContents";
 
-        public static string TimeAtWrite = DateTime.Now.ToString(DateTimeFormat);
-
         /// <summary>
         /// Set the value of the TimeAtWrite field to the current time.
         /// </summary>
         public static void UpdateTime()
         {
-            TimeAtWrite = DateTime.Now.ToString(DateTimeFormat);
+            DateProvider.UpdateNow();
         }
 
         private static int n = 10; 
