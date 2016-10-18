@@ -55,6 +55,7 @@
     <Compile Include="AlphabetComponentTest.cs" />
     <Compile Include="ArrayComponentTest.cs" />
     <Compile Include="CombinatorialTest.cs" />
+    <Compile Include="DateComponentTest.cs" />
     <Compile Include="IncrementingComponentTest.cs" />
     <Compile Include="InterpreterCombinatorialTest.cs" />
     <Compile Include="InterpreterTest.cs" />

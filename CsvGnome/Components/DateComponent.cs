@@ -8,11 +8,20 @@ namespace CsvGnome
 {
     public class DateComponent : IComponent
     {
-        public string Command => Program.DateComponentString;
-        public List<Message> Summary => new List<Message> { new Message(Program.DateComponentString, Program.SpecialColour) };
+        public const string NoFormatCommand = "[date]";
+        #region IComponent
+        public string Command
+        {
+            get
+            {
+                if (Format == String.Empty) return NoFormatCommand;
+                else return $"[date \"{Format}\"]";
+            }
+        }
+        public List<Message> Summary => Message.NewSpecial(Command).ToList();
         public string GetValue(long i)
         {
-            return Program.TimeAtWrite;
+            return GetValue();
         }
         public bool EqualsComponent(IComponent x)
         {
@@ -21,6 +30,27 @@ namespace CsvGnome
             if (c == null) return false;
             if (GetValue(0) != c.GetValue(0)) return false;
             return true;
+        }
+        #endregion
+
+        Date.IProvider DateProvider;
+        string Format;
+
+        public DateComponent(Date.IProvider dateProvider)
+        {
+            DateProvider = dateProvider;
+            Format = String.Empty;
+        }
+
+        public DateComponent(Date.IProvider dateProvider, string format)
+        {
+            DateProvider = dateProvider;
+            Format = format;
+        }
+
+        string GetValue()
+        {
+            return DateProvider.Get().ToString(Format);
         }
     }
 }

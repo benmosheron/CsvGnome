@@ -28,13 +28,16 @@ namespace CsvGnome
         private const string LuaPattern = @"\[ *lua (?:[a-zA-Z]|_)\w* *\]";
         private Regex LuaRegex = new Regex(LuaPattern);
 
+        private Date.IProvider DateProvider;
         private Components.Combinatorial.Factory CombinatorialFactory;
         private CsvGnomeScript.Manager ScriptManager;
 
         public ComponentFactory(
+            Date.IProvider dateProvider,
             Components.Combinatorial.Factory combinatorialFactory,
             CsvGnomeScript.Manager scriptManager)
         {
+            DateProvider = dateProvider;
             CombinatorialFactory = combinatorialFactory;
             ScriptManager = scriptManager;
         }
@@ -81,7 +84,7 @@ namespace CsvGnome
             }
             else if(prototype == Program.DateComponentString)
             {
-                return new DateComponent();
+                return new DateComponent(DateProvider);
             }
             else
             {

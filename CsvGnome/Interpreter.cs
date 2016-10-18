@@ -23,6 +23,7 @@ namespace CsvGnome
         private readonly Reporter Reporter;
         private readonly ComponentFactory Factory;
         private readonly CsvGnomeScript.Manager ScriptManager;
+        private readonly Date.IProvider DateProvider;
         private readonly GnomeFileWriter GnomeFileWriter;
         private readonly GnomeFileReader GnomeFileReader;
 
@@ -34,8 +35,8 @@ namespace CsvGnome
         /// <param name="fieldBrain"></param>
         /// <param name="reporter"></param>
         /// <param name="cache"></param>
-        public Interpreter(FieldBrain fieldBrain, Reporter reporter, CsvGnomeScript.Manager scriptManager)
-            :this(fieldBrain, reporter, scriptManager, null, null)
+        public Interpreter(FieldBrain fieldBrain, Reporter reporter, CsvGnomeScript.Manager scriptManager, Date.IProvider dateProvider)
+            :this(fieldBrain, reporter, scriptManager, dateProvider, null, null)
         { }
 
         /// <summary>
@@ -50,13 +51,15 @@ namespace CsvGnome
             FieldBrain fieldBrain, 
             Reporter reporter,
             CsvGnomeScript.Manager scriptManager,
+            Date.IProvider dateProvider,
             GnomeFileWriter gnomeFileWriter, 
             GnomeFileReader gnomeFileReader)
         {
             FieldBrain = fieldBrain;
             Reporter = reporter;
             ScriptManager = scriptManager;
-            Factory = new ComponentFactory(CombinatorialFactory, ScriptManager);
+            DateProvider = dateProvider;
+            Factory = new ComponentFactory(dateProvider, CombinatorialFactory, ScriptManager);
             GnomeFileWriter = gnomeFileWriter;
             GnomeFileReader = gnomeFileReader;
         }
@@ -132,7 +135,7 @@ namespace CsvGnome
                 // Otherwise the interpreter could read a "load" instruction
                 if (GnomeFileReader != null)
                 {
-                    Interpreter interpreterNoIO = new Interpreter(FieldBrain, Reporter, ScriptManager);
+                    Interpreter interpreterNoIO = new Interpreter(FieldBrain, Reporter, ScriptManager, DateProvider);
                     string fileToRead = input.Remove(0, "load".Length).Trim();
                     List<string> parsedFile = GnomeFileReader.ReadGnomeFile(fileToRead);
                     

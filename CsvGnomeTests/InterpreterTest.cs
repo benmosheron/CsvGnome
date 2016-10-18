@@ -256,7 +256,7 @@ namespace CsvGnomeTests
         public void InterpretComponents_Date()
         {
             const string ins = "test:[date]";
-            IComponent[] expected = new IComponent[] { new DateComponent() };
+            IComponent[] expected = new IComponent[] { new DateComponent(new CsvGnome.Date.Provider()) };
 
             FieldBrain fieldBrain;
             Interpreter x;
@@ -352,7 +352,7 @@ namespace CsvGnomeTests
             IComponent[] expected = new IComponent[]
             {
                 new TextComponent("1"),
-                new DateComponent(),
+                new DateComponent(new CsvGnome.Date.Provider()),
                 new TextComponent("meow"),
                 new IncrementingComponent(0),
                 new TextComponent("xxx")

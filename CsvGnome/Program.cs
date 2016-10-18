@@ -80,8 +80,9 @@ namespace CsvGnome
         static readonly GnomeFileCache GnomeFileCache = new GnomeFileCache(Reporter);
         static readonly GnomeFileWriter GnomeFileWriter = new GnomeFileWriter(Reporter, FieldBrain, GnomeFileCache);
         static readonly GnomeFileReader GnomeFileReader = new GnomeFileReader(Reporter, GnomeFileCache);
-        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, ScriptManager, GnomeFileWriter, GnomeFileReader);
-        static readonly Interpreter InterpreterNoIO = new Interpreter(FieldBrain, Reporter, ScriptManager);
+        static readonly Date.IProvider DateProvider = new Date.Provider();
+        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, ScriptManager, DateProvider, GnomeFileWriter, GnomeFileReader);
+        static readonly Interpreter InterpreterNoIO = new Interpreter(FieldBrain, Reporter, ScriptManager, DateProvider);
         static readonly Writer Writer = new Writer();
 
         static void Main(string[] args)

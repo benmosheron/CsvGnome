@@ -1,3 +1,7 @@
+## 1.5.0
+* You can now optionally provide a [.NET date format string](https://msdn.microsoft.com/en-us/library/8kb3ddd4) to [date] components.
+** e.g. `[date "HH:mm dddd dd MMMM"]` writes `19:09 Tuesday 18 October`.
+
 ## 1.4.0
 * Overhauled combinatorial fields. The following components can now be given an ID to combinatorially cycle through fields in a group:
 ** `[++ #example/3]`

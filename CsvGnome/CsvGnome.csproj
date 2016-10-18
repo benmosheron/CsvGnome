@@ -86,6 +86,8 @@
     <Compile Include="Components\LuaComponent.cs" />
     <Compile Include="Components\MinMaxComponent.cs" />
     <Compile Include="Components\TextComponent.cs" />
+    <Compile Include="Date\IProvider.cs" />
+    <Compile Include="Date\Provider.cs" />
     <Compile Include="Defaults.cs" />
     <Compile Include="Fields\ComponentField.cs" />
     <Compile Include="Fields\IField.cs" />
