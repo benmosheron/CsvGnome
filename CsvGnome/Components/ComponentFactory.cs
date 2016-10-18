@@ -13,6 +13,9 @@ namespace CsvGnome
         // + one or more
         // ? zero or one
         // (?:) non-capturing group
+        private const string DatePattern = @"\[ *date *(?<format>"".*"")* *\]"; // Note the named (name = format) capturing group for a format.
+        private Regex DateRegex = new Regex(DatePattern);
+        
         private const string GroupPattern = @"( *#\w+(?:\/\d+)? *)";
         private Regex GroupRegex = new Regex(GroupPattern);
 
@@ -72,6 +75,10 @@ namespace CsvGnome
             {
                 return CreateLuaComponent(prototype);
             }
+            else if (DateRegex.IsMatch(prototype))
+            {
+                return CreateDateComponent(prototype);
+            }
             else if (prototype.StartsWith(Program.SpreadComponentString))
             {
                 // remove "[spread]"
@@ -81,10 +88,6 @@ namespace CsvGnome
             else if (prototype.StartsWith(Program.CycleComponentString))
             {
                 return CreateArrayCycleComponent(prototype, groupPrototype);
-            }
-            else if(prototype == Program.DateComponentString)
-            {
-                return new DateComponent(DateProvider);
             }
             else
             {
@@ -216,6 +219,25 @@ namespace CsvGnome
             catch (CsvGnomeScript.InvalidFunctionException ex)
             {
                 throw new ComponentCreationException($"Function \"{ex.Function}\" was not found, or could not be parsed from functions.lua.", ex);
+            }
+        }
+
+        /// <summary>
+        /// Create a DateComponent which will output the date/time at writing.
+        /// </summary>
+        private IComponent CreateDateComponent(string prototype)
+        {
+            // Is a format provided?
+            Group formatGroup = DateRegex.Match(prototype).Groups["format"];
+            if (formatGroup.Success)
+            {
+                // remove the ""s
+                string format = formatGroup.Value.Substring(1, formatGroup.Value.Length - 2);
+                return new DateComponent(DateProvider, format);
+            }
+            else
+            {
+                return new DateComponent(DateProvider);
             }
         }
 

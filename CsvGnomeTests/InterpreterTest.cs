@@ -267,6 +267,21 @@ namespace CsvGnomeTests
         }
 
         [TestMethod]
+        public void InterpretComponents_DateWithFormat()
+        {
+            const string format = "HH:mm";
+            string ins = $"test:[date \"{format}\"]";
+            IComponent[] expected = new IComponent[] { new DateComponent(new CsvGnome.Date.Provider(), format) };
+            
+            FieldBrain fieldBrain;
+            Interpreter x;
+            Utilties.InterpreterTestInit(out fieldBrain, out x);
+
+            Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
+            AssertSingleComponentField(fieldBrain, expected);
+        }
+
+        [TestMethod]
         public void InterpretComponents_MinMax()
         {
             const string ins = "test:[0=>10]";
