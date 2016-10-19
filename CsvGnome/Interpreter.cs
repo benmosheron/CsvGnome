@@ -109,6 +109,9 @@ namespace CsvGnome
             // "gnomefiles" write information about gnomefiles
             if (input.ToLower() == "gnomefiles") return Action.ShowGnomeFiles;
 
+            // "preview" display a preview of the data to generate in the console window
+            if (input.ToLower() == "preview") return Action.Preview;
+
             // "clear" clears all fields
             if (input.ToLower() == "clear")
             {

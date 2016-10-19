@@ -12,6 +12,7 @@ Change the number of rows to generate by entering a number E.g. `12` to write tw
 * `exit` quits.
 * `write` writes the CSV file. The file will be written to CsvGnome's Output directory.
 * `run` writes the CSV and quits.
+* `preview` displays a preview of the data that will be written in the console window.
 * `delete fieldName` deletes the field with name "fieldName".
 * `clear` clears all fields.
 * CsvGnome can pad fields with empty spaces to ensure columns are aligned.

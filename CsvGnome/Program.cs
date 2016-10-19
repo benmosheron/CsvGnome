@@ -72,6 +72,7 @@ namespace CsvGnome
         static readonly FieldBrain FieldBrain = new FieldBrain(CombinatorialFactory, CombinatorialDeleter);
         static readonly Configuration.IProvider ConfigurationProvider = new Configuration.Provider(Reporter);
         static readonly Writer Writer = new Writer(ConfigurationProvider);
+        static readonly Previewer Previewer = new Previewer(ConfigurationProvider);
         static readonly GnomeFileCache GnomeFileCache = new GnomeFileCache(Reporter);
         static readonly GnomeFileWriter GnomeFileWriter = new GnomeFileWriter(Reporter, FieldBrain, GnomeFileCache);
         static readonly GnomeFileReader GnomeFileReader = new GnomeFileReader(Reporter, GnomeFileCache);
@@ -97,6 +98,7 @@ namespace CsvGnome
                 Action.Help,
                 Action.HelpSpecial,
                 Action.ShowGnomeFiles,
+                Action.Preview
             };
 
             while(ContinueWhile.Contains(nextAction))
@@ -212,6 +214,10 @@ namespace CsvGnome
                     break;
                 case Action.ShowGnomeFiles:
                     Reporter.ShowGnomeFiles();
+                    break;
+                case Action.Preview:
+                    Previewer.Preview(Reporter, FieldBrain.Fields, PaddedFieldFactory, N);
+                    Reporter.Report(FieldBrain.Fields, N, File);
                     break;
                 default:
                     Reporter.Report(FieldBrain.Fields, N, File);
