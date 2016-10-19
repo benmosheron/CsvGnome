@@ -96,6 +96,7 @@
     <Compile Include="Fields\IField.cs" />
     <Compile Include="Fields\IPaddedField.cs" />
     <Compile Include="Fields\PaddedField.cs" />
+    <Compile Include="Fields\PaddedFieldFactory.cs" />
     <Compile Include="GnomeFileCache.cs" />
     <Compile Include="GnomeFileReader.cs" />
     <Compile Include="GnomeFileWriter.cs" />

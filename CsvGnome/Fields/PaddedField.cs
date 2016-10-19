@@ -13,7 +13,7 @@ namespace CsvGnome.Fields
     public class PaddedLengthNotCalculatedException : Exception
     {
         public PaddedLengthNotCalculatedException()
-            : this("GetValue(i) was called by a PaddedField before CalculateMaxLength() was called.")
+            : this("GetValue(i) or GetPaddedName() was called by a PaddedField before CalculateMaxLength() was called.")
         { }
 
         private PaddedLengthNotCalculatedException(string message) : base(message) { }
@@ -24,12 +24,21 @@ namespace CsvGnome.Fields
     /// </summary>
     public class PaddedLengthExceededException : Exception
     {
-        public int RowNumber;
+        public int? RowNumber;
         public int ExpectedMaxLength;
         public int ActualLength;
         public string Value;
+
+        public PaddedLengthExceededException(int expectedMaxLength, string name)
+            : this($"Name of field [{name}] is long than the expected maximum [{expectedMaxLength}]. It is likely that CalculateMaxLength was not called, or was called for wrong N.")
+        {
+            ExpectedMaxLength = expectedMaxLength;
+            ActualLength = name.Length;
+            Value = name;
+        }
+
         public PaddedLengthExceededException(int i, int expectedMaxLength, int actualLength, string value)
-            : this($"GetValue({i}) returned a value longer than the expected maximum [{expectedMaxLength}]. Value: [{value}]. Length: [{actualLength}].")
+            : this($"GetValue({i}) returned a value longer than the expected maximum [{expectedMaxLength}]. Value: [{value}]. Length: [{actualLength}]. It is likely that CalculateMaxLength was not called, or was called for wrong N.")
         {
             RowNumber = i;
             ExpectedMaxLength = expectedMaxLength;
@@ -54,7 +63,7 @@ namespace CsvGnome.Fields
         /// <summary>
         /// Create a new PaddedField, which will pad the input field with spaces.
         /// </summary>
-        public PaddedField(ComponentField f)
+        public PaddedField(IField f)
         {
             InnerField = f;
         }
@@ -64,22 +73,39 @@ namespace CsvGnome.Fields
         /// </summary>
         public void CalculateMaxLength(int N)
         {
-            int length = 0;
+            int length = Name.Length;
             int tempLength;
             for (int i = 0; i < N; i++)
             {
                 tempLength = InnerField.GetValue(i).Length;
                 if (tempLength > length) length = tempLength;
             }
+
             MaxLength = length;
+        }
+
+        public string GetPaddedName()
+        {
+            if (!MaxLength.HasValue) throw new PaddedLengthNotCalculatedException();
+
+            // Can't currently be hit (as we can't mess with the name), but better safe than sorry.
+            if(Name.Length > MaxLength.Value) throw new PaddedLengthExceededException(MaxLength.Value, Name);
+
+            string pad = String.Empty;
+
+            if (Name.Length < MaxLength.Value)
+            {
+                pad = new string(' ', MaxLength.Value - Name.Length);
+            }
+
+            return Name + pad;
         }
 
         #region IField
 
         public string Command => InnerField.Command;
-        public string Name => InnerField.Name;
         public List<Message> Summary => InnerField.Summary;
-
+        public string Name => InnerField.Name;
         public string GetValue(int i)
         {
             if (!MaxLength.HasValue) throw new PaddedLengthNotCalculatedException();
@@ -87,15 +113,13 @@ namespace CsvGnome.Fields
             // Pad the inner field's value with spaces up to the max length.
             string inner = InnerField.GetValue(i);
 
+            if(inner.Length > MaxLength.Value) throw new PaddedLengthExceededException(i, MaxLength.Value, inner.Length, inner);
+
             string pad = String.Empty;
 
-            if(inner.Length <= MaxLength)
+            if(inner.Length < MaxLength.Value)
             {
                 pad = new string(' ', MaxLength.Value - inner.Length);
-            }
-            else
-            {
-                throw new PaddedLengthExceededException(i, MaxLength.Value, inner.Length, inner);
             }
 
             return inner + pad;

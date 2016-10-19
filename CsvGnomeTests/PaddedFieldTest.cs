@@ -9,18 +9,22 @@ namespace CsvGnomeTests
     [TestClass]
     public class PaddedFieldTest
     {
-        private static IComponent[] components = new IComponent[]
+        private PaddedField Get(string name)
         {
-            // Use an array component which will have different max lengths for when N = 1 -> 5 (i = 0 -> 4).
-            new ArrayCycleComponent(new string[]{"", "x", "xx", "xxx", "xxxx"}, new TestConfigurationProvider())
-        };
+            IComponent[] components = new IComponent[]
+            {
+                // Use an array component which will have different max lengths for when N = 1 -> 5 (i = 0 -> 4).
+                new ArrayCycleComponent(new string[]{"", "x", "xx", "xxx", "xxxx"}, new TestConfigurationProvider())
+            };
 
-        private ComponentField InnerField = new ComponentField("test", components);
-
-        private PaddedField Get()
-        {
+            ComponentField InnerField = new ComponentField(name, components);
             return new PaddedField(InnerField);
         }
+
+        /// <summary>
+        /// PaddedField with an empty name.
+        /// </summary>
+        private PaddedField Get() => Get("");
 
         [TestMethod]
         public void TestPadding()
@@ -47,6 +51,30 @@ namespace CsvGnomeTests
         }
 
         [TestMethod]
+        public void TestPaddingLongName()
+        {
+            var expected = new Dictionary<int, string>()
+            {
+                {0, "     "},
+                {1, "x    "},
+                {2, "xx   "},
+                {3, "xxx  "},
+                {4, "xxxx "}
+            };
+
+            int N = expected.Count;
+
+            PaddedField f = Get("nnnnn");
+
+            f.CalculateMaxLength(N);
+
+            for (int i = 0; i < N; i++)
+            {
+                Assert.AreEqual(expected[i], f.GetValue(i));
+            }
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(PaddedLengthNotCalculatedException))]
         public void ThrowsIfMaxNotCalculated()
         {
@@ -64,5 +92,6 @@ namespace CsvGnomeTests
 
             f.GetValue(1); // "x", which has length 1
         }
+
     }
 }
