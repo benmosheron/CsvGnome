@@ -20,7 +20,7 @@ Special **components** can be added to values (`help special` displays a list of
 * `[3++]` counts up from three.
 * `[19++2]` counts up from nineteen in steps of two.
 * `[date]` the date and time, at the time the file is generated.
-** Specify a [format string](https://msdn.microsoft.com/en-us/library/8kb3ddd4) in quotes. E.g. `[date "HH:mm dddd dd MMMM"]` writes `19:09 Tuesday 18 October`.
+  * Specify a [format string](https://msdn.microsoft.com/en-us/library/8kb3ddd4) in quotes. E.g. `[date "HH:mm dddd dd MMMM"]` writes `19:09 Tuesday 18 October`.
 * `[1=>5]` cycles the values from one to five.
 * `[0=>50, 10]` cycles the values from zero to fifty in steps of ten.
 * `[a=>d]` cycles the letters a,b,c, and d.
