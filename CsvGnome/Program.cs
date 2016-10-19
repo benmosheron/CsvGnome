@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CsvGnome.Fields;
+using System;
 using System.Collections.Generic;
 //using System.Configuration;
 using System.Linq;
@@ -64,17 +65,19 @@ namespace CsvGnome
         static readonly Reporter Reporter = new Reporter();
         static readonly CsvGnomeScript.Manager ScriptManager = new CsvGnomeScript.Manager();
         static readonly Components.Combinatorial.Cache CombinatorialCache = new Components.Combinatorial.Cache();
+        static readonly PaddedFieldFactory PaddedFieldFactory = new PaddedFieldFactory();
+        static readonly Date.IProvider DateProvider = new Date.Provider();
         static readonly Components.Combinatorial.Factory CombinatorialFactory = new Components.Combinatorial.Factory(CombinatorialCache);
         static readonly Components.Combinatorial.Deleter CombinatorialDeleter = new Components.Combinatorial.Deleter(CombinatorialCache);
         static readonly FieldBrain FieldBrain = new FieldBrain(CombinatorialFactory, CombinatorialDeleter);
+        static readonly Configuration.IProvider ConfigurationProvider = new Configuration.Provider(Reporter);
+        static readonly Writer Writer = new Writer(ConfigurationProvider);
         static readonly GnomeFileCache GnomeFileCache = new GnomeFileCache(Reporter);
         static readonly GnomeFileWriter GnomeFileWriter = new GnomeFileWriter(Reporter, FieldBrain, GnomeFileCache);
         static readonly GnomeFileReader GnomeFileReader = new GnomeFileReader(Reporter, GnomeFileCache);
-        static readonly Date.IProvider DateProvider = new Date.Provider();
-        static readonly Configuration.IProvider ConfigurationProvider = new Configuration.Provider(Reporter);
         static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, ScriptManager, DateProvider, ConfigurationProvider, GnomeFileWriter, GnomeFileReader);
         static readonly Interpreter InterpreterNoIO = new Interpreter(FieldBrain, Reporter, ScriptManager, DateProvider, ConfigurationProvider);
-        static readonly Writer Writer = new Writer();
+
 
         static void Main(string[] args)
         {
@@ -224,10 +227,10 @@ namespace CsvGnome
             switch (action)
             {
                 case Action.Run:
-                    Writer.WriteToFile(Reporter, FieldBrain.Fields, File, N);
+                    Writer.WriteToFile(Reporter, FieldBrain.Fields, PaddedFieldFactory, File, N);
                     break;
                 case Action.Write:
-                    Writer.WriteToFile(Reporter, FieldBrain.Fields, File, N);
+                    Writer.WriteToFile(Reporter, FieldBrain.Fields, PaddedFieldFactory, File, N);
                     action = Action.Continue;
                     break;
                 default:

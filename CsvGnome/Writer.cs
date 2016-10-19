@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CsvGnome.Fields;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,16 +10,34 @@ namespace CsvGnome
 {
     public class Writer
     {
+        Configuration.IProvider ConfigurationProvider;
+
+        public Writer(Configuration.IProvider configurationProvider)
+        {
+            ConfigurationProvider = configurationProvider;
+        }
+
         /// <summary>
         /// Write CSV file from the input fields.
         /// </summary>
         /// <param name="fields">Fields describing the csv to write.</param>
         /// <param name="pathAndFile">File to write to (will be overwritten).</param>
         /// <param name="n">Number of data lines to write (not including column line).</param>
-        public void WriteToFile(Reporter reporter, List<IField> fields, string pathAndFile, int n)
+        public void WriteToFile(Reporter reporter, List<IField> fields, PaddedFieldFactory paddedFieldFactory, string pathAndFile, int n)
         {
             // Reset the date/time to write in [date] components
             Program.UpdateTime();
+
+            if (ConfigurationProvider.PadOutput)
+            {
+                // Replace IFields with IPaddedFields
+                fields = fields.Select(f => paddedFieldFactory.GetPaddedField(f) as IField).ToList();
+                foreach (var field in fields)
+                {
+                    (field as IPaddedField).CalculateMaxLength(n);
+                }
+            }
+
             try {
                 using (StreamWriter sw = new StreamWriter(pathAndFile))
                 {
@@ -48,11 +67,23 @@ namespace CsvGnome
             }
         }
 
+        /// <summary>
+        /// Get the first line of column names.
+        /// </summary>
+        /// <remarks>
+        /// Remember that padded fields must use GetPaddedName() instead of name!
+        /// </remarks>
         private string GetFirstLine(List<IField> fields)
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.Append(fields.Select(f => f.Name).Aggregate((t,a) => $"{t},{a}"));
+            Func<IField, string> GetName = f =>
+            {
+                if (f is IPaddedField) return (f as IPaddedField).GetPaddedName();
+                else return f.Name;
+            };
+
+            sb.Append(fields.Select(GetName).Aggregate((t,a) => $"{t},{a}"));
 
             return sb.ToString();
         }
