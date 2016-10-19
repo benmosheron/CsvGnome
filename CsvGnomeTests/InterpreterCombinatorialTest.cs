@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using CsvGnome;
+using CsvGnome.Components;
+using CsvGnome.Fields;
 using CsvGnome.Components.Combinatorial;
 
 namespace CsvGnomeTests

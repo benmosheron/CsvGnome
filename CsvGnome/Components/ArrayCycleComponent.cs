@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CsvGnome
+namespace CsvGnome.Components
 {
     /// <summary>
     /// Component which writes values from a user supplied array.

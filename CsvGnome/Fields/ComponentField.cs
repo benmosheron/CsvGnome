@@ -1,10 +1,11 @@
-﻿using System;
+﻿using CsvGnome.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CsvGnome
+namespace CsvGnome.Fields
 {
     /// <summary>
     /// Field consisting of one or more components, in any order.

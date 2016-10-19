@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CsvGnome
+namespace CsvGnome.Components
 {
     /// <summary>
     /// Represents a segment of text that may vary by row.

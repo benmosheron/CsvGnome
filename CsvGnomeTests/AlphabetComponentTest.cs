@@ -1,5 +1,6 @@
 ﻿using CsvGnome;
 using CsvGnome.Components;
+using CsvGnome.Fields;
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

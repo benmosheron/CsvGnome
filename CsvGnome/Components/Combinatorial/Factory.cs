@@ -13,10 +13,10 @@ namespace CsvGnome.Components.Combinatorial
     public class Factory
     {
         // Supported raw components
-        private const string c_arrayCycle = "CsvGnome.ArrayCycleComponent";
-        private const string c_increment = "CsvGnome.IncrementingComponent";
-        private const string c_minMax = "CsvGnome.MinMaxComponent";
-        private const string c_alphabet = "CsvGnome.AlphabetComponent";
+        private const string c_arrayCycle = "CsvGnome.Components.ArrayCycleComponent";
+        private const string c_increment = "CsvGnome.Components.IncrementingComponent";
+        private const string c_minMax = "CsvGnome.Components.MinMaxComponent";
+        private const string c_alphabet = "CsvGnome.Components.AlphabetComponent";
 
         Cache Cache;
         public Factory(Cache cache)

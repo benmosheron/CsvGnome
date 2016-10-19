@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CsvGnome;
+using CsvGnome.Components;
+using CsvGnome.Fields;
 
 namespace CsvGnomeTests
 {

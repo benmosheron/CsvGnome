@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace CsvGnome
+namespace CsvGnome.Components
 {
     public class ComponentFactory
     {

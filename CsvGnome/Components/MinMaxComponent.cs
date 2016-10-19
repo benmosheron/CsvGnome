@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CsvGnome
+namespace CsvGnome.Components
 {
     /// <summary>
     /// Component with a minimum and maximum value, and optional increment.

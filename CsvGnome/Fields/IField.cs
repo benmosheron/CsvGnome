@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CsvGnome
+namespace CsvGnome.Fields
 {
     /// <summary>
     /// A field for which value will be generated and written to the csv.
