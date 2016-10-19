@@ -50,7 +50,7 @@ namespace CsvGnome.Components.Combinatorial
             {
                 new Message("]", Program.SpecialColour),
                 new Message("{"),
-                Program.ReportArrayContents
+                RawArrayCycleComponent.ConfigurationProvider.ReportArrayContents
                 ? new Message(valueArray.Aggregate((t, n) => $"{t},{n}"))
                 : new Message($"{valueArray.Count} items", Program.SpecialColour),
                 new Message("}"),

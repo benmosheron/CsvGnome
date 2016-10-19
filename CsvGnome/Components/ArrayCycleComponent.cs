@@ -19,7 +19,7 @@ namespace CsvGnome
         {
             new Message(Program.CycleComponentString, Program.SpecialColour),
             new Message("{"),
-            Program.ReportArrayContents 
+            ConfigurationProvider.ReportArrayContents 
             ? new Message(valueArray.Aggregate((t, n) => $"{t},{n}")) 
             : new Message($"{valueArray.Length} items", Program.SpecialColour),
             new Message("}"),
@@ -39,14 +39,16 @@ namespace CsvGnome
             return valueArray[i % valueArray.Length];
         }
 
+        public readonly Configuration.IProvider ConfigurationProvider;
         private readonly string[] valueArray;
 
         public ReadOnlyCollection<String> ValueArray => new ReadOnlyCollection<string>(valueArray);
 
         private string valueArrayCommand => Program.CycleComponentString + "{" + valueArray.Aggregate((t, n) => $"{t},{n}") + "}";
 
-        public ArrayCycleComponent(string[] valueArray)
+        public ArrayCycleComponent(string[] valueArray, Configuration.IProvider configurationProvider)
         {
+            ConfigurationProvider = configurationProvider;
             Debug.WriteLineIf(valueArray == null || !valueArray.Any(), "Empty or null array supplied to array component.");
             if (valueArray == null || valueArray.Length == 0) valueArray = new string[] { String.Empty };
             this.valueArray = valueArray;

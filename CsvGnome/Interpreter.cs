@@ -24,6 +24,7 @@ namespace CsvGnome
         private readonly ComponentFactory Factory;
         private readonly CsvGnomeScript.Manager ScriptManager;
         private readonly Date.IProvider DateProvider;
+        private readonly Configuration.IProvider ConfigurationProvider;
         private readonly GnomeFileWriter GnomeFileWriter;
         private readonly GnomeFileReader GnomeFileReader;
 
@@ -35,8 +36,8 @@ namespace CsvGnome
         /// <param name="fieldBrain"></param>
         /// <param name="reporter"></param>
         /// <param name="cache"></param>
-        public Interpreter(FieldBrain fieldBrain, Reporter reporter, CsvGnomeScript.Manager scriptManager, Date.IProvider dateProvider)
-            :this(fieldBrain, reporter, scriptManager, dateProvider, null, null)
+        public Interpreter(FieldBrain fieldBrain, Reporter reporter, CsvGnomeScript.Manager scriptManager, Date.IProvider dateProvider, Configuration.IProvider configurationProvider)
+            :this(fieldBrain, reporter, scriptManager, dateProvider, configurationProvider, null, null)
         { }
 
         /// <summary>
@@ -52,6 +53,7 @@ namespace CsvGnome
             Reporter reporter,
             CsvGnomeScript.Manager scriptManager,
             Date.IProvider dateProvider,
+            Configuration.IProvider configurationProvider,
             GnomeFileWriter gnomeFileWriter, 
             GnomeFileReader gnomeFileReader)
         {
@@ -59,7 +61,8 @@ namespace CsvGnome
             Reporter = reporter;
             ScriptManager = scriptManager;
             DateProvider = dateProvider;
-            Factory = new ComponentFactory(dateProvider, CombinatorialFactory, ScriptManager);
+            ConfigurationProvider = configurationProvider;
+            Factory = new ComponentFactory(dateProvider, ConfigurationProvider, CombinatorialFactory, ScriptManager);
             GnomeFileWriter = gnomeFileWriter;
             GnomeFileReader = gnomeFileReader;
         }
@@ -135,7 +138,7 @@ namespace CsvGnome
                 // Otherwise the interpreter could read a "load" instruction
                 if (GnomeFileReader != null)
                 {
-                    Interpreter interpreterNoIO = new Interpreter(FieldBrain, Reporter, ScriptManager, DateProvider);
+                    Interpreter interpreterNoIO = new Interpreter(FieldBrain, Reporter, ScriptManager, DateProvider, ConfigurationProvider);
                     string fileToRead = input.Remove(0, "load".Length).Trim();
                     List<string> parsedFile = GnomeFileReader.ReadGnomeFile(fileToRead);
                     
@@ -175,14 +178,14 @@ namespace CsvGnome
             // "full on" sets array fields to display contents in full
             if(input == "full on")
             {
-                Program.SetReportFullArrayContents(true);
+                ConfigurationProvider.SetReportArrayContents(true);
                 return Action.Continue;
             }
 
             // "full off" sets array fields to report only the number of items
             if (input == "full off")
             {
-                Program.SetReportFullArrayContents(false);
+                ConfigurationProvider.SetReportArrayContents(false);
                 return Action.Continue;
             }
 

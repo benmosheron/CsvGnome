@@ -81,7 +81,7 @@ namespace CsvGnomeTests
             Cache cache = new Cache();
             Factory factory = new Factory(cache);
 
-            IComponent expectedRaw0 = new ArrayCycleComponent(new string[] { "hyena", "spider" });
+            IComponent expectedRaw0 = new ArrayCycleComponent(new string[] { "hyena", "spider" }, new TestConfigurationProvider());
             IComponent expectedRaw1 = new IncrementingComponent(0);
             IComponent expectedRaw2 = new IncrementingComponent(10);
             ICombinatorial expected0 = factory.Create(groupId, expectedRaw0);

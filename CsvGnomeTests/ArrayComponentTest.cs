@@ -20,11 +20,12 @@ namespace CsvGnomeTests
             "five"
         };
 
+
         [TestMethod]
         public void ArrayComponent_SpreadCommand()
         {
             string expectedCommand = Program.SpreadComponentString + "{one,two,three,four,five}";
-            ArraySpreadComponent s = new ArraySpreadComponent(Values);
+            ArraySpreadComponent s = NewSpread();
             Assert.AreEqual(expectedCommand, s.Command);
         }
 
@@ -32,15 +33,15 @@ namespace CsvGnomeTests
         public void ArrayComponent_CycleCommand()
         {
             string expectedCommand = Program.CycleComponentString + "{one,two,three,four,five}";
-            ArrayCycleComponent c = new ArrayCycleComponent(Values);
+            ArrayCycleComponent c = NewCycle();
             Assert.AreEqual(expectedCommand, c.Command);
         }
 
         [TestMethod]
         public void ArrayComponent_SpreadEquals()
         {
-            ArraySpreadComponent s1 = new ArraySpreadComponent(Values);
-            ArraySpreadComponent s2 = new ArraySpreadComponent(Values);
+            ArraySpreadComponent s1 = NewSpread();
+            ArraySpreadComponent s2 = NewSpread();
             // Not same instance
             Assert.AreNotEqual(s1, s2);
             Assert.IsTrue(s1.EqualsComponent(s2));
@@ -49,8 +50,8 @@ namespace CsvGnomeTests
         [TestMethod]
         public void ArrayComponent_CycleEquals()
         {
-            ArrayCycleComponent c1 = new ArrayCycleComponent(Values);
-            ArrayCycleComponent c2 = new ArrayCycleComponent(Values);
+            ArrayCycleComponent c1 = NewCycle();
+            ArrayCycleComponent c2 = NewCycle();
             Assert.AreNotEqual(c1, c2);
             Assert.IsTrue(c1.EqualsComponent(c2));
         }
@@ -67,7 +68,7 @@ namespace CsvGnomeTests
                 new Message("}")
             };
 
-            var s = new ArraySpreadComponent(Values);
+            var s = NewSpread();
             Assert.IsTrue(s.Summary.Zip(expectedSummary, (a, e) => a.EqualsMessage(e)).All(z => z));
         }
 
@@ -83,7 +84,7 @@ namespace CsvGnomeTests
                 new Message("}")
             };
 
-            var c = new ArrayCycleComponent(Values);
+            var c = NewCycle();
             Assert.IsTrue(c.Summary.Zip(expectedSummary, (a, e) => a.EqualsMessage(e)).All(z => z));
         }
 
@@ -103,7 +104,7 @@ namespace CsvGnomeTests
                 "four",
                 "five"
             };
-            var s = new ArraySpreadComponent(Values);
+            var s = NewSpread();
             for (int i = 0; i < n; i++)
             {
                 Assert.AreEqual(expected[i], s.GetValue(i));
@@ -126,11 +127,21 @@ namespace CsvGnomeTests
                 "three",
                 "four"
             };
-            var s = new ArrayCycleComponent(Values);
+            var s = NewCycle();
             for (int i = 0; i < n; i++)
             {
                 Assert.AreEqual(expected[i], s.GetValue(i));
             }
+        }
+
+        private ArraySpreadComponent NewSpread()
+        {
+            return new ArraySpreadComponent(Values, new TestConfigurationProvider());
+        }
+
+        private ArrayCycleComponent NewCycle()
+        {
+            return new ArrayCycleComponent(Values, new TestConfigurationProvider());
         }
     }
 }

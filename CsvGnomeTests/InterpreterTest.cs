@@ -315,7 +315,7 @@ namespace CsvGnomeTests
             const string ins = "test:[spread]{one,two , three}";
             IComponent[] expected = new IComponent[]
             {
-                new ArraySpreadComponent(new string[] {"one", "two ", " three"})
+                new ArraySpreadComponent(new string[] {"one", "two ", " three"}, new TestConfigurationProvider())
             };
 
             FieldBrain fieldBrain;
@@ -332,7 +332,7 @@ namespace CsvGnomeTests
             const string ins = "test:[cycle]{one,two , three}";
             IComponent[] expected = new IComponent[]
             {
-                new ArrayCycleComponent(new string[] {"one", "two ", " three"})
+                new ArrayCycleComponent(new string[] {"one", "two ", " three"}, new TestConfigurationProvider())
             };
 
             FieldBrain fieldBrain;

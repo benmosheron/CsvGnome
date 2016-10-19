@@ -17,9 +17,9 @@ namespace CsvGnomeTests
 
             const string c_groupId = "Siegward";
             // dimension 0
-            ArrayCycleComponent raw0 = new ArrayCycleComponent(new string[] { "pickle", "pee" });
+            ArrayCycleComponent raw0 = new ArrayCycleComponent(new string[] { "pickle", "pee" }, new TestConfigurationProvider());
             // dimension 1
-            ArrayCycleComponent raw1 = new ArrayCycleComponent(new string[] { "pump", "a", "rum" });
+            ArrayCycleComponent raw1 = new ArrayCycleComponent(new string[] { "pump", "a", "rum" }, new TestConfigurationProvider());
 
             ICombinatorial c0 = factory.Create(c_groupId, raw0);
             ICombinatorial c1 = factory.Create(c_groupId, raw1);
@@ -41,10 +41,10 @@ namespace CsvGnomeTests
             Factory factory = new Factory(cache);
 
             const string c_groupId = "Siegward";
-            ArrayCycleComponent raw0 = new ArrayCycleComponent(null);
-            ArrayCycleComponent raw1 = new ArrayCycleComponent(null);
-            ArrayCycleComponent raw2 = new ArrayCycleComponent(null);
-            ArrayCycleComponent raw3 = new ArrayCycleComponent(null);
+            ArrayCycleComponent raw0 = new ArrayCycleComponent(null, new TestConfigurationProvider());
+            ArrayCycleComponent raw1 = new ArrayCycleComponent(null, new TestConfigurationProvider());
+            ArrayCycleComponent raw2 = new ArrayCycleComponent(null, new TestConfigurationProvider());
+            ArrayCycleComponent raw3 = new ArrayCycleComponent(null, new TestConfigurationProvider());
 
             // Create four components with random ranks. The dimensions should go from lowest to highest.
             ICombinatorial c3 = factory.Create(c_groupId, raw3, 30);
@@ -66,11 +66,11 @@ namespace CsvGnomeTests
 
             const string c_groupId = "Siegward";
             // dimension 0, cardinality 2
-            ArrayCycleComponent raw0 = new ArrayCycleComponent(new string[] { "0", "1" });
+            ArrayCycleComponent raw0 = new ArrayCycleComponent(new string[] { "0", "1" }, new TestConfigurationProvider());
             // dimension 1, cardinality 3
-            ArrayCycleComponent raw1 = new ArrayCycleComponent(new string[] { "0", "1", "2" });
+            ArrayCycleComponent raw1 = new ArrayCycleComponent(new string[] { "0", "1", "2" }, new TestConfigurationProvider());
             // dimension 2, cardinality 4
-            ArrayCycleComponent raw2 = new ArrayCycleComponent(new string[] { "0", "1", "2", "3" });
+            ArrayCycleComponent raw2 = new ArrayCycleComponent(new string[] { "0", "1", "2", "3" }, new TestConfigurationProvider());
             // Create four components with random ranks. The dimensions should go from lowest to highest.
             ICombinatorial c0 = factory.Create(c_groupId, raw0);
             ICombinatorial c1 = factory.Create(c_groupId, raw1);
@@ -89,9 +89,9 @@ namespace CsvGnomeTests
 
             const string c_groupId = "Siegward";
             // dimension 0
-            ArrayCycleComponent raw0 = new ArrayCycleComponent(new string[] { "pickle", "pee" });
+            ArrayCycleComponent raw0 = new ArrayCycleComponent(new string[] { "pickle", "pee" }, new TestConfigurationProvider());
             // dimension 1
-            ArrayCycleComponent raw1 = new ArrayCycleComponent(new string[] { "pump", "a", "rum" });
+            ArrayCycleComponent raw1 = new ArrayCycleComponent(new string[] { "pump", "a", "rum" }, new TestConfigurationProvider());
 
             ICombinatorial c0 = factory.Create(c_groupId, raw0);
             ICombinatorial c1 = factory.Create(c_groupId, raw1);
@@ -160,7 +160,7 @@ namespace CsvGnomeTests
             const string c_groupId = "Sieglinde";
             const int c_rows = 100;
 
-            ArrayCycleComponent raw0 = new ArrayCycleComponent(new string[] { "snuggly", "sparkly" });
+            ArrayCycleComponent raw0 = new ArrayCycleComponent(new string[] { "snuggly", "sparkly" }, new TestConfigurationProvider());
             IncrementingComponent raw1 = new IncrementingComponent(0, 1);
 
             ICombinatorial c0 = factory.Create(c_groupId, raw0);
@@ -190,8 +190,8 @@ namespace CsvGnomeTests
             const string c_groupId = "Sieglinde";
             const int c_rows = 100;
 
-            ArrayCycleComponent raw0 = new ArrayCycleComponent(new string[] { "snuggly", "sparkly" });
-            ArrayCycleComponent raw1 = new ArrayCycleComponent(new string[] { "petrus", "vince", "nico" });
+            ArrayCycleComponent raw0 = new ArrayCycleComponent(new string[] { "snuggly", "sparkly" }, new TestConfigurationProvider());
+            ArrayCycleComponent raw1 = new ArrayCycleComponent(new string[] { "petrus", "vince", "nico" }, new TestConfigurationProvider());
             IncrementingComponent raw2 = new IncrementingComponent(0, 1);
 
             ICombinatorial c0 = factory.Create(c_groupId, raw0);
@@ -229,7 +229,7 @@ namespace CsvGnomeTests
             const int c_rows = 100;
 
             IncrementingComponent raw0 = new IncrementingComponent(0, 1);
-            ArrayCycleComponent raw1 = new ArrayCycleComponent(new string[] { "snuggly", "sparkly" });
+            ArrayCycleComponent raw1 = new ArrayCycleComponent(new string[] { "snuggly", "sparkly" }, new TestConfigurationProvider());
 
             ICombinatorial c0 = factory.Create(c_groupId, raw0);
             ICombinatorial c1 = factory.Create(c_groupId, raw1);
@@ -258,11 +258,11 @@ namespace CsvGnomeTests
             const string c_groupId = "Sieglinde";
             const int c_rows = 100;
 
-            ArrayCycleComponent raw0 = new ArrayCycleComponent(new string[] { "snuggly", "sparkly" });
-            ArrayCycleComponent raw1 = new ArrayCycleComponent(new string[] { "petrus", "vince", "nico" });
+            ArrayCycleComponent raw0 = new ArrayCycleComponent(new string[] { "snuggly", "sparkly" }, new TestConfigurationProvider());
+            ArrayCycleComponent raw1 = new ArrayCycleComponent(new string[] { "petrus", "vince", "nico" }, new TestConfigurationProvider());
             IncrementingComponent raw2 = new IncrementingComponent(0, 1);
             IncrementingComponent raw3 = new IncrementingComponent(11, 1);
-            ArrayCycleComponent raw4 = new ArrayCycleComponent(new string[] { "frampt", "kaathe" });
+            ArrayCycleComponent raw4 = new ArrayCycleComponent(new string[] { "frampt", "kaathe" }, new TestConfigurationProvider());
 
             ICombinatorial c0 = factory.Create(c_groupId, raw0);
             ICombinatorial c1 = factory.Create(c_groupId, raw1);
@@ -332,7 +332,7 @@ namespace CsvGnomeTests
 
             const string c_groupId = "Capra";
             MinMaxComponent raw0 = new MinMaxComponent(0, 1);
-            ArrayCycleComponent raw1 = new ArrayCycleComponent(new string[] {"washing", "pole" });
+            ArrayCycleComponent raw1 = new ArrayCycleComponent(new string[] {"washing", "pole" }, new TestConfigurationProvider());
             MinMaxComponent raw2 = new MinMaxComponent(0, 4, 2);
 
             ICombinatorial c0 = factory.Create(c_groupId, raw0);

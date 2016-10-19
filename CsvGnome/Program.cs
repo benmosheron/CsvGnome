@@ -36,13 +36,6 @@ namespace CsvGnome
             get { return n; }
         }
 
-        private static bool reportArrayContents = GetConfigured_ReportArrayContent();
-
-        /// <summary>
-        /// If true, array contents will be written to the console. If false, only the number of items will be displayed.
-        /// </summary>
-        public static bool ReportArrayContents { get { return reportArrayContents; } }
-
         /// <summary>
         /// Path to output file.
         /// </summary>
@@ -78,11 +71,10 @@ namespace CsvGnome
         static readonly GnomeFileWriter GnomeFileWriter = new GnomeFileWriter(Reporter, FieldBrain, GnomeFileCache);
         static readonly GnomeFileReader GnomeFileReader = new GnomeFileReader(Reporter, GnomeFileCache);
         static readonly Date.IProvider DateProvider = new Date.Provider();
-        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, ScriptManager, DateProvider, GnomeFileWriter, GnomeFileReader);
-        static readonly Interpreter InterpreterNoIO = new Interpreter(FieldBrain, Reporter, ScriptManager, DateProvider);
-        static readonly Writer Writer = new Writer();
-
         static readonly Configuration.IProvider ConfigurationProvider = new Configuration.Provider(Reporter);
+        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, ScriptManager, DateProvider, ConfigurationProvider, GnomeFileWriter, GnomeFileReader);
+        static readonly Interpreter InterpreterNoIO = new Interpreter(FieldBrain, Reporter, ScriptManager, DateProvider, ConfigurationProvider);
+        static readonly Writer Writer = new Writer();
 
         static void Main(string[] args)
         {
@@ -120,12 +112,6 @@ namespace CsvGnome
         public static void SetN(int nToSet)
         {
             n = nToSet;
-        }
-
-        public static void SetReportFullArrayContents(bool b)
-        {
-            SetConfigured_ReportArrayContent(b);
-            reportArrayContents = b;
         }
 
         /// <summary>
@@ -230,6 +216,9 @@ namespace CsvGnome
             }
         }
 
+        /// <summary>
+        /// If required by the current action, write output data to a csv file.
+        /// </summary>
         private static Action WriteIfNeeded(Action action)
         {
             switch (action)

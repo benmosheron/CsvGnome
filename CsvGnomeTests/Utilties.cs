@@ -26,7 +26,7 @@ namespace CsvGnomeTests
             combinatorialDeleter = new Deleter(cache);
             fieldBrain = new FieldBrain(combinatorialFactory, combinatorialDeleter);
             manager = new Manager();
-            interpreter = new Interpreter(fieldBrain, reporter, manager, new CsvGnome.Date.Provider());
+            interpreter = new Interpreter(fieldBrain, reporter, manager, new CsvGnome.Date.Provider(), new TestConfigurationProvider());
         }
 
         public static void InterpreterTestInit(

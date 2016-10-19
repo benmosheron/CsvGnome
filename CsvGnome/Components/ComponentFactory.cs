@@ -32,15 +32,18 @@ namespace CsvGnome
         private Regex LuaRegex = new Regex(LuaPattern);
 
         private Date.IProvider DateProvider;
+        private Configuration.IProvider ConfigurationProvider;
         private Components.Combinatorial.Factory CombinatorialFactory;
         private CsvGnomeScript.Manager ScriptManager;
 
         public ComponentFactory(
             Date.IProvider dateProvider,
+            Configuration.IProvider configurationProvider,
             Components.Combinatorial.Factory combinatorialFactory,
             CsvGnomeScript.Manager scriptManager)
         {
             DateProvider = dateProvider;
+            ConfigurationProvider = configurationProvider;
             CombinatorialFactory = combinatorialFactory;
             ScriptManager = scriptManager;
         }
@@ -83,7 +86,7 @@ namespace CsvGnome
             {
                 // remove "[spread]"
                 var array = prototype.Substring(Program.SpreadComponentString.Length);
-                return new ArraySpreadComponent(GetArray(array));
+                return new ArraySpreadComponent(GetArray(array), ConfigurationProvider);
             }
             else if (prototype.StartsWith(Program.CycleComponentString))
             {
@@ -181,7 +184,7 @@ namespace CsvGnome
         {
             // remove "[cycle]"
             var array = prototype.Substring(Program.CycleComponentString.Length);
-            ArrayCycleComponent rawComponent = new ArrayCycleComponent(GetArray(array));
+            ArrayCycleComponent rawComponent = new ArrayCycleComponent(GetArray(array), ConfigurationProvider);
 
             return Choose(rawComponent, groupPrototype);
         }

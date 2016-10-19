@@ -9,11 +9,9 @@ namespace CsvGnome.Configuration
     public class Provider : IProvider
     {
         private const string PadOutputKey = "PadOutput";
-        private const bool PadOutputDefault = false;
         private const string ReportArrayContentsKey = "ReportArrayContents";
-
         private bool? padOutput;
-
+        private bool? reportArrayContents;
         private readonly Reporter Reporter;
 
         /// <summary>
@@ -33,28 +31,36 @@ namespace CsvGnome.Configuration
             {
                 if (!padOutput.HasValue)
                 {
-                    padOutput = GetConfig(PadOutputKey, PadOutputDefault);
+                    padOutput = GetConfig(PadOutputKey, Defaults.PadOutput);
                 }
                 return padOutput.Value;
             }
         }
 
+        /// <summary>
+        /// If true, array contents will be written to the console. If false, only the number of items will be displayed.
+        /// </summary>
         public bool ReportArrayContents
         {
             get
             {
-                throw new NotImplementedException();
+                if (!reportArrayContents.HasValue)
+                {
+                    reportArrayContents = GetConfig(ReportArrayContentsKey, Defaults.ReportArrayContents);
+                }
+                return reportArrayContents.Value;
             }
         }
 
         public void SetPadOutput(bool value)
         {
+            padOutput = value;
             SetConfig(PadOutputKey, value.ToString());
         }
 
         public void SetReportArrayContents(bool value)
         {
-            throw new NotImplementedException();
+            reportArrayContents = value;
             SetConfig(ReportArrayContentsKey, value.ToString());
         }
 
