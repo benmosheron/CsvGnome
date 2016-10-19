@@ -189,6 +189,22 @@ namespace CsvGnome
                 return Action.Continue;
             }
 
+            // "pad on" turns on padding of output to align columns
+            if(input == "pad on")
+            {
+                ConfigurationProvider.SetPadOutput(true);
+                Reporter.AddMessage(new Message("Padding enabled.", ConsoleColor.Green));
+                return Action.Continue;
+            }
+
+            // "pad off" turns off padding of output to align columns
+            if (input == "pad off")
+            {
+                ConfigurationProvider.SetPadOutput(false);
+                Reporter.AddMessage(new Message("Padding disabled.", ConsoleColor.Green));
+                return Action.Continue;
+            }
+
             // ":" Indicates a data update
             if (input.Contains(":"))
             {

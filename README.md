@@ -14,6 +14,8 @@ Change the number of rows to generate by entering a number E.g. `12` to write tw
 * `run` writes the CSV and quits.
 * `delete fieldName` deletes the field with name "fieldName".
 * `clear` clears all fields.
+* CsvGnome can pad fields with empty spaces to ensure columns are aligned.
+  * Turn this on or off with `pad on` and `pad off`.
 
 Special **components** can be added to values (`help special` displays a list of available components):
 * `[++]` counts up from zero.
