@@ -12,8 +12,6 @@ namespace CsvGnome
     {
         public const string FileExt = ".csv";
         public const string DateComponentString = "[date]";
-        public const string SpreadComponentString = "[spread]";
-        public const string CycleComponentString = "[cycle]";
         public const ConsoleColor DefaultColour = ConsoleColor.Gray;
         public const ConsoleColor SpecialColour = ConsoleColor.Cyan;
 
@@ -23,16 +21,6 @@ namespace CsvGnome
         public static void UpdateTime()
         {
             DateProvider.UpdateNow();
-        }
-
-        private static int n = 10; 
-
-        /// <summary>
-        /// Number of data lines to generate.
-        /// </summary>
-        public static int N
-        {
-            get { return n; }
         }
 
         /// <summary>
@@ -65,6 +53,7 @@ namespace CsvGnome
         static readonly Components.Combinatorial.Cache CombinatorialCache = new Components.Combinatorial.Cache();
         static readonly PaddedFieldFactory PaddedFieldFactory = new PaddedFieldFactory();
         static readonly Date.IProvider DateProvider = new Date.Provider();
+        static readonly IContext Context = new Context();
         static readonly Components.Combinatorial.Factory CombinatorialFactory = new Components.Combinatorial.Factory(CombinatorialCache);
         static readonly Components.Combinatorial.Deleter CombinatorialDeleter = new Components.Combinatorial.Deleter(CombinatorialCache);
         static readonly FieldBrain FieldBrain = new FieldBrain(CombinatorialFactory, CombinatorialDeleter);
@@ -72,10 +61,10 @@ namespace CsvGnome
         static readonly Writer Writer = new Writer(ConfigurationProvider);
         static readonly Previewer Previewer = new Previewer(ConfigurationProvider);
         static readonly GnomeFileCache GnomeFileCache = new GnomeFileCache(Reporter);
-        static readonly GnomeFileWriter GnomeFileWriter = new GnomeFileWriter(Reporter, FieldBrain, GnomeFileCache);
+        static readonly GnomeFileWriter GnomeFileWriter = new GnomeFileWriter(Context, Reporter, FieldBrain, GnomeFileCache);
         static readonly GnomeFileReader GnomeFileReader = new GnomeFileReader(Reporter, GnomeFileCache);
-        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, ScriptManager, DateProvider, ConfigurationProvider, GnomeFileWriter, GnomeFileReader);
-        static readonly Interpreter InterpreterNoIO = new Interpreter(FieldBrain, Reporter, ScriptManager, DateProvider, ConfigurationProvider);
+        static readonly Interpreter Interpreter = new Interpreter(FieldBrain, Reporter, ScriptManager, Context, DateProvider, ConfigurationProvider, GnomeFileWriter, GnomeFileReader);
+        static readonly Interpreter InterpreterNoIO = new Interpreter(FieldBrain, Reporter, ScriptManager, Context, DateProvider, ConfigurationProvider);
 
 
         public static void Main(string[] args)
@@ -114,7 +103,7 @@ namespace CsvGnome
 
         public static void SetN(int nToSet)
         {
-            n = nToSet;
+            Context.N = nToSet;
         }
 
         /// <summary>
@@ -184,11 +173,11 @@ namespace CsvGnome
                     Reporter.ShowGnomeFiles();
                     break;
                 case Action.Preview:
-                    Previewer.Preview(Reporter, FieldBrain.Fields, PaddedFieldFactory, N);
-                    Reporter.Report(FieldBrain.Fields, N, File);
+                    Previewer.Preview(Reporter, FieldBrain.Fields, PaddedFieldFactory, Context.N);
+                    Reporter.Report(FieldBrain.Fields, Context.N, File);
                     break;
                 default:
-                    Reporter.Report(FieldBrain.Fields, N, File);
+                    Reporter.Report(FieldBrain.Fields, Context.N, File);
                     break;
             }
         }
@@ -201,10 +190,10 @@ namespace CsvGnome
             switch (action)
             {
                 case Action.Run:
-                    Writer.WriteToFile(Reporter, FieldBrain.Fields, PaddedFieldFactory, File, N);
+                    Writer.WriteToFile(Reporter, FieldBrain.Fields, PaddedFieldFactory, File, Context.N);
                     break;
                 case Action.Write:
-                    Writer.WriteToFile(Reporter, FieldBrain.Fields, PaddedFieldFactory, File, N);
+                    Writer.WriteToFile(Reporter, FieldBrain.Fields, PaddedFieldFactory, File, Context.N);
                     action = Action.Continue;
                     break;
                 default:

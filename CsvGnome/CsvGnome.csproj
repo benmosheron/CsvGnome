@@ -88,10 +88,12 @@
     <Compile Include="Components\IncrementingComponent.cs" />
     <Compile Include="Components\LuaComponent.cs" />
     <Compile Include="Components\MinMaxComponent.cs" />
+    <Compile Include="Components\NComponent.cs" />
     <Compile Include="Components\TextComponent.cs" />
     <Compile Include="Configuration\Defaults.cs" />
     <Compile Include="Configuration\IProvider.cs" />
     <Compile Include="Configuration\Provider.cs" />
+    <Compile Include="Context.cs" />
     <Compile Include="Date\IProvider.cs" />
     <Compile Include="Date\Provider.cs" />
     <Compile Include="Defaults.cs" />
@@ -103,6 +105,7 @@
     <Compile Include="GnomeFileCache.cs" />
     <Compile Include="GnomeFileReader.cs" />
     <Compile Include="GnomeFileWriter.cs" />
+    <Compile Include="IContext.cs" />
     <Compile Include="Interpreter.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Previewer.cs" />

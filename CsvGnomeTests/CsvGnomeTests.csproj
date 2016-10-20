@@ -63,6 +63,7 @@
     <Compile Include="PaddedFieldTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestConfigurationProvider.cs" />
+    <Compile Include="TestContext.cs" />
     <Compile Include="Utilties.cs" />
   </ItemGroup>
   <ItemGroup>

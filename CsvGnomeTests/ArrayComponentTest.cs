@@ -26,7 +26,7 @@ namespace CsvGnomeTests
         [TestMethod]
         public void ArrayComponent_SpreadCommand()
         {
-            string expectedCommand = Program.SpreadComponentString + "{one,two,three,four,five}";
+            string expectedCommand = ArraySpreadComponent.CommandInitString + "{one,two,three,four,five}";
             ArraySpreadComponent s = NewSpread();
             Assert.AreEqual(expectedCommand, s.Command);
         }
@@ -34,7 +34,7 @@ namespace CsvGnomeTests
         [TestMethod]
         public void ArrayComponent_CycleCommand()
         {
-            string expectedCommand = Program.CycleComponentString + "{one,two,three,four,five}";
+            string expectedCommand = ArrayCycleComponent.CommandInitString + "{one,two,three,four,five}";
             ArrayCycleComponent c = NewCycle();
             Assert.AreEqual(expectedCommand, c.Command);
         }
@@ -63,10 +63,9 @@ namespace CsvGnomeTests
         {
             List<Message> expectedSummary = new List<Message>()
             {
-                new Message(Program.SpreadComponentString,
-                Program.SpecialColour),
+                Message.NewSpecial(ArraySpreadComponent.CommandInitString),
                 new Message("{"),
-                new Message("5 items", Program.SpecialColour),
+                Message.NewSpecial("5 items"),
                 new Message("}")
             };
 
@@ -79,10 +78,9 @@ namespace CsvGnomeTests
         {
             List<Message> expectedSummary = new List<Message>()
             {
-                new Message(Program.CycleComponentString,
-                Program.SpecialColour),
+                Message.NewSpecial(ArrayCycleComponent.CommandInitString),
                 new Message("{"),
-                new Message("5 items", Program.SpecialColour),
+                Message.NewSpecial("5 items"),
                 new Message("}")
             };
 
@@ -94,6 +92,10 @@ namespace CsvGnomeTests
         public void ArrayComponent_SpreadGetValue()
         {
             int n = 9;
+
+            var ctx = new TestContext();
+            ctx.N = n;
+
             string[] expected = new string[]
             {
                 "one",
@@ -106,7 +108,8 @@ namespace CsvGnomeTests
                 "four",
                 "five"
             };
-            var s = NewSpread();
+
+            var s = NewSpread(ctx);
             for (int i = 0; i < n; i++)
             {
                 Assert.AreEqual(expected[i], s.GetValue(i));
@@ -138,7 +141,12 @@ namespace CsvGnomeTests
 
         private ArraySpreadComponent NewSpread()
         {
-            return new ArraySpreadComponent(Values, new TestConfigurationProvider());
+            return NewSpread(new TestContext());
+        }
+
+        private ArraySpreadComponent NewSpread(IContext ctx)
+        {
+            return new ArraySpreadComponent(Values, ctx, new TestConfigurationProvider());
         }
 
         private ArrayCycleComponent NewCycle()

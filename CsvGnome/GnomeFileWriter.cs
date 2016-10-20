@@ -9,12 +9,14 @@ namespace CsvGnome
 {
     public class GnomeFileWriter
     {
+        IContext Context;
         Reporter Reporter;
         FieldBrain FieldBrain;
         GnomeFileCache GnomeFileCache;
 
-        public GnomeFileWriter(Reporter reporter, FieldBrain fieldBrain, GnomeFileCache gnomeFileCache)
+        public GnomeFileWriter(IContext context, Reporter reporter, FieldBrain fieldBrain, GnomeFileCache gnomeFileCache)
         {
+            Context = context;
             Reporter = reporter;
             FieldBrain = fieldBrain;
             GnomeFileCache = gnomeFileCache;
@@ -39,7 +41,7 @@ namespace CsvGnome
 
             using (StreamWriter sw = new StreamWriter(path))
             {
-                sw.WriteLine(Program.N);
+                sw.WriteLine(Context.N);
 
                 for (int i = 0; i < FieldBrain.Fields.Count; i++)
                 {

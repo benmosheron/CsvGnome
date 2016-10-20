@@ -8,6 +8,8 @@ namespace CsvGnome.Components
 {
     public class IncrementingComponent : IComponent
     {
+        private readonly IContext Context;
+
         public const int DefaultStart = 0;
         public const int DefaultIncrement = 1;
         public const int DefaultEvery = 1;
@@ -50,16 +52,17 @@ namespace CsvGnome.Components
         /// </summary>
         private int every;
 
-        public IncrementingComponent(int start)
-            : this(start, DefaultIncrement)
+        public IncrementingComponent(IContext context, int start)
+            : this(context, start, DefaultIncrement)
         { }
 
-        public IncrementingComponent(int start, int increment)
-            :this(start, increment, DefaultEvery)
+        public IncrementingComponent(IContext context, int start, int increment)
+            :this(context, start, increment, DefaultEvery)
         { }
 
-        public IncrementingComponent(int start, int increment, int every)
+        public IncrementingComponent(IContext context, int start, int increment, int every)
         {
+            Context = context;
             this.start = start;
             this.increment = increment;
             this.every = every;
@@ -88,7 +91,7 @@ namespace CsvGnome.Components
 
             // Strip out any "-"s
             long first = Math.Abs(GetValueNumeric(0));
-            long last = Math.Abs(GetValueNumeric(Program.N - 1));
+            long last = Math.Abs(GetValueNumeric(Context.N - 1));
 
             int firstD = first.ToString().Length;
             int lastD = last.ToString().Length;

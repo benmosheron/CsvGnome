@@ -151,7 +151,7 @@ namespace CsvGnomeTests
         public void InterpretComponents_Incrementing()
         {
             const string ins = "test:[++]";
-            IComponent[] expected = new IComponent[] { new IncrementingComponent(0) };
+            IComponent[] expected = new IComponent[] { Utilties.NewIncrementingComponent(0) };
 
             FieldBrain fieldBrain;
             Interpreter x;
@@ -165,7 +165,7 @@ namespace CsvGnomeTests
         public void InterpretComponents_IncrementingWithStart()
         {
             const string ins = "test:[39++]";
-            IComponent[] expected = new IComponent[] { new IncrementingComponent(39, 1) };
+            IComponent[] expected = new IComponent[] { Utilties.NewIncrementingComponent(39, 1) };
 
             FieldBrain fieldBrain;
             Interpreter x;
@@ -179,7 +179,7 @@ namespace CsvGnomeTests
         public void InterpretComponents_IncrementingWithIncrement()
         {
             const string ins = "test:[++254]";
-            IComponent[] expected = new IComponent[] { new IncrementingComponent(0, 254) };
+            IComponent[] expected = new IComponent[] { Utilties.NewIncrementingComponent(0, 254) };
 
             FieldBrain fieldBrain;
             Interpreter x;
@@ -193,7 +193,7 @@ namespace CsvGnomeTests
         public void InterpretComponents_IncrementingBoth()
         {
             const string ins = "test:[718++218]";
-            IComponent[] expected = new IComponent[] { new IncrementingComponent(718, 218) };
+            IComponent[] expected = new IComponent[] { Utilties.NewIncrementingComponent(718, 218) };
 
             FieldBrain fieldBrain;
             Interpreter x;
@@ -207,7 +207,7 @@ namespace CsvGnomeTests
         public void InterpretComponents_IncrementingEvery()
         {
             const string ins = "test:[3++2 every 7]";
-            IComponent[] expected = new IComponent[] { new IncrementingComponent(3, 2, 7) };
+            IComponent[] expected = new IComponent[] { Utilties.NewIncrementingComponent(3, 2, 7) };
 
             FieldBrain fieldBrain;
             Interpreter x;
@@ -223,9 +223,9 @@ namespace CsvGnomeTests
             const string ins = "test:[++][++-11][-110++-2]";
             IComponent[] expected = new IComponent[] 
             {
-                new IncrementingComponent(0),
-                new IncrementingComponent(0, -11),
-                new IncrementingComponent(-110, -2)
+                Utilties.NewIncrementingComponent(0),
+                Utilties.NewIncrementingComponent(0, -11),
+                Utilties.NewIncrementingComponent(-110, -2)
             };
 
             FieldBrain fieldBrain;
@@ -242,8 +242,8 @@ namespace CsvGnomeTests
             const string ins = "test:[-110++-2][ -110 ++ -2 ]";
             IComponent[] expected = new IComponent[]
             {
-                new IncrementingComponent(-110, -2),
-                new IncrementingComponent(-110, -2)
+                Utilties.NewIncrementingComponent(-110, -2),
+                Utilties.NewIncrementingComponent(-110, -2)
             };
 
             FieldBrain fieldBrain;
@@ -317,7 +317,7 @@ namespace CsvGnomeTests
             const string ins = "test:[spread]{one,two , three}";
             IComponent[] expected = new IComponent[]
             {
-                new ArraySpreadComponent(new string[] {"one", "two ", " three"}, new TestConfigurationProvider())
+                new ArraySpreadComponent(new string[] {"one", "two ", " three"}, new TestContext(), new TestConfigurationProvider())
             };
 
             FieldBrain fieldBrain;
@@ -371,9 +371,23 @@ namespace CsvGnomeTests
                 new TextComponent("1"),
                 new DateComponent(new CsvGnome.Date.Provider()),
                 new TextComponent("meow"),
-                new IncrementingComponent(0),
+                Utilties.NewIncrementingComponent(0),
                 new TextComponent("xxx")
             };
+
+            FieldBrain fieldBrain;
+            Interpreter x;
+            Utilties.InterpreterTestInit(out fieldBrain, out x);
+
+            Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
+            AssertSingleComponentField(fieldBrain, expected);
+        }
+
+        [TestMethod]
+        public void InterpretComponents_NComponent()
+        {
+            const string ins = "test:[N]";
+            IComponent[] expected = new IComponent[] { new NComponent(new TestContext()) };
 
             FieldBrain fieldBrain;
             Interpreter x;

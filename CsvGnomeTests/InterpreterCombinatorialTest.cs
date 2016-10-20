@@ -24,7 +24,7 @@ namespace CsvGnomeTests
             Cache cache = new Cache();
             Factory factory = new Factory(cache);
 
-            IComponent expectedRaw = new IncrementingComponent(0);
+            IComponent expectedRaw = Utilties.NewIncrementingComponent(0);
             ICombinatorial expected = factory.Create(groupId, expectedRaw);
 
             FieldBrain fieldBrain;
@@ -43,7 +43,7 @@ namespace CsvGnomeTests
             Cache cache = new Cache();
             Factory factory = new Factory(cache);
 
-            IComponent expectedRaw = new IncrementingComponent(0);
+            IComponent expectedRaw = Utilties.NewIncrementingComponent(0);
             ICombinatorial expected = factory.Create(groupId, expectedRaw);
 
             FieldBrain fieldBrain;
@@ -62,7 +62,7 @@ namespace CsvGnomeTests
             Cache cache = new Cache();
             Factory factory = new Factory(cache);
 
-            IComponent expectedRaw = new IncrementingComponent(0);
+            IComponent expectedRaw = Utilties.NewIncrementingComponent(0);
             ICombinatorial expected = factory.Create(groupId, expectedRaw);
 
             FieldBrain fieldBrain;
@@ -84,8 +84,8 @@ namespace CsvGnomeTests
             Factory factory = new Factory(cache);
 
             IComponent expectedRaw0 = new ArrayCycleComponent(new string[] { "hyena", "spider" }, new TestConfigurationProvider());
-            IComponent expectedRaw1 = new IncrementingComponent(0);
-            IComponent expectedRaw2 = new IncrementingComponent(10);
+            IComponent expectedRaw1 = Utilties.NewIncrementingComponent(0);
+            IComponent expectedRaw2 = Utilties.NewIncrementingComponent(10);
             ICombinatorial expected0 = factory.Create(groupId, expectedRaw0);
             ICombinatorial expected1 = factory.Create(groupId, expectedRaw1);
             ICombinatorial expected2 = factory.Create(groupId, expectedRaw2);

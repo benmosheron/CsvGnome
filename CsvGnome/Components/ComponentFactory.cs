@@ -31,17 +31,20 @@ namespace CsvGnome.Components
         private const string LuaPattern = @"\[ *lua (?:[a-zA-Z]|_)\w* *\]";
         private Regex LuaRegex = new Regex(LuaPattern);
 
-        private Date.IProvider DateProvider;
-        private Configuration.IProvider ConfigurationProvider;
-        private Components.Combinatorial.Factory CombinatorialFactory;
-        private CsvGnomeScriptApi.IManager ScriptManager;
+        private readonly IContext Context;
+        private readonly Date.IProvider DateProvider;
+        private readonly Configuration.IProvider ConfigurationProvider;
+        private readonly Combinatorial.Factory CombinatorialFactory;
+        private readonly CsvGnomeScriptApi.IManager ScriptManager;
 
         public ComponentFactory(
+            IContext context,
             Date.IProvider dateProvider,
             Configuration.IProvider configurationProvider,
-            Components.Combinatorial.Factory combinatorialFactory,
+            Combinatorial.Factory combinatorialFactory,
             CsvGnomeScriptApi.IManager scriptManager)
         {
+            Context = context;
             DateProvider = dateProvider;
             ConfigurationProvider = configurationProvider;
             CombinatorialFactory = combinatorialFactory;
@@ -56,12 +59,17 @@ namespace CsvGnome.Components
         {
             string groupPrototype = null;
             string prototype = ExtractGroup(rawPrototype, out groupPrototype);
+            // [N]
+            if(prototype == NComponent.CommandString)
+            {
+                return new NComponent(Context);
+            }
             // e.g.
             // [++]
             // [1++2]
             // [-99++-109]
             // [1++3 every 10]
-            if (IncrementingRegex.IsMatch(prototype))
+            else if (IncrementingRegex.IsMatch(prototype))
             {
                 return CreateIncrementingComponent(prototype, groupPrototype);
             }
@@ -82,13 +90,13 @@ namespace CsvGnome.Components
             {
                 return CreateDateComponent(prototype);
             }
-            else if (prototype.StartsWith(Program.SpreadComponentString))
+            else if (prototype.StartsWith(ArraySpreadComponent.CommandInitString))
             {
                 // remove "[spread]"
-                var array = prototype.Substring(Program.SpreadComponentString.Length);
-                return new ArraySpreadComponent(GetArray(array), ConfigurationProvider);
+                var array = prototype.Substring(ArraySpreadComponent.CommandInitString.Length);
+                return new ArraySpreadComponent(GetArray(array), Context, ConfigurationProvider);
             }
-            else if (prototype.StartsWith(Program.CycleComponentString))
+            else if (prototype.StartsWith(ArrayCycleComponent.CommandInitString))
             {
                 return CreateArrayCycleComponent(prototype, groupPrototype);
             }
@@ -138,7 +146,7 @@ namespace CsvGnome.Components
             if (!int.TryParse(tokens[1], out increment)) increment = IncrementingComponent.DefaultIncrement;
             if (tokens.Length <= 2 || !int.TryParse(tokens[2], out every)) every = IncrementingComponent.DefaultEvery;
 
-            IncrementingComponent rawComponent = new IncrementingComponent(start, increment, every);
+            IncrementingComponent rawComponent = new IncrementingComponent(Context, start, increment, every);
 
             return Choose(rawComponent, groupPrototype);
         }
@@ -183,7 +191,7 @@ namespace CsvGnome.Components
         private IComponent CreateArrayCycleComponent(string prototype, string groupPrototype)
         {
             // remove "[cycle]"
-            var array = prototype.Substring(Program.CycleComponentString.Length);
+            var array = prototype.Substring(ArrayCycleComponent.CommandInitString.Length);
             ArrayCycleComponent rawComponent = new ArrayCycleComponent(GetArray(array), ConfigurationProvider);
 
             return Choose(rawComponent, groupPrototype);

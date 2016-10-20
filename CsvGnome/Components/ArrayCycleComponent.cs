@@ -13,15 +13,16 @@ namespace CsvGnome.Components
     /// </summary>
     public class ArrayCycleComponent : IComponent
     {
+        public const string CommandInitString = "[cycle]";
         public string Command => valueArrayCommand;
 
         public List<Message> Summary => new List<Message>()
         {
-            new Message(Program.CycleComponentString, Program.SpecialColour),
+            Message.NewSpecial(CommandInitString),
             new Message("{"),
             ConfigurationProvider.ReportArrayContents 
             ? new Message(valueArray.Aggregate((t, n) => $"{t},{n}")) 
-            : new Message($"{valueArray.Length} items", Program.SpecialColour),
+            : Message.NewSpecial($"{valueArray.Length} items"),
             new Message("}"),
         };
 
@@ -44,7 +45,7 @@ namespace CsvGnome.Components
 
         public ReadOnlyCollection<String> ValueArray => new ReadOnlyCollection<string>(valueArray);
 
-        private string valueArrayCommand => Program.CycleComponentString + "{" + valueArray.Aggregate((t, n) => $"{t},{n}") + "}";
+        private string valueArrayCommand => CommandInitString + "{" + valueArray.Aggregate((t, n) => $"{t},{n}") + "}";
 
         public ArrayCycleComponent(string[] valueArray, Configuration.IProvider configurationProvider)
         {

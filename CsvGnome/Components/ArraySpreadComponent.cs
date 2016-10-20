@@ -12,15 +12,16 @@ namespace CsvGnome.Components
     /// </summary>
     public class ArraySpreadComponent : IComponent
     {
+        public const string CommandInitString = "[spread]";
         public string Command => valueArrayCommand;
 
         public List<Message> Summary => new List<Message>()
         {
-            new Message(Program.SpreadComponentString, Program.SpecialColour),
+            Message.NewSpecial(CommandInitString),
             new Message("{"),
             ConfigurationProvider.ReportArrayContents
             ? new Message(valueArray.Aggregate((t, n) => $"{t},{n}"))
-            : new Message($"{valueArray.Length} items", Program.SpecialColour),
+            : Message.NewSpecial($"{valueArray.Length} items"),
             new Message("}"),
         };
 
@@ -36,18 +37,20 @@ namespace CsvGnome.Components
         public string GetValue(long i)
         {
             long size = valueArray.Length;
-            long rowsPer = Math.Max((Program.N + 1) / size, 1);
+            long rowsPer = Math.Max((Context.N + 1) / size, 1);
             long index = (i / rowsPer) % size;
             return valueArray[index];
         }
 
         public readonly Configuration.IProvider ConfigurationProvider;
+        private readonly IContext Context;
         private readonly string[] valueArray;
 
-        private string valueArrayCommand => Program.SpreadComponentString + "{" + valueArray.Aggregate((t, n) => $"{t},{n}") + "}";
+        private string valueArrayCommand => CommandInitString + "{" + valueArray.Aggregate((t, n) => $"{t},{n}") + "}";
 
-        public ArraySpreadComponent(string[] valueArray, Configuration.IProvider configurationProvider)
+        public ArraySpreadComponent(string[] valueArray, IContext context, Configuration.IProvider configurationProvider)
         {
+            Context = context;
             ConfigurationProvider = configurationProvider;
             Debug.WriteLineIf(valueArray == null || !valueArray.Any(), "Empty or null array supplied to array component.");
             if (valueArray == null || valueArray.Length == 0) valueArray = new string[] { String.Empty };

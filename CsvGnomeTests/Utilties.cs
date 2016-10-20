@@ -28,7 +28,7 @@ namespace CsvGnomeTests
             combinatorialDeleter = new Deleter(cache);
             fieldBrain = new FieldBrain(combinatorialFactory, combinatorialDeleter);
             manager = new Manager();
-            interpreter = new Interpreter(fieldBrain, reporter, manager, new CsvGnome.Date.Provider(), new TestConfigurationProvider());
+            interpreter = new Interpreter(fieldBrain, reporter, manager, new TestContext(), new CsvGnome.Date.Provider(), new TestConfigurationProvider());
         }
 
         public static void InterpreterTestInit(
@@ -72,6 +72,18 @@ namespace CsvGnomeTests
                 out fieldBrain,
                 out manager,
                 out interpreter);
+        }
+
+        public static IncrementingComponent NewIncrementingComponent(IContext ctx, int start, int? increment = null, int? every = null)
+        {
+            if (every.HasValue) return new IncrementingComponent(ctx, start, increment.Value, every.Value);
+            if (increment.HasValue) return new IncrementingComponent(ctx, start, increment.Value);
+            return new IncrementingComponent(ctx, start);
+        }
+
+        public static IncrementingComponent NewIncrementingComponent(int start, int? increment = null, int? every = null)
+        {
+            return NewIncrementingComponent(new TestContext(), start, increment, every);
         }
     }
 }

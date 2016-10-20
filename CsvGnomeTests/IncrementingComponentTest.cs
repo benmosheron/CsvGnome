@@ -24,30 +24,30 @@ namespace CsvGnomeTests
             List<Func<long, int, string>> expectedValueGenerators = new List<Func<long, int, string>>();
 
             // Just a start provided
-            testComponents.Add(new IncrementingComponent(0));
+            testComponents.Add(Utilties.NewIncrementingComponent(0));
             expectedValueGenerators.Add((i, componentNumber) => f(testComponents[componentNumber], i));
 
-            testComponents.Add(new IncrementingComponent(100));
+            testComponents.Add(Utilties.NewIncrementingComponent(100));
             expectedValueGenerators.Add((i, componentNumber) => f(testComponents[componentNumber], i + 100));
 
-            testComponents.Add(new IncrementingComponent(-99));
+            testComponents.Add(Utilties.NewIncrementingComponent(-99));
             expectedValueGenerators.Add((i, componentNumber) => f(testComponents[componentNumber], i - 99));
 
             // Start and increment provided
-            testComponents.Add(new IncrementingComponent(-99, -1));
+            testComponents.Add(Utilties.NewIncrementingComponent(-99, -1));
             expectedValueGenerators.Add((i, componentNumber) => f(testComponents[componentNumber], -i - 99));
 
-            testComponents.Add(new IncrementingComponent(99, -2));
+            testComponents.Add(Utilties.NewIncrementingComponent(99, -2));
             expectedValueGenerators.Add((i, componentNumber) => f(testComponents[componentNumber], -(2 * i) + 99));
 
-            testComponents.Add(new IncrementingComponent(99, 2));
+            testComponents.Add(Utilties.NewIncrementingComponent(99, 2));
             expectedValueGenerators.Add((i, componentNumber) => f(testComponents[componentNumber], (2 * i) + 99));
 
             // Start, increment and every provided
-            testComponents.Add(new IncrementingComponent(1, 1, 5));
+            testComponents.Add(Utilties.NewIncrementingComponent(1, 1, 5));
             expectedValueGenerators.Add((i, componentNumber) => f(testComponents[componentNumber], i/5 + 1));
 
-            testComponents.Add(new IncrementingComponent(-100, 7, 3));
+            testComponents.Add(Utilties.NewIncrementingComponent(-100, 7, 3));
             expectedValueGenerators.Add((i, componentNumber) => f(testComponents[componentNumber], ((i / 3) * 7) - 100));
 
             for (int componentNumber = 0; componentNumber < testComponents.Count; componentNumber++)
@@ -65,25 +65,26 @@ namespace CsvGnomeTests
         public void Format()
         {
             // Dependent on N
-            Program.SetN(100);
+            IContext ctx = new TestContext();
+            ctx.N = 100;
 
             List<IncrementingComponent> testComponents = new List<IncrementingComponent>();
             List<string> expectedFormats = new List<string>();
 
             //00 - 99
-            testComponents.Add(new IncrementingComponent(0));
+            testComponents.Add(Utilties.NewIncrementingComponent(ctx, 0));
             expectedFormats.Add("D2");
 
             //001 - 100
-            testComponents.Add(new IncrementingComponent(1));
+            testComponents.Add(Utilties.NewIncrementingComponent(ctx, 1));
             expectedFormats.Add("D3");
 
             //-99 - 00
-            testComponents.Add(new IncrementingComponent(-99));
+            testComponents.Add(Utilties.NewIncrementingComponent(ctx, -99));
             expectedFormats.Add("D2");
 
             //-10,-10,0,0,10,10,...,480
-            testComponents.Add(new IncrementingComponent(-10, 10, 2));
+            testComponents.Add(Utilties.NewIncrementingComponent(ctx, -10, 10, 2));
             expectedFormats.Add("D3");
 
             for (int componentNumber = 0; componentNumber < testComponents.Count; componentNumber++)

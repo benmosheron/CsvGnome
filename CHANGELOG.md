@@ -3,6 +3,8 @@
 ** e.g. `[date "HH:mm dddd dd MMMM"]` writes `19:09 Tuesday 18 October`.
 * View a preview of the data with `preview`.
 * Optionally enable padding of fields with spaces using `pad on` and `pad off`.
+* New component `[N]` substitutes the total number of rows. This one was easy!
+* Under the hood: CsvGnomeScript has been separated from CsvGnome via CsvGnomeScriptApi, to help keep the two decoupled for the future.
 
 ## 1.4.0
 * Overhauled combinatorial fields. The following components can now be given an ID to combinatorially cycle through fields in a group:
