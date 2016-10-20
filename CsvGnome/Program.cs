@@ -17,8 +17,6 @@ namespace CsvGnome
         public const ConsoleColor DefaultColour = ConsoleColor.Gray;
         public const ConsoleColor SpecialColour = ConsoleColor.Cyan;
 
-        private const string ReportArrayContentsConfigKey = "ReportArrayContents";
-
         /// <summary>
         /// Set the value of the TimeAtWrite field to the current time.
         /// </summary>
@@ -169,36 +167,6 @@ namespace CsvGnome
             {
                 // Swallow all exceptions here, script functions will not work.
                 Reporter.Error(new Message($"Error loading functions from file: {LuaFunctionsFile}. [{ex.Message}]").ToList());
-            }
-        }
-
-        private static bool GetConfigured_ReportArrayContent()
-        {
-            bool b = false;
-            try
-            {
-                b = System.Configuration.ConfigurationManager.AppSettings[ReportArrayContentsConfigKey] == true.ToString();
-            }
-            catch(System.Configuration.ConfigurationException ex)
-            {
-                Reporter.AddMessage(new Message(ex.Message, ConsoleColor.Red));
-            }
-            return b;
-        }
-
-        private static void SetConfigured_ReportArrayContent(bool b)
-        {
-            try
-            {
-                System.Configuration.Configuration config = System.Configuration.ConfigurationManager.OpenExeConfiguration(System.Configuration.ConfigurationUserLevel.None);
-                config.AppSettings.Settings.Remove(ReportArrayContentsConfigKey);
-                config.AppSettings.Settings.Add(ReportArrayContentsConfigKey, b.ToString());
-                config.Save(System.Configuration.ConfigurationSaveMode.Modified);
-                System.Configuration.ConfigurationManager.RefreshSection("appSettings");
-            }
-            catch(System.Configuration.ConfigurationErrorsException ex)
-            {
-                Reporter.AddMessage(new Message(ex.Message, ConsoleColor.Red));
             }
         }
 
