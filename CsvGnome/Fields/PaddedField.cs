@@ -29,8 +29,18 @@ namespace CsvGnome.Fields
         public int ActualLength;
         public string Value;
 
+        private const string standardMessage =
+@"A few things could have gone wrong, including:
+   1) The field contained a [lua] component and has evaluated a function which returned a value with a higher length than it did in the dry run (with the same input parameters!).
+      To fix either:
+       1a) make sure all lua functions return a value with a deterministic length (when converted to a string) for any given row index.
+       1b) turn off padding (command: pad off).
+   2) CalculateMaxLength was not called, or was called for wrong N. 
+      Congratulations! You may have discovered a bug! You can report it here: https://github.com/benmosheron/CsvGnome/issues/new
+      To workaroun, turn off padding (command: pad off).";
+
         public PaddedLengthExceededException(int expectedMaxLength, string name)
-            : this($"Name of field [{name}] is long than the expected maximum [{expectedMaxLength}]. It is likely that CalculateMaxLength was not called, or was called for wrong N.")
+            : this($"Name of field [{name}] is long than the expected maximum [{expectedMaxLength}]. {standardMessage}")
         {
             ExpectedMaxLength = expectedMaxLength;
             ActualLength = name.Length;
@@ -38,7 +48,7 @@ namespace CsvGnome.Fields
         }
 
         public PaddedLengthExceededException(int i, int expectedMaxLength, int actualLength, string value)
-            : this($"GetValue({i}) returned a value longer than the expected maximum [{expectedMaxLength}]. Value: [{value}]. Length: [{actualLength}]. It is likely that CalculateMaxLength was not called, or was called for wrong N.")
+            : this($"GetValue({i}) returned a value longer than the expected maximum [{expectedMaxLength}]. Value: [{value}]. Length: [{actualLength}]. {standardMessage}")
         {
             RowNumber = i;
             ExpectedMaxLength = expectedMaxLength;
