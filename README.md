@@ -151,6 +151,11 @@ end
 
 These functions can then be called by CsvGnome components like so: `[lua <function name>]`.
 
+I strongly suggest that:
+* All lua functions return values that have a deterministic string length for any row index i.
+* Padding is disabled (using `pad off`) whenever the above condition is not satisfied, or you are not sure.
+This is because CsvGnome calculates how much padding to add by iterating through every row once in a dry run, before writing or previewing the file. If the values' lengths differ between the dry run and the actual run, CsvGnome may not allocate enough padding and crash, rather than risk displaying misaligned data.
+
 #### Scripting Example
 Given the following contents of `Scripts\functions.lua`:
 
