@@ -34,13 +34,13 @@ namespace CsvGnome.Components
         private Date.IProvider DateProvider;
         private Configuration.IProvider ConfigurationProvider;
         private Components.Combinatorial.Factory CombinatorialFactory;
-        private CsvGnomeScript.Manager ScriptManager;
+        private CsvGnomeScriptApi.IManager ScriptManager;
 
         public ComponentFactory(
             Date.IProvider dateProvider,
             Configuration.IProvider configurationProvider,
             Components.Combinatorial.Factory combinatorialFactory,
-            CsvGnomeScript.Manager scriptManager)
+            CsvGnomeScriptApi.IManager scriptManager)
         {
             DateProvider = dateProvider;
             ConfigurationProvider = configurationProvider;
@@ -207,6 +207,9 @@ namespace CsvGnome.Components
         /// <exception cref="ComponentCreationException">Thrown if the function does not exist.</exception>
         private IComponent CreateLuaComponent(string prototype)
         {
+            // If no scriptmanager has been provided, just create a text component.
+            if (ScriptManager == null) return new TextComponent(prototype);
+
             // remove "[" and "]"
             string protoInc = prototype.Substring(1, prototype.Length - 2);
 

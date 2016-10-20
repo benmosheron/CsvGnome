@@ -78,7 +78,7 @@ namespace CsvGnome
         static readonly Interpreter InterpreterNoIO = new Interpreter(FieldBrain, Reporter, ScriptManager, DateProvider, ConfigurationProvider);
 
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             // Read defaults from file
             GnomeFileReader.ReadDefaultGnomeFile().ForEach(InterpreterNoIO.InterpretSilent);

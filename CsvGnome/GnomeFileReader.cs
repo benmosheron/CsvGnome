@@ -10,6 +10,9 @@ namespace CsvGnome
     /// <summary>
     /// Reads gnome files, which save the configuration of a set of fields for re-use.
     /// </summary>
+    /// <remarks>
+    /// Only parses files to lists of strings, doesn't interpret them.
+    /// </remarks>
     public class GnomeFileReader
     {
         Reporter Reporter;
@@ -27,11 +30,11 @@ namespace CsvGnome
         {
             List<string> parsedFile = new List<string>();
             string defaultFile = GnomeFileCache.DefaultGnomeFileName;
-            if (defaultFile != null) parsedFile = ReadGnomeFile(defaultFile);
+            if (defaultFile != null) parsedFile = ReadGnomeFileFromCache(defaultFile);
             return parsedFile;
         }
 
-        public List<string> ReadGnomeFile(string name)
+        public List<string> ReadGnomeFileFromCache(string name)
         {
             string pathAndFile = GnomeFileCache.GetGnomeFilePath(name.Trim());
             List<string> parsedFile = new List<string>();

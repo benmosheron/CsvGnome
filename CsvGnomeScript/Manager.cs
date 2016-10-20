@@ -9,7 +9,7 @@ namespace CsvGnomeScript
     /// <summary>
     /// Manages reading of script files, and retrieval of function delegates.
     /// </summary>
-    public class Manager
+    public class Manager : CsvGnomeScriptApi.IManager
     {
         private ScriptFunctionStore Functions = new ScriptFunctionStore();
 

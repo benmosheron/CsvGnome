@@ -23,10 +23,14 @@ namespace CsvGnome
 
         private readonly FieldBrain FieldBrain;
         private readonly Reporter Reporter;
-        private readonly ComponentFactory Factory;
-        private readonly CsvGnomeScript.Manager ScriptManager;
-        private readonly Date.IProvider DateProvider;
         private readonly Configuration.IProvider ConfigurationProvider;
+
+        private readonly ComponentFactory Factory;
+
+        // Only used to pass into ComponentFactory
+        private readonly CsvGnomeScriptApi.IManager ScriptManager;
+        private readonly Date.IProvider DateProvider;
+        
         private readonly GnomeFileWriter GnomeFileWriter;
         private readonly GnomeFileReader GnomeFileReader;
 
@@ -38,7 +42,7 @@ namespace CsvGnome
         /// <param name="fieldBrain"></param>
         /// <param name="reporter"></param>
         /// <param name="cache"></param>
-        public Interpreter(FieldBrain fieldBrain, Reporter reporter, CsvGnomeScript.Manager scriptManager, Date.IProvider dateProvider, Configuration.IProvider configurationProvider)
+        public Interpreter(FieldBrain fieldBrain, Reporter reporter, CsvGnomeScriptApi.IManager scriptManager, Date.IProvider dateProvider, Configuration.IProvider configurationProvider)
             :this(fieldBrain, reporter, scriptManager, dateProvider, configurationProvider, null, null)
         { }
 
@@ -53,7 +57,7 @@ namespace CsvGnome
         public Interpreter(
             FieldBrain fieldBrain, 
             Reporter reporter,
-            CsvGnomeScript.Manager scriptManager,
+            CsvGnomeScriptApi.IManager scriptManager,
             Date.IProvider dateProvider,
             Configuration.IProvider configurationProvider,
             GnomeFileWriter gnomeFileWriter, 
@@ -64,7 +68,7 @@ namespace CsvGnome
             ScriptManager = scriptManager;
             DateProvider = dateProvider;
             ConfigurationProvider = configurationProvider;
-            Factory = new ComponentFactory(dateProvider, ConfigurationProvider, CombinatorialFactory, ScriptManager);
+            Factory = new ComponentFactory(dateProvider, configurationProvider, fieldBrain.CombinatorialFactory, scriptManager);
             GnomeFileWriter = gnomeFileWriter;
             GnomeFileReader = gnomeFileReader;
         }
@@ -145,7 +149,7 @@ namespace CsvGnome
                 {
                     Interpreter interpreterNoIO = new Interpreter(FieldBrain, Reporter, ScriptManager, DateProvider, ConfigurationProvider);
                     string fileToRead = input.Remove(0, "load".Length).Trim();
-                    List<string> parsedFile = GnomeFileReader.ReadGnomeFile(fileToRead);
+                    List<string> parsedFile = GnomeFileReader.ReadGnomeFileFromCache(fileToRead);
                     
                     // We will assume the file contains some valid instructions, if it has anything at all!
                     if(parsedFile != null && parsedFile.Count > 0 && parsedFile.Any(l => !String.IsNullOrWhiteSpace(l)))
