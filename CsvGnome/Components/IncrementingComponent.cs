@@ -14,7 +14,7 @@ namespace CsvGnome.Components
         public const int DefaultIncrement = 1;
         public const int DefaultEvery = 1;
         public string Command { get; }
-        public List<Message> Summary => new List<Message> { new Message(Command, Program.SpecialColour) };
+        public List<Message> Summary => Message.NewSpecial(Command).ToList();
 
         /// <summary>
         /// Get value to write on ith row (zero indexed).

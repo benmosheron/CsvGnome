@@ -21,7 +21,7 @@ namespace CsvGnome.Components
 
         public string Command => $"[{Start}=>{End}]";
 
-        public List<Message> Summary => new Message(Command, Program.SpecialColour).ToList();
+        public List<Message> Summary => Message.NewSpecial(Command).ToList();
 
         public char[] Values { get; private set; }
 

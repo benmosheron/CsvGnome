@@ -41,19 +41,18 @@ namespace CsvGnome.Components.Combinatorial
 
         protected override List<Message> GetPreGroupMessage()
         {
-            return new List<Message>() { new Message("[cycle ", Program.SpecialColour) };
+            return new List<Message>() { Message.NewSpecial("[cycle ") };
         }
 
         protected override List<Message> GetPostGroupMessage()
         {
             return new List<Message>()
             {
-                new Message("]", Program.SpecialColour),
-                new Message("{"),
+                Message.NewSpecial("]{"),
                 RawArrayCycleComponent.ConfigurationProvider.ReportArrayContents
                 ? new Message(valueArray.Aggregate((t, n) => $"{t},{n}"))
-                : new Message($"{valueArray.Count} items", Program.SpecialColour),
-                new Message("}"),
+                : Message.NewSpecial($"{valueArray.Count} items"),
+                Message.NewSpecial("}"),
             };
         }
 

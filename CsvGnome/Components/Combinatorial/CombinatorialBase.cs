@@ -134,9 +134,9 @@ namespace CsvGnome.Components.Combinatorial
         {
             return new List<Message>()
             {
-                new Message("#", Program.SpecialColour),
+                Message.NewSpecial("#"),
                 new Message(Group.Id, Group.Colour),
-                new Message($"/{Group.RankOf(this)}", Program.SpecialColour)
+                Message.NewSpecial($"/{Group.RankOf(this)}")
             };
         }
 

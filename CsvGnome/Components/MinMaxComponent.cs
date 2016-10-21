@@ -37,14 +37,7 @@ namespace CsvGnome.Components
         public List<Message> Summary {
             get
             {
-                List<Message> m = new List<Message>();
-                m.Add(new Message("[", Program.SpecialColour));
-                m.Add(new Message($"{Min}"));
-                m.Add(new Message("=>", Program.SpecialColour));
-                m.Add(new Message($"{Max}"));
-                m.Add(new Message($",{Increment}"));
-                m.Add(new Message("]", Program.SpecialColour));
-                return m;
+                return Message.NewSpecial($"[{Min}=>{Max},{Increment}]").ToList();
             }
         }
 

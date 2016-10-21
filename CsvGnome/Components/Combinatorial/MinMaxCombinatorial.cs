@@ -32,18 +32,12 @@ namespace CsvGnome.Components.Combinatorial
 
         protected override List<Message> GetPreGroupMessage()
         {
-            List<Message> m = new List<Message>();
-            m.Add(new Message("[", Program.SpecialColour));
-            m.Add(new Message($"{RawMinMaxComponent.Min}"));
-            m.Add(new Message("=>", Program.SpecialColour));
-            m.Add(new Message($"{RawMinMaxComponent.Max}"));
-            m.Add(new Message($",{RawMinMaxComponent.Increment} "));
-            return m;
+            return Message.NewSpecial($"[{RawMinMaxComponent.Min}=>{RawMinMaxComponent.Max},{RawMinMaxComponent.Increment} ").ToList();
         }
 
         protected override List<Message> GetPostGroupMessage()
         {
-            return new Message("]", Program.SpecialColour).ToList();
+            return Message.NewSpecial("]").ToList();
         }
     }
 }

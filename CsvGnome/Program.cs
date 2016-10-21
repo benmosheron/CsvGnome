@@ -11,9 +11,6 @@ namespace CsvGnome
     public class Program
     {
         public const string FileExt = ".csv";
-        public const string DateComponentString = "[date]";
-        public const ConsoleColor DefaultColour = ConsoleColor.Gray;
-        public const ConsoleColor SpecialColour = ConsoleColor.Cyan;
 
         /// <summary>
         /// Set the value of the TimeAtWrite field to the current time.
@@ -49,7 +46,7 @@ namespace CsvGnome
         public static GnomeFileCache GetGnomeFileCache => GnomeFileCache;
         
         static readonly Reporter Reporter = new Reporter();
-        static readonly CsvGnomeScript.Manager ScriptManager = new CsvGnomeScript.Manager();
+        static readonly CsvGnomeScriptApi.IManager ScriptManager = new CsvGnomeScript.Manager();
         static readonly Components.Combinatorial.Cache CombinatorialCache = new Components.Combinatorial.Cache();
         static readonly PaddedFieldFactory PaddedFieldFactory = new PaddedFieldFactory();
         static readonly Date.IProvider DateProvider = new Date.Provider();

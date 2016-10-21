@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 namespace CsvGnome
 {
     /// <summary>
-    /// Message to write to console once.
+    /// Message to write to console once. Incorporates a single colour.
     /// </summary>
     public class Message
     {
+        public const ConsoleColor DefaultColour = ConsoleColor.Gray;
+        public const ConsoleColor SpecialColour = ConsoleColor.Cyan;
+
         public string Text { get; }
 
         public ConsoleColor Colour { get; }
@@ -27,7 +30,7 @@ namespace CsvGnome
 
         public static Message NewSpecial(string s)
         {
-            return new Message(s, Program.SpecialColour);
+            return new Message(s, SpecialColour);
         }
 
         /// <summary>

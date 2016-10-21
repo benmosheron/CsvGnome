@@ -45,20 +45,16 @@ namespace CsvGnome.Components.Combinatorial
 
         protected override List<Message> GetPreGroupMessage()
         {
-            List<Message> m = new List<Message>();
-            m.Add(new Message("[", Program.SpecialColour));
-            if (start != IncrementingComponent.DefaultStart) m.Add(new Message(start.ToString(), Program.SpecialColour));
-            m.Add(new Message("++", Program.SpecialColour));
-            if (increment != IncrementingComponent.DefaultIncrement) m.Add(new Message(increment.ToString(), Program.SpecialColour));
-            if (every != IncrementingComponent.DefaultEvery) m.Add(new Message($" every {every}", Program.SpecialColour));
-            m.Add(new Message(" ", Program.SpecialColour));
+            string startString = (start != IncrementingComponent.DefaultStart) ? start.ToString() : String.Empty;
+            string incrementString = (increment != IncrementingComponent.DefaultIncrement) ? increment.ToString() : String.Empty;
+            string everyString = (every != IncrementingComponent.DefaultEvery) ? $" every {every}" : String.Empty;
 
-            return m;
+            return Message.NewSpecial($"[{startString}++{incrementString}{everyString} ").ToList();
         }
 
         protected override List<Message> GetPostGroupMessage()
         {
-            return new Message("]", Program.SpecialColour).ToList();
+            return Message.NewSpecial("]").ToList();
         }
 
         private IncrementingComponent RawIncrementingComponent => RawComponent as IncrementingComponent;

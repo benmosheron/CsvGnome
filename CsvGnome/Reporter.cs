@@ -146,7 +146,7 @@ namespace CsvGnome
             for (int i = 0; i < Program.GetGnomeFileCache.Files.Length; i++)
             {
                 string name = Program.GetGnomeFileCache.Files[i];
-                WriteLine(new Message(name, Program.SpecialColour));
+                WriteLine(new Message(name, Message.SpecialColour));
                 WriteLine(new Message(Program.GetGnomeFileCache.GetPath(name)));
                 Console.WriteLine("");
             }
@@ -172,14 +172,14 @@ namespace CsvGnome
         {
             Console.ForegroundColor = m.Colour;
             Console.Write(m.Text);
-            Console.ForegroundColor = Program.DefaultColour;
+            Console.ForegroundColor = Message.DefaultColour;
         }
 
         private void WriteLine(Message m)
         {
             Console.ForegroundColor = m.Colour;
             Console.WriteLine(m.Text);
-            Console.ForegroundColor = Program.DefaultColour;
+            Console.ForegroundColor = Message.DefaultColour;
         }
 
         private void WriteMessages()
