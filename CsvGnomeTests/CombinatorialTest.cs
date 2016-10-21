@@ -219,7 +219,6 @@ namespace CsvGnomeTests
                 Assert.AreEqual(expected2i, ((IComponent)c2).GetValue(i));
             }
         }
-    
 
         [TestMethod]
         public void CycleAfterIncrementing()
@@ -358,7 +357,6 @@ namespace CsvGnomeTests
             }
         }
 
-
         [TestMethod]
         public void MinMax_Command()
         {
@@ -382,6 +380,27 @@ namespace CsvGnomeTests
             Assert.AreEqual(expectedCommand0, (c0 as IComponent).Command);
             Assert.AreEqual(expectedCommand1, (c1 as IComponent).Command);
             Assert.AreEqual(expectedCommand2, (c2 as IComponent).Command);
+        }
+
+        [TestMethod]
+        public void DuplicateRankRequested()
+        {
+            Cache cache = new Cache();
+            Factory factory = new Factory(cache);
+
+            const string c_groupId = "Capra";
+            MinMaxComponent raw0 = new MinMaxComponent(0, 1);
+            MinMaxComponent raw1 = new MinMaxComponent(2, 3);
+            MinMaxComponent raw2 = new MinMaxComponent(4, 5);
+
+            ICombinatorial c0 = factory.Create(c_groupId, raw0, 0);
+            ICombinatorial c1 = factory.Create(c_groupId, raw1, 1);
+            // Add a third at rank 0
+            ICombinatorial c2 = factory.Create(c_groupId, raw2, 0);
+
+            Assert.AreEqual(1, c0.Dimension);
+            Assert.AreEqual(2, c1.Dimension);
+            Assert.AreEqual(0, c2.Dimension);
         }
 
     }

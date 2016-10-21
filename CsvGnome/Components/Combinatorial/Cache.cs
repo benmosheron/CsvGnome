@@ -37,13 +37,16 @@ namespace CsvGnome.Components.Combinatorial
         {
             if (!Groups.ContainsKey(id)) throw new Exception($"Group with id [{id}] does not exist in the cache");
 
+            // If the group already contains a component of this rank, we need to make room for it.
+            Groups[id].InsertRank(rank);
+
             Groups[id].AddComponent(rank, component);
         }
 
         public void Clear()
         {
             // Do we need to delete every component's group reference?
-            // GC should handle it as longas all fields/components are deleted.
+            // GC should handle it as long as all fields/components are deleted.
             Groups.Clear();
         }
 

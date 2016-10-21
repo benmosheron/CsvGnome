@@ -4,6 +4,7 @@
 * View a preview of the data with `preview`.
 * Optionally enable padding of fields with spaces using `pad on` and `pad off`.
 * New component `[N]` substitutes the total number of rows. This one was easy!
+* Bug fix: Inserting a combinatorial component at a rank that already exists will now bump up every higher rank to make room (rather than crashing).
 * Under the hood: CsvGnomeScript has been separated from CsvGnome via CsvGnomeScriptApi, to help keep the two decoupled for the future.
 
 ## 1.4.0

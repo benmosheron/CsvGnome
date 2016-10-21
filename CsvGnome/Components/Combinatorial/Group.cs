@@ -163,17 +163,22 @@ namespace CsvGnome.Components.Combinatorial
             rankToComponent.Remove(rankOfComponentToRemove);
         }
 
-        //public override bool Equals(Object x)
-        //{
-        //    if (x == null) return false;
-        //    Group g = x as Group;
-        //    if (g == null) return false;
-        //    return Id == g.Id;
-        //}
-
-        //public override int GetHashCode()
-        //{
-        //    return Id.GetHashCode();
-        //}
+        public void InsertRank(int rank)
+        {
+            if (rankToComponent.Keys.Contains(rank))
+            {
+                // Ensure there is space in which to insert the offender
+                InsertRank(rank + 1);
+                // Increase the rank of the offender
+                rankToComponent[rank + 1] = rankToComponent[rank];
+                // Clear a space
+                rankToComponent.Remove(rank);
+            }
+            else
+            {
+                // It's too easy!
+                return;
+            }
+        }
     }
 }
