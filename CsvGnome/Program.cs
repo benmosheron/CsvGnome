@@ -15,6 +15,7 @@ namespace CsvGnome
         /// <summary>
         /// Set the value of the TimeAtWrite field to the current time.
         /// </summary>
+        [Obsolete("Use Date.IProvider")]
         public static void UpdateTime()
         {
             DateProvider.UpdateNow();
@@ -66,6 +67,22 @@ namespace CsvGnome
 
         public static void Main(string[] args)
         {
+            // Read command line args
+            switch(CLI.ArgsInterpreter.Do(args, Reporter))
+            {
+                case CLI.Option.File:
+                    // Read File
+                    // Interpret file
+                    // Write output
+                    return;
+                case CLI.Option.Interpret:
+                    if (args.Length > 1) args.Skip(1).ToList().ForEach(InterpreterNoIO.InterpretSilent);
+                    Writer.WriteToFile(Reporter, FieldBrain.Fields, PaddedFieldFactory, File, Context.N);
+                    return;
+                case CLI.Option.RunStandalone:
+                    break;
+            }
+
             // Read defaults from file
             GnomeFileReader.ReadDefaultGnomeFile().ForEach(InterpreterNoIO.InterpretSilent);
 
@@ -96,11 +113,6 @@ namespace CsvGnome
                 // after user entry
                 nextAction = WriteIfNeeded(nextAction);
             }
-        }
-
-        public static void SetN(int nToSet)
-        {
-            Context.N = nToSet;
         }
 
         /// <summary>

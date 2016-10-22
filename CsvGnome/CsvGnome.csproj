@@ -64,6 +64,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Action.cs" />
+    <Compile Include="CLI\ArgsInterpreter.cs" />
+    <Compile Include="CLI\Option.cs" />
     <Compile Include="Colour.cs" />
     <Compile Include="Components\AlphabetComponent.cs" />
     <Compile Include="Components\ArrayCycleComponent.cs" />

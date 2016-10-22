@@ -183,7 +183,7 @@ namespace CsvGnome
             int n;
             if (int.TryParse(input, out n))
             {
-                Program.SetN(n);
+                Context.N = n;
                 return Action.Continue;
             }
             
