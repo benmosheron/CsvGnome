@@ -8,7 +8,7 @@ namespace CsvGnome.Components.Combinatorial
 {
     /// <summary>
     /// Common ICombinatorial behaviour.
-    /// Consumers should override Cardinality.
+    /// Consumers should implement CombinatorialCore.
     /// </summary>
     public class CombinatorialBase : ICombinatorial
     {
