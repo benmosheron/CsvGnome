@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CsvGnomeScriptApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,28 +9,31 @@ namespace CsvGnomeScript
 {
     public class ScriptFunctionStore
     {
-        public Dictionary<string, IScriptFunctions> Languages = new Dictionary<string, IScriptFunctions>();
+        private Dictionary<string, IScriptFunctions> store = new Dictionary<string, IScriptFunctions>();
 
-        /// <summary>
-        /// Update the function store with a set of functions for the provided language. The store will be initialsed if it has not been already.
-        /// </summary>
-        public void UpdateWithFunctions(string language, IScriptFunctions functionsToAdd)
+        public void AddFunctions(string language, IScriptFunctions f)
         {
-            if (!Languages.ContainsKey(language))
+            // If this language already has functions store, add the new functions to the existing store
+            if (ContainsLanguage(language))
             {
-                switch (language)
-                {
-                    case "lua":
-                        Languages[language] = new LuaScriptFunctions();
-                        break;
-                    default:
-                        throw new ArgumentException($"Language [{language}] is not supported.");
-                }
+                store[language].Combine(f);
             }
-
-            foreach (string valueFunctionName in functionsToAdd.ValueFunctions.Keys)
+            else
             {
-                Languages[language].ValueFunctions[valueFunctionName] = functionsToAdd.ValueFunctions[valueFunctionName];
+                store[language] = f;
+            }
+        }
+
+        public bool ContainsLanguage(string language)
+        {
+            return store.ContainsKey(language);
+        }
+
+        public IScriptFunctions this[string language]
+        {
+            get
+            {
+                return store[language];
             }
         }
     }
