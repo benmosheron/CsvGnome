@@ -28,6 +28,7 @@ Special **components** can be added to values (`help special` displays a list of
 * `[0=>50, 10]` cycles the values from zero to fifty in steps of ten.
 * `[a=>d]` cycles the letters a,b,c, and d.
 * `[C=>a]` cycles C,B,A,c,b,a,C...
+* `[N]` substitutes in the number of data rows that will be written (not including columns row).
 
 Specify arrays of values manually with `[spread]` and `[cycle]`
 
