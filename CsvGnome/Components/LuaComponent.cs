@@ -41,14 +41,19 @@ namespace CsvGnome.Components
 
         public string GetValue(long i)
         {
-            return ValueFunction(i).First().ToString();
+            Args.i = i;
+            Args.N = Context.N;
+            return ValueFunction(Args).First().ToString();
         }
 
-        Func<long, object[]> ValueFunction;
+        Func<CsvGnomeScriptApi.IScriptArgs, object[]> ValueFunction;
         string FunctionName;
-
-        public LuaComponent(string functionName, Func<long, object[]> valueFunction)
+        CsvGnomeScriptApi.IScriptArgs Args;
+        IContext Context;
+        public LuaComponent(IContext context, string functionName, Func<CsvGnomeScriptApi.IScriptArgs, object[]> valueFunction, CsvGnomeScriptApi.IScriptArgs args)
         {
+            Context = context;
+            Args = args;
             ValueFunction = valueFunction;
             FunctionName = functionName;
         }

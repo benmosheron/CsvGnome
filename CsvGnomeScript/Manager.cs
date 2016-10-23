@@ -15,12 +15,14 @@ namespace CsvGnomeScript
         private ScriptFunctionStore GlobalFunctionStore = new ScriptFunctionStore();
 
         private Dictionary<string, IScriptReader> Readers = new Dictionary<string, IScriptReader>();
+        private Dictionary<string, Func<IScriptArgs>> ArgumentInstanceGetter = new Dictionary<string, Func<IScriptArgs>>();
 
         public Manager()
         {
             var luaReader = new LuaScript.Reader();
             // For now, we can only do lua files.
             Readers.Add(luaReader.Extension, luaReader);
+            ArgumentInstanceGetter.Add(luaReader.Extension, () => new LuaScript.Args());
         }
 
         public void ReadFile(string path)
@@ -40,7 +42,7 @@ namespace CsvGnomeScript
         /// </summary>
         /// <exception cref="InvalidLanguageException">Thrown if the given language does not have any functions stored.</exception>
         /// <exception cref="InvalidFunctionException">Thrown if the given function does not exist in the given language's store.</exception> 
-        public Func<long, object[]> GetValueFunction(string language, string functionName)
+        public Func<IScriptArgs, object[]> GetValueFunction(string language, string functionName)
         {
             if (!GlobalFunctionStore.ContainsLanguage(language))
             {
@@ -52,6 +54,11 @@ namespace CsvGnomeScript
                 throw new InvalidFunctionException(language, functionName);
             }
             return GlobalFunctionStore[language].ValueFunctions[functionName];
+        }
+
+        public IScriptArgs GetArgs(string language)
+        {
+            return ArgumentInstanceGetter[language]();
         }
 
     }

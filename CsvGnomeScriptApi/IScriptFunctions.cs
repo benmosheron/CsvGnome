@@ -14,7 +14,7 @@ namespace CsvGnomeScriptApi
         /// <summary>
         /// Maps function names to Value Generating Functions.
         /// </summary>
-        Dictionary<string, Func<long, object[]>> ValueFunctions { get; }
+        Dictionary<string, Func<IScriptArgs, object[]>> ValueFunctions { get; }
 
         /// <summary>
         /// True if this contains a function with the given name.

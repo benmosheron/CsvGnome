@@ -11,10 +11,10 @@ namespace LuaScript
     {
         public Functions()
         {
-            ValueFunctions = new Dictionary<string, Func<long, object[]>>();
+            ValueFunctions = new Dictionary<string, Func<IScriptArgs, object[]>>();
         }
 
-        public Dictionary<string, Func<long, object[]>> ValueFunctions { get; }
+        public Dictionary<string, Func<IScriptArgs, object[]>> ValueFunctions { get; }
         public bool ContainsFunction(string name) => ValueFunctions.ContainsKey(name);
         public void Combine(IScriptFunctions functionsToAdd)
         {

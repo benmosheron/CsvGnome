@@ -1,4 +1,6 @@
 ## 1.5.0
+* Breaking change: script functions are now provided an IScriptArgs "args" object. instead of a single integer.
+  * Currently args gives access to two properties, i (the row index) and N (the number of rows).
 * You can now optionally provide a [.NET date format string](https://msdn.microsoft.com/en-us/library/8kb3ddd4) to [date] components.
   * e.g. `[date "HH:mm dddd dd MMMM"]` writes `19:09 Tuesday 18 October`.
 * View a preview of the data with `preview`.

@@ -227,7 +227,7 @@ namespace CsvGnome.Components
             IComponent component;
             try
             {
-                component = new LuaComponent(protoNoLua, ScriptManager.GetValueFunction("lua", protoNoLua));
+                component = new LuaComponent(Context, protoNoLua, ScriptManager.GetValueFunction("lua", protoNoLua), ScriptManager.GetArgs("lua"));
                 return component;
             }
             catch (CsvGnomeScript.InvalidFunctionException ex)
