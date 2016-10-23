@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvGnomeScriptTest", "CsvGn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvGnomeScriptApi", "CsvGnomeScriptApi\CsvGnomeScriptApi.csproj", "{250342E5-8524-4380-8609-21E2D3C5260C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuaScript", "LuaScriptReader\LuaScript.csproj", "{F21B90B2-9D23-4F64-ACF1-23D93442D479}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuaScript", "LuaScript\LuaScript.csproj", "{F21B90B2-9D23-4F64-ACF1-23D93442D479}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

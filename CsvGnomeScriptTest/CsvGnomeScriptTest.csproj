@@ -68,7 +68,7 @@
       <Project>{9d24f971-078d-406c-8485-821b81d8f947}</Project>
       <Name>CsvGnomeScript</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LuaScriptReader\LuaScript.csproj">
+    <ProjectReference Include="..\LuaScript\LuaScript.csproj">
       <Project>{f21b90b2-9d23-4f64-acf1-23d93442d479}</Project>
       <Name>LuaScript</Name>
     </ProjectReference>
