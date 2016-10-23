@@ -22,6 +22,13 @@ namespace CsvGnomeScriptApi
         /// <param name="language">E.g. "lua"</param>
         /// <param name="functionName">E.g. "square"</param>
         /// <returns></returns>
-        Func<long, object[]> GetValueFunction(string language, string functionName);
+        Func<IScriptArgs, object[]> GetValueFunction(string language, string functionName);
+
+        /// <summary>
+        /// Get an IScriptArgs instance for the given language type.
+        /// </summary>
+        /// <param name="language"></param>
+        /// <returns></returns>
+        IScriptArgs GetArgs(string language);
     }
 }

@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IManager.cs" />
+    <Compile Include="IScriptArgs.cs" />
     <Compile Include="IScriptFunctions.cs" />
     <Compile Include="IScriptReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

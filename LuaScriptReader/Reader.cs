@@ -10,9 +10,9 @@ using CsvGnomeScriptApi;
 namespace LuaScript
 {
     /// <summary>
-    /// Reads the specified lua script file and extracts valid functions, which take a single parameter "i".
+    /// Reads the specified lua script file and extracts valid functions, which take a single parameter "args".
     /// Functions declarations must be in the exact form: 
-    /// <para>function nameOfFunction(i)</para>
+    /// <para>function nameOfFunction(args)</para>
     /// <para>[body]</para>
     /// <para>return [returnValue]</para>
     /// <para>end</para>
@@ -23,6 +23,7 @@ namespace LuaScript
     public class Reader : IScriptReader
     {
         public const string lua = "lua";
+        private const string LuaFunctionPattern = @"(function )((?:[a-zA-Z]|_)\w*)(\(args\))";
 
         /// <summary>
         /// "lua"
@@ -67,17 +68,17 @@ namespace LuaScript
 
         HashSet<string> GetValidFunctionNames(string script)
         {
-            Regex luaFunction = new Regex(@"(function )((?:[a-zA-Z]|_)\w*)(\(i\))");
+            Regex luaFunction = new Regex(LuaFunctionPattern);
             var functions = luaFunction.Matches(script);
             var functionNames = new HashSet<string>();
             for (int i = 0; i < functions.Count; i++)
             {
-                // Group will be
+                // Groups will be
                 // 0: full regex match
                 // 1: "function "
                 // 2: <functionName>
                 // 3: "(i)"
-                // we are after 2.
+                // we are after group 2.
                 functionNames.Add(functions[i].Groups[2].Value);
             }
             return functionNames;

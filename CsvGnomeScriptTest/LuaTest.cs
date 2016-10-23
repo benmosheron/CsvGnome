@@ -14,11 +14,12 @@ namespace CsvGnomeScriptTest
         {
             const string c_testFileName = "functions.lua";
 
-            Dictionary<string, Func<long, string>> expected = new Dictionary<string, Func<long, string>>
+            Dictionary<string, Func<IScriptArgs, string>> expected = new Dictionary<string, Func<IScriptArgs, string>>
             {
-                ["getOne"] = i => 1.ToString(),
-                ["getChaosBlade"] = i => "ChaosBlade",
-                ["getI"] = i => i.ToString()
+                ["getOne"] = args => 1.ToString(),
+                ["getChaosBlade"] = args => "ChaosBlade",
+                ["getI"] = args => args.i.ToString(),
+                ["rowXOfY"] = args => $"row {args.i + 1} of {args.N}"
             };
 
             IScriptReader reader = new LuaScript.Reader();
@@ -26,10 +27,12 @@ namespace CsvGnomeScriptTest
 
             foreach (string functionName in expected.Keys)
             {
-                long i = 99;
+                IScriptArgs args = new LuaScript.Args();
+                args.i = 99;
+                args.N = 100;
                 Assert.AreEqual(
-                    expected[functionName](i),
-                    f.ValueFunctions[functionName](i).First().ToString());
+                    expected[functionName](args),
+                    f.ValueFunctions[functionName](args).First().ToString());
             }
         }
     }

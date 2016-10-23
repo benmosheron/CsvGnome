@@ -1,4 +1,5 @@
 ﻿using CsvGnomeScript;
+using CsvGnomeScriptApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +17,12 @@ namespace CsvGnomeScriptTest
         {
             const string c_testFileName = "functions.lua";
 
-            Dictionary<string, Func<long, string>> expected = new Dictionary<string, Func<long, string>>
+            Dictionary<string, Func<IScriptArgs, string>> expected = new Dictionary<string, Func<IScriptArgs, string>>
             {
-                ["getOne"] = i => 1.ToString(),
-                ["getChaosBlade"] = i => "ChaosBlade",
-                ["getI"] = i => i.ToString()
+                ["getOne"] = args => 1.ToString(),
+                ["getChaosBlade"] = args => "ChaosBlade",
+                ["getI"] = args => args.i.ToString(),
+                ["rowXOfY"] = args => $"row {args.i + 1} of {args.N}"
             };
 
             Manager m = new Manager();
@@ -28,10 +30,12 @@ namespace CsvGnomeScriptTest
 
             foreach (string functionName in expected.Keys)
             {
-                long i = 99;
+                LuaScript.Args args = new LuaScript.Args();
+                args.i = 3;
+                args.N = 10;
                 Assert.AreEqual(
-                    expected[functionName](i),
-                    m.GetValueFunction("lua",functionName)(i).First().ToString());
+                    expected[functionName](args),
+                    m.GetValueFunction("lua",functionName)(args).First().ToString());
             }
         }
     }

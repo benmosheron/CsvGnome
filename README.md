@@ -139,11 +139,14 @@ Save and load configurations of fields to GnomeFiles with `save` and `load` comm
 
 ### Scripting
 
-Add custom functions to `Scripts\functions.lua` to allow them to be used in components of fields. Lua functions must take a single input parameter "i", which will be passed the zero-based row number.
+Add custom functions to `Scripts\functions.lua` to allow them to be used in components of fields. Lua functions must take a single input parameter "args".
+args has the following properties available:
+* `args.i` which will be passed the zero-based row number (64 bit int).
+* `args.N` which will be passed the total number of rows to be written (32 bit int, not including the columns row).
 
 Functions must have the following method signature and format:
 ```
-function <function name>(i)
+function <function name>(args)
   <function body>
   return <any value>
 end
@@ -160,16 +163,12 @@ This is because CsvGnome calculates how much padding to add by iterating through
 Given the following contents of `Scripts\functions.lua`:
 
 ```
-function uniform(i)
-  return math.random()
-end
-
-function uniform2digits(i)
+function uniform2digits(args)
   return tostring(uniform()):sub(3,4)
 end
 
-function square(i)
-  return i*i
+function square(args)
+  return args.i*args.i
 end 
 ```
 
@@ -178,7 +177,7 @@ And the following CsvGnome input:
 Scripting Test:omg! [lua uniform2digits]... OMG! [lua square]
 ```
 
-We will get the following output (your random numbers *may* vary):
+We will get the following output (your random numbers may vary):
 
 *CSVs have been converted to tables to display nicely.*
 

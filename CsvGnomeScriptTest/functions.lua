@@ -1,11 +1,15 @@
-﻿function getOne(i)
+﻿function getOne(args)
     return 1
 end
 
-function getChaosBlade(i)
+function getChaosBlade(args)
   return "ChaosBlade"
 end
 
-function getI(i)
-  return i
+function getI(args)
+  return args.i
+end
+
+function rowXOfY(args)
+  return "row " .. args.i + 1 .. " of " .. args.N
 end
