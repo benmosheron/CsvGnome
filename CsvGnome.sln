@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvGnome", "CsvGnome\CsvGnome.csproj", "{80ABA683-8D79-4D74-8FCF-0BB8B2694D8C}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvGnomeScriptTest", "CsvGnomeScriptTest\CsvGnomeScriptTest.csproj", "{02A6A103-94A1-4879-BC1A-8EBBE27DDF96}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvGnomeScriptApi", "CsvGnomeScriptApi\CsvGnomeScriptApi.csproj", "{250342E5-8524-4380-8609-21E2D3C5260C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuaScript", "LuaScriptReader\LuaScript.csproj", "{F21B90B2-9D23-4F64-ACF1-23D93442D479}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{250342E5-8524-4380-8609-21E2D3C5260C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{250342E5-8524-4380-8609-21E2D3C5260C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{250342E5-8524-4380-8609-21E2D3C5260C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F21B90B2-9D23-4F64-ACF1-23D93442D479}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F21B90B2-9D23-4F64-ACF1-23D93442D479}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F21B90B2-9D23-4F64-ACF1-23D93442D479}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F21B90B2-9D23-4F64-ACF1-23D93442D479}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

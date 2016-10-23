@@ -1,4 +1,4 @@
-﻿using CsvGnomeScript;
+﻿using CsvGnomeScriptApi;
 using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -21,8 +21,8 @@ namespace CsvGnomeScriptTest
                 ["getI"] = i => i.ToString()
             };
 
-            LuaScriptReader reader = new LuaScriptReader();
-            LuaScriptFunctions f = reader.Read(c_testFileName);
+            IScriptReader reader = new LuaScript.Reader();
+            IScriptFunctions f = reader.Read(c_testFileName);
 
             foreach (string functionName in expected.Keys)
             {

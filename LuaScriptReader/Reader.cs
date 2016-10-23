@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using CsvGnomeScriptApi;
 
-namespace CsvGnomeScript
+namespace LuaScript
 {
     /// <summary>
     /// Reads the specified lua script file and extracts valid functions, which take a single parameter "i".
@@ -19,25 +20,33 @@ namespace CsvGnomeScript
     /// <remarks>
     /// Does not swallow any exceptions (e.g. file access exceptions).
     /// </remarks>
-    public class LuaScriptReader
+    public class Reader : IScriptReader
     {
-        public const string LuaName = "lua";
+        public const string lua = "lua";
+
+        /// <summary>
+        /// "lua"
+        /// </summary>
+        public string Extension => lua;
 
         /// <summary>
         /// Read a lua script file and gather valid functions into a LuaScriptFunctions object.
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public LuaScriptFunctions Read(string path)
+        public IScriptFunctions Read(string path)
         {
             string luaScript = GetScript(path);
 
+            // Get the every possible valid function by examining the text of the file.
             HashSet<string> functions = GetValidFunctionNames(luaScript);
 
+            // Read everything from the file, using the NLua interpreter.
             Lua state = GetLuaState(luaScript);
 
-            LuaScriptFunctions luaScriptFunctions = new LuaScriptFunctions();
+            IScriptFunctions luaScriptFunctions = new Functions();
 
+            // Match the text-read and state-read functions.
             foreach (string functionName in functions)
             {
                 luaScriptFunctions.ValueFunctions[functionName] = i => state.GetFunction(functionName).Call(i);
