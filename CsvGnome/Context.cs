@@ -8,6 +8,18 @@ namespace CsvGnome
 {
     public class Context : IContext
     {
-        public long N { get; set; } = 10;
+        long n = 10;
+        public long N
+        {
+            get
+            {
+                return n;
+            }
+            set
+            {
+                if (value >= 0) n = value;
+                else n = 0;
+            }
+        }
     }
 }

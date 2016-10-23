@@ -7,6 +7,7 @@
 * Optionally enable padding of fields with spaces using `pad on` and `pad off`.
 * New component `[N]` substitutes the total number of rows. This one was easy!
 * Bug fix: Inserting a combinatorial component at a rank that already exists will now bump up every higher rank to make room (rather than crashing).
+* Bug fix: You can't set N to be negative any more...
 * Under the hood: 
   * CsvGnomeScript has been separated from CsvGnome via CsvGnomeScriptApi, to help keep the two decoupled for the future.
   * Separated Lua scripting capability into separate libraries to isolate the dependency on NLua.
