@@ -19,7 +19,7 @@ namespace CsvGnome
             ConfigurationProvider = configurationProvider;
         }
 
-        public void Preview(Reporter reporter, List<IField> fields, PaddedFieldFactory paddedFieldFactory, int n)
+        public void Preview(Reporter reporter, List<IField> fields, PaddedFieldFactory paddedFieldFactory, long n)
         {
             Console.Clear();
 
@@ -49,9 +49,9 @@ namespace CsvGnome
             Console.Clear();
         }
 
-        private bool WritePreviewAfterNPPresses(List<IField> fields, int n, int np)
+        private bool WritePreviewAfterNPPresses(List<IField> fields, long n, int np)
         {
-            int rowsToWrite = Math.Min(Console.WindowHeight - 4, n);
+            long rowsToWrite = Math.Min(Console.WindowHeight - 4, n);
             bool pHasBeenPressed = np > 0;
             bool nextWillBeEnd = np + 1 + rowsToWrite > n;
 
@@ -86,9 +86,9 @@ namespace CsvGnome
             return true;
         }
 
-        private void WriteLinesAToB(List<IField> fields, int a, int b)
+        private void WriteLinesAToB(List<IField> fields, long a, long b)
         {
-            for (int i = a; i <= b; i++)
+            for (long i = a; i <= b; i++)
             {
                 Console.WriteLine(GetLine(fields, i));
             }
@@ -115,7 +115,7 @@ namespace CsvGnome
             return sb.ToString();
         }
 
-        private string GetLine(List<IField> fields, int i)
+        private string GetLine(List<IField> fields, long i)
         {
             StringBuilder sb = new StringBuilder();
 

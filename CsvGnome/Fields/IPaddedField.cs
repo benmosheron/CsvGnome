@@ -11,7 +11,7 @@ namespace CsvGnome.Fields
         /// <summary>
         /// Calculate the maximum length of all the values that this field will produce, given that it will write N rows.
         /// </summary>
-        void CalculateMaxLength(int N);
+        void CalculateMaxLength(long N);
 
         /// <summary>
         /// Name of the field, padded with spaces to fill the maximum length it will take up.

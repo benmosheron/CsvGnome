@@ -20,7 +20,7 @@ namespace CsvGnome
         /// <param name="fields"></param>
         /// <param name="N"></param>
         /// <param name="pathAndFile"></param>
-        public void Report(List<IField> fields, int N, string pathAndFile)
+        public void Report(List<IField> fields, long N, string pathAndFile)
         {
             Console.Clear();
 

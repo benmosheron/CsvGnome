@@ -14,6 +14,6 @@ namespace CsvGnome
         /// <summary>
         /// The number of rows of data to write (doesn't include the columns row).
         /// </summary>
-        int N { get; set; }
+        long N { get; set; }
     }
 }

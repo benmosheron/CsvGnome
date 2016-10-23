@@ -8,6 +8,6 @@ namespace CsvGnomeTests
 {
     public class TestContext : CsvGnome.IContext
     {
-        public int N { get; set; } = 1;
+        public long N { get; set; } = 1;
     }
 }

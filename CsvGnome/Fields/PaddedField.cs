@@ -24,7 +24,7 @@ namespace CsvGnome.Fields
     /// </summary>
     public class PaddedLengthExceededException : Exception
     {
-        public int? RowNumber;
+        public long? RowNumber;
         public int ExpectedMaxLength;
         public int ActualLength;
         public string Value;
@@ -47,7 +47,7 @@ namespace CsvGnome.Fields
             Value = name;
         }
 
-        public PaddedLengthExceededException(int i, int expectedMaxLength, int actualLength, string value)
+        public PaddedLengthExceededException(long i, int expectedMaxLength, int actualLength, string value)
             : this($"GetValue({i}) returned a value longer than the expected maximum [{expectedMaxLength}]. Value: [{value}]. Length: [{actualLength}]. {standardMessage}")
         {
             RowNumber = i;
@@ -81,11 +81,11 @@ namespace CsvGnome.Fields
         /// <summary>
         /// Calls GetValue for each integer 1 -> N inclusive, stores the maximum length. O(N).
         /// </summary>
-        public void CalculateMaxLength(int N)
+        public void CalculateMaxLength(long N)
         {
             int length = Name.Length;
             int tempLength;
-            for (int i = 0; i < N; i++)
+            for (long i = 0; i < N; i++)
             {
                 tempLength = InnerField.GetValue(i).Length;
                 if (tempLength > length) length = tempLength;
@@ -116,7 +116,7 @@ namespace CsvGnome.Fields
         public string Command => InnerField.Command;
         public List<Message> Summary => InnerField.Summary;
         public string Name => InnerField.Name;
-        public string GetValue(int i)
+        public string GetValue(long i)
         {
             if (!MaxLength.HasValue) throw new PaddedLengthNotCalculatedException();
 

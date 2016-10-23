@@ -142,7 +142,7 @@ Save and load configurations of fields to GnomeFiles with `save` and `load` comm
 Add custom functions to `Scripts\functions.lua` to allow them to be used in components of fields. Lua functions must take a single input parameter "args".
 args has the following properties available:
 * `args.i` which will be passed the zero-based row number (64 bit int).
-* `args.N` which will be passed the total number of rows to be written (32 bit int, not including the columns row).
+* `args.N` which will be passed the total number of rows to be written (64 bit int, not including the columns row).
 
 Functions must have the following method signature and format:
 ```

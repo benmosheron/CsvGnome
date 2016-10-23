@@ -3,7 +3,7 @@
 -- Functions must take a single input parameter "args".
 -- The args object will have the following properties available:
 --   args.i: 64 bit integer i, the zero-indexed row number.
---   args.N: 32 bit integer N (I know, I know), the total rows to write.
+--   args.N: 64 bit integer N, the total rows to write.
 -- Any top level functions will be available to use in components via [lua <function name>].
 -- For example: randomNumberColumn:[lua uniform]
 -- The return value will be converted to strings and output.

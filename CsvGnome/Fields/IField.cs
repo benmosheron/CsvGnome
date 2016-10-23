@@ -31,6 +31,6 @@ namespace CsvGnome.Fields
         /// </summary>
         /// <param name="i">Line number (zero based, ignoring the columns line).</param>
         /// <returns></returns>
-        string GetValue(int i);
+        string GetValue(long i);
     }
 }
