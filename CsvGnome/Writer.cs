@@ -23,10 +23,10 @@ namespace CsvGnome
         /// <param name="fields">Fields describing the csv to write.</param>
         /// <param name="pathAndFile">File to write to (will be overwritten).</param>
         /// <param name="n">Number of data lines to write (not including column line).</param>
-        public void WriteToFile(Reporter reporter, List<IField> fields, PaddedFieldFactory paddedFieldFactory, string pathAndFile, long n)
+        public void WriteToFile(Date.IProvider dateProvider, Reporter reporter, List<IField> fields, PaddedFieldFactory paddedFieldFactory, string pathAndFile, long n)
         {
             // Reset the date/time to write in [date] components
-            Program.UpdateTime();
+            dateProvider.UpdateNow();
 
             if (ConfigurationProvider.PadOutput)
             {
