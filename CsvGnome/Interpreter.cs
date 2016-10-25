@@ -22,7 +22,7 @@ namespace CsvGnome
         private Regex CommandRegex = new Regex(CommandRegexPattern);
 
         private readonly FieldBrain FieldBrain;
-        private readonly Reporter Reporter;
+        private readonly IReporter Reporter;
         private readonly IContext Context;
         private readonly Configuration.IProvider ConfigurationProvider;
 
@@ -43,7 +43,7 @@ namespace CsvGnome
         /// <param name="fieldBrain"></param>
         /// <param name="reporter"></param>
         /// <param name="cache"></param>
-        public Interpreter(FieldBrain fieldBrain, Reporter reporter, CsvGnomeScriptApi.IManager scriptManager, IContext context, Date.IProvider dateProvider, Configuration.IProvider configurationProvider)
+        public Interpreter(FieldBrain fieldBrain, IReporter reporter, CsvGnomeScriptApi.IManager scriptManager, IContext context, Date.IProvider dateProvider, Configuration.IProvider configurationProvider)
             :this(fieldBrain, reporter, scriptManager, context, dateProvider, configurationProvider, null, null)
         { }
 
@@ -57,7 +57,7 @@ namespace CsvGnome
         /// <param name="gnomeFileReader"></param>
         public Interpreter(
             FieldBrain fieldBrain, 
-            Reporter reporter,
+            IReporter reporter,
             CsvGnomeScriptApi.IManager scriptManager,
             IContext context,
             Date.IProvider dateProvider,
@@ -231,7 +231,7 @@ namespace CsvGnome
                 catch (InfiniteMinMaxException infiniteMinMaxException)
                 {
                     // Thrown by MinMaxComponent() if it would be infinite
-                    Reporter.Error(new Message(infiniteMinMaxException.Message).ToList());
+                    Reporter.AddError(infiniteMinMaxException.Message);
                 }
                 return Action.Continue;
             }
@@ -278,7 +278,7 @@ namespace CsvGnome
             }
             catch(ComponentCreationException ex)
             {
-                Reporter.Error(new Message($"Error interpreting instruction {instruction}. [{ex.Message}]").ToList());
+                Reporter.AddError($"Error interpreting instruction {instruction}. [{ex.Message}]");
                 results = new IComponent[0];
             }
             return results;

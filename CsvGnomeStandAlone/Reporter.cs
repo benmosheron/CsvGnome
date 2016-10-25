@@ -1,16 +1,17 @@
-﻿using CsvGnome.Fields;
+﻿using CsvGnome;
+using CsvGnome.Fields;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CsvGnome
+namespace CsvGnomeStandAlone
 {
     /// <summary>
     /// Reports data to the console.
     /// </summary>
-    public class Reporter
+    public class Reporter : IReporter
     {
         private List<Message> messages = new List<Message>();
 
@@ -49,6 +50,7 @@ namespace CsvGnome
         /// </summary>
         /// <param name="m"></param>
         public void AddMessage(Message m) => messages.Add(m);
+        public void AddMessage(List<Message> m) => messages.AddRange(m);
 
         public void Help()
         {
@@ -162,10 +164,15 @@ namespace CsvGnome
             return Console.ReadLine();
         }
 
-        public string Error(List<Message> tempMessages)
+        public void AddError(string message)
+        {
+            AddError(new Message(message).ToList());
+        }
+
+        private void AddError(List<Message> tempMessages)
         {
             tempMessages.Insert(0, new Message("Error:", ConsoleColor.Red));
-            return OverrideConsole(tempMessages);
+            OverrideConsole(tempMessages);
         }
 
         private void Write(Message m)

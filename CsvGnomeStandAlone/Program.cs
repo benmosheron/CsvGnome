@@ -140,7 +140,7 @@ namespace CsvGnomeStandAlone
             catch (Exception ex)
             {
                 // Swallow all exceptions here, script functions will not work.
-                Reporter.Error(new Message($"Error loading functions from file: {LuaFunctionsFile}. [{ex.Message}]").ToList());
+                Reporter.AddError($"Error loading functions from file: {LuaFunctionsFile}. [{ex.Message}]");
             }
         }
 

@@ -12,13 +12,13 @@ namespace CsvGnome.Configuration
         private const string ReportArrayContentsKey = "ReportArrayContents";
         private bool? padOutput;
         private bool? reportArrayContents;
-        private readonly Reporter Reporter;
+        private readonly IReporter Reporter;
 
         /// <summary>
         /// Create a ConfigurationProvider that will swallow any exceptions and report errors instead of crashing.
         /// </summary>
         /// <param name="reporter"></param>
-        public Provider(Reporter reporter)
+        public Provider(IReporter reporter)
         {
             Reporter = reporter;
         }
