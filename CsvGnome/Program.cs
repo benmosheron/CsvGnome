@@ -10,36 +10,27 @@ namespace CsvGnome
 {
     public class Program
     {
-        public const string FileExt = ".csv";
-
-        /// <summary>
-        /// Set the value of the TimeAtWrite field to the current time.
-        /// </summary>
-        [Obsolete("Use Date.IProvider")]
-        public static void UpdateTime()
-        {
-            DateProvider.UpdateNow();
-        }
+        private const string FileExt = ".csv";
 
         /// <summary>
         /// Path to output file.
         /// </summary>
-        public static string FilePath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), @"Output\");
+        private static string FilePath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), @"Output\");
 
         /// <summary>
         /// Name of output file.
         /// </summary>
-        public static string FileName = "CsvGnomeOutput";
+        private static string FileName = "CsvGnomeOutput";
 
         /// <summary>
         /// Full path of the file to be written.
         /// </summary>
-        public static string File => $"{FilePath}{FileName}{FileExt}";
+        private static string File => $"{FilePath}{FileName}{FileExt}";
 
         /// <summary>
         /// Path of the file containing lua functions.
         /// </summary>
-        public static string LuaFunctionsFile = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), @"Scripts\functions.lua");
+        private static string LuaFunctionsFile = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), @"Scripts\functions.lua");
 
         /// <summary>
         /// Public access to the program's gnomefilecache.
@@ -77,7 +68,7 @@ namespace CsvGnome
                     return;
                 case CLI.Option.Interpret:
                     if (args.Length > 1) args.Skip(1).ToList().ForEach(InterpreterNoIO.InterpretSilent);
-                    Writer.WriteToFile(Reporter, FieldBrain.Fields, PaddedFieldFactory, File, Context.N);
+                    Writer.WriteToFile(DateProvider, Reporter, FieldBrain.Fields, PaddedFieldFactory, File, Context.N);
                     return;
                 case CLI.Option.RunStandalone:
                     break;
@@ -199,10 +190,10 @@ namespace CsvGnome
             switch (action)
             {
                 case Action.Run:
-                    Writer.WriteToFile(Reporter, FieldBrain.Fields, PaddedFieldFactory, File, Context.N);
+                    Writer.WriteToFile(DateProvider, Reporter, FieldBrain.Fields, PaddedFieldFactory, File, Context.N);
                     break;
                 case Action.Write:
-                    Writer.WriteToFile(Reporter, FieldBrain.Fields, PaddedFieldFactory, File, Context.N);
+                    Writer.WriteToFile(DateProvider, Reporter, FieldBrain.Fields, PaddedFieldFactory, File, Context.N);
                     action = Action.Continue;
                     break;
                 default:
