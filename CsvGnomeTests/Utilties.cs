@@ -14,7 +14,7 @@ namespace CsvGnomeTests
     public static class Utilties
     {
         private static void CreateAll(
-            out TestReporter reporter,
+            out Reporter reporter,
             out Cache cache,
             out Factory combinatorialFactory,
             out Deleter combinatorialDeleter,
@@ -22,7 +22,7 @@ namespace CsvGnomeTests
             out Manager manager,
             out Interpreter interpreter)
         {
-            reporter = new TestReporter();
+            reporter = new Reporter();
             cache = new Cache();
             combinatorialFactory = new Factory(cache);
             combinatorialDeleter = new Deleter(cache);
@@ -35,7 +35,7 @@ namespace CsvGnomeTests
             out FieldBrain fieldBrain,
             out Interpreter interpreter)
         {
-            TestReporter reporter;
+            Reporter reporter;
             Cache cache;
             Factory combinatorialFactory;
             Deleter combinatorialDeleter;
@@ -58,7 +58,7 @@ namespace CsvGnomeTests
             out Cache cache,
             out Interpreter interpreter)
         {
-            TestReporter reporter;
+            Reporter reporter;
             Factory combinatorialFactory;
             Deleter combinatorialDeleter;
             FieldBrain fieldBrain;

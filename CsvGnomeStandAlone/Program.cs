@@ -38,7 +38,7 @@ namespace CsvGnomeStandAlone
         /// </summary>
         public static GnomeFileCache GetGnomeFileCache => GnomeFileCache;
 
-        static readonly Reporter Reporter = new Reporter(new MessageProvider());
+        static readonly Reporter Reporter = new Reporter();
         static readonly CsvGnomeScriptApi.IManager ScriptManager = new CsvGnomeScript.Manager();
         static readonly CsvGnome.Components.Combinatorial.Cache CombinatorialCache = new CsvGnome.Components.Combinatorial.Cache();
         static readonly PaddedFieldFactory PaddedFieldFactory = new PaddedFieldFactory();
@@ -140,7 +140,7 @@ namespace CsvGnomeStandAlone
             catch (Exception ex)
             {
                 // Swallow all exceptions here, script functions will not work.
-                Reporter.AddError((new Message($"Error loading functions from file: {LuaFunctionsFile}. [{ex.Message}]")as IMessage).ToList());
+                Reporter.Error(new Message($"Error loading functions from file: {LuaFunctionsFile}. [{ex.Message}]").ToList());
             }
         }
 

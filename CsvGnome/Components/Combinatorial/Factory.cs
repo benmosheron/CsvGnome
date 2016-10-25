@@ -19,11 +19,9 @@ namespace CsvGnome.Components.Combinatorial
         private const string c_alphabet = "CsvGnome.Components.AlphabetComponent";
 
         Cache Cache;
-        IMessageProvider MessageProvider;
-        public Factory(Cache cache, IMessageProvider messageProvider = null)
+        public Factory(Cache cache)
         {
             Cache = cache;
-            MessageProvider = messageProvider;
         }
 
         /// <summary>
@@ -106,15 +104,15 @@ namespace CsvGnome.Components.Combinatorial
             return CreateCombinatorial(groupId, rawComponent, maybeRank, AlphabetCombinatorial.Make);
         }
 
-        private TResult CreateCombinatorial<T1,TResult>(string groupId, T1 rawComponent, int? maybeRank, Func<Group,T1,IMessageProvider,TResult> generator) 
+        private T2 CreateCombinatorial<T1,T2>(string groupId, T1 rawComponent, int? maybeRank, Func<Group,T1,T2> generator) 
             where T1:IComponent
-            where TResult : ICombinatorial
+            where T2:ICombinatorial
         {
             int rank;
             Group group = InitGroup(groupId, maybeRank, out rank);
 
             // Create the component. Register the group with the component (but beware, the group does not know about the component yet!).
-            var combinatorial = generator(group, rawComponent, MessageProvider);
+            var combinatorial = generator(group, rawComponent);
 
             // Update the group.
             Cache.AddComponentToGroup(groupId, combinatorial, rank);

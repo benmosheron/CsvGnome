@@ -1,16 +1,15 @@
-﻿using CsvGnome;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CsvGnomeStandAlone
+namespace CsvGnome
 {
     /// <summary>
     /// Message to write to console once. Incorporates a single colour.
     /// </summary>
-    public class Message : IMessage
+    public class Message
     {
         public const ConsoleColor DefaultColour = ConsoleColor.Gray;
         public const ConsoleColor SpecialColour = ConsoleColor.Cyan;
@@ -37,9 +36,9 @@ namespace CsvGnomeStandAlone
         /// <summary>
         /// Return a List of Message with this as the only element.
         /// </summary>
-        public List<IMessage> ToList()
+        public List<Message> ToList()
         {
-            return new List<IMessage>() { this };
+            return new List<Message>() { this };
         }
 
         public bool EqualsMessage(Message x)

@@ -19,7 +19,7 @@ namespace CsvGnome.Components
         /// <summary>
         /// Summary to write to console.
         /// </summary>
-        List<IMessage> Summary { get; }
+        List<Message> Summary { get; }
 
         /// <summary>
         /// Value for ith row.

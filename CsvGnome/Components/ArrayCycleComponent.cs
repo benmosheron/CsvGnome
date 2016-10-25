@@ -11,20 +11,19 @@ namespace CsvGnome.Components
     /// <summary>
     /// Component which writes values from a user supplied array.
     /// </summary>
-    public class ArrayCycleComponent : BaseComponentWithMessageProvider, IComponent
+    public class ArrayCycleComponent : IComponent
     {
         public const string CommandInitString = "[cycle]";
-        
         public string Command => valueArrayCommand;
 
-        public List<IMessage> Summary => new List<IMessage>()
+        public List<Message> Summary => new List<Message>()
         {
-            MessageProvider.NewSpecial(CommandInitString),
-            MessageProvider.New("{"),
+            Message.NewSpecial(CommandInitString),
+            new Message("{"),
             ConfigurationProvider.ReportArrayContents 
-            ? MessageProvider.New(valueArray.Aggregate((t, n) => $"{t},{n}")) 
-            : MessageProvider.NewSpecial($"{valueArray.Length} items"),
-            MessageProvider.New("}"),
+            ? new Message(valueArray.Aggregate((t, n) => $"{t},{n}")) 
+            : Message.NewSpecial($"{valueArray.Length} items"),
+            new Message("}"),
         };
 
         public bool EqualsComponent(IComponent x)
@@ -48,8 +47,7 @@ namespace CsvGnome.Components
 
         private string valueArrayCommand => CommandInitString + "{" + valueArray.Aggregate((t, n) => $"{t},{n}") + "}";
 
-        public ArrayCycleComponent(string[] valueArray, Configuration.IProvider configurationProvider, IMessageProvider messageProvider = null)
-            : base(messageProvider)
+        public ArrayCycleComponent(string[] valueArray, Configuration.IProvider configurationProvider)
         {
             ConfigurationProvider = configurationProvider;
             Debug.WriteLineIf(valueArray == null || !valueArray.Any(), "Empty or null array supplied to array component.");

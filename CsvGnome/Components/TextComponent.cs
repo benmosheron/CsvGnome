@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace CsvGnome.Components
 {
-    public class TextComponent : BaseComponentWithMessageProvider, IComponent
+    public class TextComponent : IComponent
     {
-        
         public string Command => text;
-        public List<IMessage> Summary => MessageProvider.New(text).ToList();
+        public List<Message> Summary => new List<Message> { new Message(text) };
         public string GetValue(long i) => text;
         public bool EqualsComponent(IComponent x)
         {
@@ -23,8 +22,7 @@ namespace CsvGnome.Components
 
         private string text;
 
-        public TextComponent(string text, IMessageProvider messageProvider = null)
-            :base(messageProvider)
+        public TextComponent(string text)
         {
             if (text == null) text = String.Empty;
             this.text = text;

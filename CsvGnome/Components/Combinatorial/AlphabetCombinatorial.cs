@@ -8,16 +8,16 @@ namespace CsvGnome.Components.Combinatorial
 {
     public class AlphabetCombinatorial : CombinatorialCore, IComponent
     {
-        public AlphabetCombinatorial(Group group, AlphabetComponent rawComponent, IMessageProvider messageProvider = null) : base(group, rawComponent, messageProvider)
+        public AlphabetCombinatorial(Group group, AlphabetComponent rawComponent) : base(group, rawComponent)
         {
         }
 
         /// <summary>
         /// Static "constructor" allows us to create these from a generic factory method.
         /// </summary>
-        public static AlphabetCombinatorial Make(Group group, AlphabetComponent rawComponent, IMessageProvider messageProvider)
+        public static AlphabetCombinatorial Make(Group group, AlphabetComponent rawComponent)
         {
-            return new AlphabetCombinatorial(group, rawComponent, messageProvider);
+            return new AlphabetCombinatorial(group, rawComponent);
         }
 
         public AlphabetComponent RawAlphabetComponent => RawComponent as AlphabetComponent;
@@ -26,23 +26,23 @@ namespace CsvGnome.Components.Combinatorial
 
         public string Command => $"[{RawAlphabetComponent.Start}=>{RawAlphabetComponent.End} {GetGroupString()}]";
 
-        protected override List<IMessage> GetPreGroupMessage()
+        protected override List<Message> GetPreGroupMessage()
         {
-            return new List<IMessage>
+            return new List<Message>
             {
-                MessageProvider.NewSpecial("["),
-                MessageProvider.New(RawAlphabetComponent.Start.ToString()),
-                MessageProvider.NewSpecial("=>"),
-                MessageProvider.New(RawAlphabetComponent.End.ToString()),
-                MessageProvider.NewSpecial(" ")
+                Message.NewSpecial("["),
+                new Message(RawAlphabetComponent.Start.ToString()),
+                Message.NewSpecial("=>"),
+                new Message(RawAlphabetComponent.End.ToString()),
+                Message.NewSpecial(" ")
             };
         }
 
-        protected override List<IMessage> GetPostGroupMessage()
+        protected override List<Message> GetPostGroupMessage()
         {
-            return new List<IMessage>
+            return new List<Message>
             {
-                MessageProvider.NewSpecial("]")
+                Message.NewSpecial("]")
             };
         }
     }

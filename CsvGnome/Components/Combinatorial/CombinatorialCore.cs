@@ -11,14 +11,14 @@ namespace CsvGnome.Components.Combinatorial
     /// </summary>
     public abstract class CombinatorialCore : CombinatorialBase
     {
-        public CombinatorialCore(Group group, IComponent rawComponent, IMessageProvider messageProvider) : base(group, rawComponent, messageProvider)
+        public CombinatorialCore(Group group, IComponent rawComponent) : base(group, rawComponent)
         {
         }
 
         public override abstract long? Cardinality { get; }
 
-        protected abstract override List<IMessage> GetPreGroupMessage();
+        protected abstract override List<Message> GetPreGroupMessage();
 
-        protected abstract override List<IMessage> GetPostGroupMessage();
+        protected abstract override List<Message> GetPostGroupMessage();
     }
 }

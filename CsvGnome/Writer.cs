@@ -23,7 +23,7 @@ namespace CsvGnome
         /// <param name="fields">Fields describing the csv to write.</param>
         /// <param name="pathAndFile">File to write to (will be overwritten).</param>
         /// <param name="n">Number of data lines to write (not including column line).</param>
-        public void WriteToFile(Date.IProvider dateProvider, IReporter reporter, List<IField> fields, PaddedFieldFactory paddedFieldFactory, string pathAndFile, long n)
+        public void WriteToFile(Date.IProvider dateProvider, Reporter reporter, List<IField> fields, PaddedFieldFactory paddedFieldFactory, string pathAndFile, long n)
         {
             // Reset the date/time to write in [date] components
             dateProvider.UpdateNow();
@@ -48,22 +48,22 @@ namespace CsvGnome
                         sw.WriteLine(GetLine(fields, i));
                     }
                 }
-                reporter.AddMessage($"{n} lines written.", ConsoleColor.Green);
+                reporter.AddMessage(new Message($"{n} lines written.", ConsoleColor.Green));
             }
             catch (DirectoryNotFoundException)
             {
-                reporter.AddMessage("I couldn't find the directory:");
-                reporter.AddMessage(pathAndFile);
+                reporter.AddMessage(new Message("I couldn't find the directory:"));
+                reporter.AddMessage(new Message(pathAndFile));
             }
             catch (FileNotFoundException)
             {
-                reporter.AddMessage("I couldn't find the file:");
-                reporter.AddMessage(pathAndFile);
+                reporter.AddMessage(new Message("I couldn't find the file:"));
+                reporter.AddMessage(new Message(pathAndFile));
             }
             catch (Exception ex)
             {
-                reporter.AddMessage("I don't know why that didn't work:");
-                reporter.AddMessage(ex.Message);
+                reporter.AddMessage(new Message("I don't know why that didn't work:"));
+                reporter.AddMessage(new Message(ex.Message));
             }
         }
 

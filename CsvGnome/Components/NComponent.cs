@@ -9,21 +9,17 @@ namespace CsvGnome.Components
     /// <summary>
     /// Returns the number of rows that will be written.
     /// </summary>
-    public class NComponent : BaseComponentWithMessageProvider, IComponent
+    public class NComponent : IComponent
     {
         public const string CommandString = "[N]";
-        
         IContext Context;
-
-        public NComponent(IContext context, IMessageProvider messageProvider = null)
-            : base(messageProvider)
+        public NComponent(IContext context)
         {
             Context = context;
         }
-
         public string Command => CommandString;
 
-        public List<IMessage> Summary => MessageProvider.NewSpecial(Command).ToList();
+        public List<Message> Summary => Message.NewSpecial(Command).ToList();
 
         public bool EqualsComponent(IComponent x)
         {

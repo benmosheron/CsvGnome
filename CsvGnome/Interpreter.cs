@@ -22,7 +22,7 @@ namespace CsvGnome
         private Regex CommandRegex = new Regex(CommandRegexPattern);
 
         private readonly FieldBrain FieldBrain;
-        private readonly IReporter Reporter;
+        private readonly Reporter Reporter;
         private readonly IContext Context;
         private readonly Configuration.IProvider ConfigurationProvider;
 
@@ -43,7 +43,7 @@ namespace CsvGnome
         /// <param name="fieldBrain"></param>
         /// <param name="reporter"></param>
         /// <param name="cache"></param>
-        public Interpreter(FieldBrain fieldBrain, IReporter reporter, CsvGnomeScriptApi.IManager scriptManager, IContext context, Date.IProvider dateProvider, Configuration.IProvider configurationProvider)
+        public Interpreter(FieldBrain fieldBrain, Reporter reporter, CsvGnomeScriptApi.IManager scriptManager, IContext context, Date.IProvider dateProvider, Configuration.IProvider configurationProvider)
             :this(fieldBrain, reporter, scriptManager, context, dateProvider, configurationProvider, null, null)
         { }
 
@@ -57,7 +57,7 @@ namespace CsvGnome
         /// <param name="gnomeFileReader"></param>
         public Interpreter(
             FieldBrain fieldBrain, 
-            IReporter reporter,
+            Reporter reporter,
             CsvGnomeScriptApi.IManager scriptManager,
             IContext context,
             Date.IProvider dateProvider,
@@ -71,7 +71,7 @@ namespace CsvGnome
             Context = context;
             DateProvider = dateProvider;
             ConfigurationProvider = configurationProvider;
-            Factory = new ComponentFactory(context, dateProvider, configurationProvider, fieldBrain.CombinatorialFactory, scriptManager, Reporter.MessageProvider);
+            Factory = new ComponentFactory(context, dateProvider, configurationProvider, fieldBrain.CombinatorialFactory, scriptManager);
             GnomeFileWriter = gnomeFileWriter;
             GnomeFileReader = gnomeFileReader;
         }
@@ -160,7 +160,7 @@ namespace CsvGnome
                         // Clear fields and cache
                         FieldBrain.ClearFields();
                         parsedFile.ForEach(interpreterNoIO.InterpretSilent);
-                        Reporter.AddMessage($"{fileToRead} loaded.", ConsoleColor.Green);
+                        Reporter.AddMessage(new Message($"{fileToRead} loaded.", ConsoleColor.Green));
                     }
                     
                 }
@@ -205,7 +205,7 @@ namespace CsvGnome
             if(input == "pad on")
             {
                 ConfigurationProvider.SetPadOutput(true);
-                Reporter.AddMessage("Padding enabled.", ConsoleColor.Green);
+                Reporter.AddMessage(new Message("Padding enabled.", ConsoleColor.Green));
                 return Action.Continue;
             }
 
@@ -213,7 +213,7 @@ namespace CsvGnome
             if (input == "pad off")
             {
                 ConfigurationProvider.SetPadOutput(false);
-                Reporter.AddMessage("Padding disabled.", ConsoleColor.Green);
+                Reporter.AddMessage(new Message("Padding disabled.", ConsoleColor.Green));
                 return Action.Continue;
             }
 
@@ -231,13 +231,13 @@ namespace CsvGnome
                 catch (InfiniteMinMaxException infiniteMinMaxException)
                 {
                     // Thrown by MinMaxComponent() if it would be infinite
-                    Reporter.AddError(infiniteMinMaxException.Message);
+                    Reporter.Error(new Message(infiniteMinMaxException.Message).ToList());
                 }
                 return Action.Continue;
             }
 
             // Someone's consfused
-            if (!String.IsNullOrEmpty(input)) Reporter.AddMessage("Enter \"help\" for help.", ConsoleColor.Green);
+            if (!String.IsNullOrEmpty(input)) Reporter.AddMessage(new Message("Enter \"help\" for help.", ConsoleColor.Green));
 
             return Action.Continue;
         }
@@ -278,7 +278,7 @@ namespace CsvGnome
             }
             catch(ComponentCreationException ex)
             {
-                Reporter.AddError($"Error interpreting instruction {instruction}. [{ex.Message}]");
+                Reporter.Error(new Message($"Error interpreting instruction {instruction}. [{ex.Message}]").ToList());
                 results = new IComponent[0];
             }
             return results;
@@ -308,8 +308,8 @@ namespace CsvGnome
         {
             if (fieldsMaybe.Count == 0 || fieldsMaybe.All(fm => String.IsNullOrWhiteSpace(fm)))
             {
-                Reporter.AddMessage("You must provide fields to combine. E.g:");
-                Reporter.AddMessage("combine field1 field2 [NameOfSet]");
+                Reporter.AddMessage(new Message("You must provide fields to combine. E.g:"));
+                Reporter.AddMessage(new Message("combine field1 field2 [NameOfSet]"));
                 return false;
             }
             return true;

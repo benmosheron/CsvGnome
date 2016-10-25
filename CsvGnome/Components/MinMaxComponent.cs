@@ -14,9 +14,8 @@ namespace CsvGnome.Components
     /// The maximum will never be exceeded, so e.g.
     /// [0=>9, 100] will give 0,0,0,...
     /// </remarks>
-    public class MinMaxComponent : BaseComponentWithMessageProvider, IComponent
+    public class MinMaxComponent : IComponent
     {
-        
         /// <summary>
         /// The command to create this component.
         /// </summary>
@@ -35,10 +34,10 @@ namespace CsvGnome.Components
         /// <summary>
         /// Summary of this component for display.
         /// </summary>
-        public List<IMessage> Summary {
+        public List<Message> Summary {
             get
             {
-                return MessageProvider.NewSpecial($"[{Min}=>{Max},{Increment}]").ToList();
+                return Message.NewSpecial($"[{Min}=>{Max},{Increment}]").ToList();
             }
         }
 
@@ -64,8 +63,8 @@ namespace CsvGnome.Components
         public int Increment { get; private set; }
         public long Cardinality => (Math.Abs(Max - Min) / Math.Abs(Increment)) + 1;
 
-        public MinMaxComponent(int min, int max, IMessageProvider messageProvider = null)
-            :this(min, max, DefaultIncrement * (min < max ? 1 : -1), messageProvider)
+        public MinMaxComponent(int min, int max)
+            :this(min, max, DefaultIncrement * (min < max ? 1 : -1))
         {
 
         }
@@ -74,8 +73,7 @@ namespace CsvGnome.Components
         /// Create a new MinMaxComponenet
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if the min, max and increment provided would result in an infinite cardinality.</exception>
-        public MinMaxComponent(int min, int max, int increment, IMessageProvider messageProvider = null)
-            : base(messageProvider)
+        public MinMaxComponent(int min, int max, int increment)
         {
             Min = min;
             Max = max;

@@ -36,22 +36,19 @@ namespace CsvGnome.Components
         private readonly Configuration.IProvider ConfigurationProvider;
         private readonly Combinatorial.Factory CombinatorialFactory;
         private readonly CsvGnomeScriptApi.IManager ScriptManager;
-        private readonly IMessageProvider MessageProvider;
 
         public ComponentFactory(
             IContext context,
             Date.IProvider dateProvider,
             Configuration.IProvider configurationProvider,
             Combinatorial.Factory combinatorialFactory,
-            CsvGnomeScriptApi.IManager scriptManager,
-            IMessageProvider messageProvider)
+            CsvGnomeScriptApi.IManager scriptManager)
         {
             Context = context;
             DateProvider = dateProvider;
             ConfigurationProvider = configurationProvider;
             CombinatorialFactory = combinatorialFactory;
             ScriptManager = scriptManager;
-            MessageProvider = messageProvider;
         }
 
         /// <summary>
@@ -65,7 +62,7 @@ namespace CsvGnome.Components
             // [N]
             if(prototype == NComponent.CommandString)
             {
-                return new NComponent(Context, MessageProvider);
+                return new NComponent(Context);
             }
             // e.g.
             // [++]
@@ -97,7 +94,7 @@ namespace CsvGnome.Components
             {
                 // remove "[spread]"
                 var array = prototype.Substring(ArraySpreadComponent.CommandInitString.Length);
-                return new ArraySpreadComponent(GetArray(array), Context, ConfigurationProvider, MessageProvider);
+                return new ArraySpreadComponent(GetArray(array), Context, ConfigurationProvider);
             }
             else if (prototype.StartsWith(ArrayCycleComponent.CommandInitString))
             {
@@ -105,7 +102,7 @@ namespace CsvGnome.Components
             }
             else
             {
-                return new TextComponent(prototype, MessageProvider);
+                return new TextComponent(prototype);
             }
         }
 
@@ -149,7 +146,7 @@ namespace CsvGnome.Components
             if (!int.TryParse(tokens[1], out increment)) increment = IncrementingComponent.DefaultIncrement;
             if (tokens.Length <= 2 || !int.TryParse(tokens[2], out every)) every = IncrementingComponent.DefaultEvery;
 
-            IncrementingComponent rawComponent = new IncrementingComponent(Context, start, increment, every, MessageProvider);
+            IncrementingComponent rawComponent = new IncrementingComponent(Context, start, increment, every);
 
             return Choose(rawComponent, groupPrototype);
         }
@@ -158,12 +155,12 @@ namespace CsvGnome.Components
         {
             if (!increment.HasValue)
             {
-                return new MinMaxComponent(min, max, messageProvider: MessageProvider);
+                return new MinMaxComponent(min, max);
 
             }
             else
             {
-                return new MinMaxComponent(min, max, increment.Value, MessageProvider);
+                return new MinMaxComponent(min, max, increment.Value);
             }
         }
 
@@ -195,7 +192,7 @@ namespace CsvGnome.Components
         {
             // remove "[cycle]"
             var array = prototype.Substring(ArrayCycleComponent.CommandInitString.Length);
-            ArrayCycleComponent rawComponent = new ArrayCycleComponent(GetArray(array), ConfigurationProvider, MessageProvider);
+            ArrayCycleComponent rawComponent = new ArrayCycleComponent(GetArray(array), ConfigurationProvider);
 
             return Choose(rawComponent, groupPrototype);
         }
@@ -207,7 +204,7 @@ namespace CsvGnome.Components
 
             // split on "=>" for the start, and end.
             string[] tokens = protoInc.Split(new string[] { "=>" }, StringSplitOptions.None);
-            AlphabetComponent rawComponent = new AlphabetComponent(tokens[0].Trim().First(), tokens[1].Trim().First(), MessageProvider);
+            AlphabetComponent rawComponent = new AlphabetComponent(tokens[0].Trim().First(), tokens[1].Trim().First());
 
             return Choose(rawComponent, groupPrototype);
         }
@@ -219,7 +216,7 @@ namespace CsvGnome.Components
         private IComponent CreateLuaComponent(string prototype)
         {
             // If no scriptmanager has been provided, just create a text component.
-            if (ScriptManager == null) return new TextComponent(prototype, MessageProvider);
+            if (ScriptManager == null) return new TextComponent(prototype);
 
             // remove "[" and "]"
             string protoInc = prototype.Substring(1, prototype.Length - 2);
@@ -230,7 +227,7 @@ namespace CsvGnome.Components
             IComponent component;
             try
             {
-                component = new LuaComponent(Context, protoNoLua, ScriptManager.GetValueFunction("lua", protoNoLua), ScriptManager.GetArgs("lua"), MessageProvider);
+                component = new LuaComponent(Context, protoNoLua, ScriptManager.GetValueFunction("lua", protoNoLua), ScriptManager.GetArgs("lua"));
                 return component;
             }
             catch (CsvGnomeScript.InvalidFunctionException ex)
@@ -250,11 +247,11 @@ namespace CsvGnome.Components
             {
                 // remove the ""s
                 string format = formatGroup.Value.Substring(1, formatGroup.Value.Length - 2);
-                return new DateComponent(DateProvider, format, MessageProvider);
+                return new DateComponent(DateProvider, format);
             }
             else
             {
-                return new DateComponent(DateProvider, messageProvider: MessageProvider);
+                return new DateComponent(DateProvider);
             }
         }
 

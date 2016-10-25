@@ -1,25 +1,18 @@
-﻿using CsvGnome;
-using CsvGnome.Fields;
+﻿using CsvGnome.Fields;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CsvGnomeStandAlone
+namespace CsvGnome
 {
     /// <summary>
     /// Reports data to the console.
     /// </summary>
-    public class Reporter : IReporter
+    public class Reporter
     {
         private List<Message> messages = new List<Message>();
-        public IMessageProvider MessageProvider { get; }
-
-        public Reporter(IMessageProvider messageProvider)
-        {
-            MessageProvider = messageProvider;
-        }
 
         /// <summary>
         /// Report data on current fields, plus any messages, to the console.
@@ -55,19 +48,7 @@ namespace CsvGnomeStandAlone
         /// Register a message to be displayed.
         /// </summary>
         /// <param name="m"></param>
-        public void AddMessage(IMessage m) => messages.Add(m as Message);
-
-        /// <summary>
-        /// Register a message to be displayed.
-        /// </summary>
-        /// <param name="m"></param>
-        public void AddMessage(string m) => messages.Add(new Message(m));
-
-        /// <summary>
-        /// Register a message to be displayed.
-        /// </summary>
-        /// <param name="m"></param>
-        public void AddMessage(string m, ConsoleColor c) => messages.Add(new Message(m, c));
+        public void AddMessage(Message m) => messages.Add(m);
 
         public void Help()
         {
@@ -171,7 +152,7 @@ namespace CsvGnomeStandAlone
             }
         }
 
-        public string OverrideConsole(List<IMessage> tempMessages)
+        public string OverrideConsole(List<Message> tempMessages)
         {
             Console.Clear();
             foreach(Message m in tempMessages)
@@ -181,15 +162,10 @@ namespace CsvGnomeStandAlone
             return Console.ReadLine();
         }
 
-        public void AddError(string message)
-        {
-            AddError(new Message(message).ToList());
-        }
-
-        public void AddError(List<IMessage> tempMessages)
+        public string Error(List<Message> tempMessages)
         {
             tempMessages.Insert(0, new Message("Error:", ConsoleColor.Red));
-            OverrideConsole(tempMessages);
+            return OverrideConsole(tempMessages);
         }
 
         private void Write(Message m)

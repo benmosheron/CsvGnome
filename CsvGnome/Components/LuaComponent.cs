@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace CsvGnome.Components
 {
-    public class LuaComponent : BaseComponentWithMessageProvider, IComponent
+    public class LuaComponent : IComponent
     {
-        
         public string Command
         {
             get
@@ -17,15 +16,15 @@ namespace CsvGnome.Components
             }
         }
 
-        public List<IMessage> Summary
+        public List<Message> Summary
         {
             get
             {
-                return new List<IMessage>
+                return new List<Message>
                 {
-                    MessageProvider.NewSpecial("[lua "),
-                    MessageProvider.New($"{FunctionName}"),
-                    MessageProvider.NewSpecial("]")
+                    Message.NewSpecial("[lua "),
+                    new Message($"{FunctionName}"),
+                    Message.NewSpecial("]")
                 };
             }
         }
@@ -51,8 +50,7 @@ namespace CsvGnome.Components
         string FunctionName;
         CsvGnomeScriptApi.IScriptArgs Args;
         IContext Context;
-        public LuaComponent(IContext context, string functionName, Func<CsvGnomeScriptApi.IScriptArgs, object[]> valueFunction, CsvGnomeScriptApi.IScriptArgs args, IMessageProvider messageProvider = null)
-            : base(messageProvider)
+        public LuaComponent(IContext context, string functionName, Func<CsvGnomeScriptApi.IScriptArgs, object[]> valueFunction, CsvGnomeScriptApi.IScriptArgs args)
         {
             Context = context;
             Args = args;

@@ -12,13 +12,13 @@ namespace CsvGnome.Configuration
         private const string ReportArrayContentsKey = "ReportArrayContents";
         private bool? padOutput;
         private bool? reportArrayContents;
-        private readonly IReporter Reporter;
+        private readonly Reporter Reporter;
 
         /// <summary>
         /// Create a ConfigurationProvider that will swallow any exceptions and report errors instead of crashing.
         /// </summary>
         /// <param name="reporter"></param>
-        public Provider(IReporter reporter)
+        public Provider(Reporter reporter)
         {
             Reporter = reporter;
         }
@@ -78,7 +78,7 @@ namespace CsvGnome.Configuration
             }
             catch(Exception ex)
             {
-                Reporter.AddMessage(ex.Message, ConsoleColor.Red);
+                Reporter.AddMessage(new Message(ex.Message, ConsoleColor.Red));
             }
         }
 
@@ -92,7 +92,7 @@ namespace CsvGnome.Configuration
             }
             catch (Exception ex)
             {
-                Reporter.AddMessage(ex.Message, ConsoleColor.Red);
+                Reporter.AddMessage(new Message(ex.Message, ConsoleColor.Red));
                 return def;
             }
         }

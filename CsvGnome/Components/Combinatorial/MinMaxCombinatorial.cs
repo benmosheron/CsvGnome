@@ -8,14 +8,14 @@ namespace CsvGnome.Components.Combinatorial
 {
     public class MinMaxCombinatorial : CombinatorialCore, IComponent
     {
-        public MinMaxCombinatorial(Group group, MinMaxComponent rawComponent, IMessageProvider messageProvider = null)
-            : base(group, rawComponent, messageProvider)
+        public MinMaxCombinatorial(Group group, MinMaxComponent rawComponent)
+            : base(group, rawComponent)
         {
         }
 
-        public static MinMaxCombinatorial Make(Group group, MinMaxComponent rawComponent, IMessageProvider messageProvider)
+        public static MinMaxCombinatorial Make(Group group, MinMaxComponent rawComponent)
         {
-            return new MinMaxCombinatorial(group, rawComponent, messageProvider);
+            return new MinMaxCombinatorial(group, rawComponent);
         }
 
         public string Command => $"[{RawMinMaxComponent.Min}=>{RawMinMaxComponent.Max},{RawMinMaxComponent.Increment} {GetGroupString()}]";
@@ -30,14 +30,14 @@ namespace CsvGnome.Components.Combinatorial
             }
         }
 
-        protected override List<IMessage> GetPreGroupMessage()
+        protected override List<Message> GetPreGroupMessage()
         {
-            return MessageProvider.NewSpecial($"[{RawMinMaxComponent.Min}=>{RawMinMaxComponent.Max},{RawMinMaxComponent.Increment} ").ToList();
+            return Message.NewSpecial($"[{RawMinMaxComponent.Min}=>{RawMinMaxComponent.Max},{RawMinMaxComponent.Increment} ").ToList();
         }
 
-        protected override List<IMessage> GetPostGroupMessage()
+        protected override List<Message> GetPostGroupMessage()
         {
-            return MessageProvider.NewSpecial("]").ToList();
+            return Message.NewSpecial("]").ToList();
         }
     }
 }

@@ -114,7 +114,7 @@ namespace CsvGnome.Fields
         #region IField
 
         public string Command => InnerField.Command;
-        public List<IMessage> Summary => InnerField.Summary;
+        public List<Message> Summary => InnerField.Summary;
         public string Name => InnerField.Name;
         public string GetValue(long i)
         {

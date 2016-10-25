@@ -16,7 +16,7 @@ namespace CsvGnome.Fields
         public string Name { get; }
 
         public string Command => Components.Select(c => c.Command).Aggregate((t, n) => $"{t}{n}");
-        public List<IMessage> Summary => Components.Select(c => c.Summary).Aggregate((t, n) => t.Concat(n).ToList()).ToList();
+        public List<Message> Summary => Components.Select(c => c.Summary).Aggregate((t, n) => t.Concat(n).ToList()).ToList();
 
         public string GetValue(long row)
         {
