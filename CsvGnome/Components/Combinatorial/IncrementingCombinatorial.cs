@@ -13,15 +13,16 @@ namespace CsvGnome.Components.Combinatorial
         /// </summary>
         public IncrementingCombinatorial(
             Group group,
-            IncrementingComponent rawComponent)
-            : base(group, rawComponent)
+            IncrementingComponent rawComponent,
+            IMessageProvider messageProvider = null)
+            : base(group, rawComponent, messageProvider)
         {
 
         }
 
-        public static IncrementingCombinatorial Make(Group group, IncrementingComponent rawComponent)
+        public static IncrementingCombinatorial Make(Group group, IncrementingComponent rawComponent, IMessageProvider messageProvider)
         {
-            return new IncrementingCombinatorial(group, rawComponent);
+            return new IncrementingCombinatorial(group, rawComponent, messageProvider);
         }
 
         public override long? Cardinality => null;
@@ -43,18 +44,18 @@ namespace CsvGnome.Components.Combinatorial
             }
         }
 
-        protected override List<Message> GetPreGroupMessage()
+        protected override List<IMessage> GetPreGroupMessage()
         {
             string startString = (start != IncrementingComponent.DefaultStart) ? start.ToString() : String.Empty;
             string incrementString = (increment != IncrementingComponent.DefaultIncrement) ? increment.ToString() : String.Empty;
             string everyString = (every != IncrementingComponent.DefaultEvery) ? $" every {every}" : String.Empty;
 
-            return Message.NewSpecial($"[{startString}++{incrementString}{everyString} ").ToList();
+            return MessageProvider.NewSpecial($"[{startString}++{incrementString}{everyString} ").ToList();
         }
 
-        protected override List<Message> GetPostGroupMessage()
+        protected override List<IMessage> GetPostGroupMessage()
         {
-            return Message.NewSpecial("]").ToList();
+            return MessageProvider.NewSpecial("]").ToList();
         }
 
         private IncrementingComponent RawIncrementingComponent => RawComponent as IncrementingComponent;

@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace CsvGnome.Components
 {
-    public class IncrementingComponent : IComponent
+    public class IncrementingComponent : BaseComponentWithMessageProvider, IComponent
     {
+        
         private readonly IContext Context;
 
         public const int DefaultStart = 0;
         public const int DefaultIncrement = 1;
         public const int DefaultEvery = 1;
         public string Command { get; }
-        public List<Message> Summary => Message.NewSpecial(Command).ToList();
+        public List<IMessage> Summary => MessageProvider.NewSpecial(Command).ToList();
 
         /// <summary>
         /// Get value to write on ith row (zero indexed).
@@ -52,15 +53,16 @@ namespace CsvGnome.Components
         /// </summary>
         private int every;
 
-        public IncrementingComponent(IContext context, int start)
+        public IncrementingComponent(IContext context, int start, IMessageProvider messageProvider = null)
             : this(context, start, DefaultIncrement)
         { }
 
-        public IncrementingComponent(IContext context, int start, int increment)
+        public IncrementingComponent(IContext context, int start, int increment, IMessageProvider messageProvider = null)
             :this(context, start, increment, DefaultEvery)
         { }
 
-        public IncrementingComponent(IContext context, int start, int increment, int every)
+        public IncrementingComponent(IContext context, int start, int increment, int every, IMessageProvider messageProvider = null)
+            : base(messageProvider)
         {
             Context = context;
             this.start = start;

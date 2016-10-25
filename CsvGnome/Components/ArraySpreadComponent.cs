@@ -10,19 +10,20 @@ namespace CsvGnome.Components
     /// <summary>
     /// Component which writes values from a user supplied array.
     /// </summary>
-    public class ArraySpreadComponent : IComponent
+    public class ArraySpreadComponent : BaseComponentWithMessageProvider, IComponent
     {
         public const string CommandInitString = "[spread]";
+        
         public string Command => valueArrayCommand;
 
-        public List<Message> Summary => new List<Message>()
+        public List<IMessage> Summary => new List<IMessage>()
         {
-            Message.NewSpecial(CommandInitString),
-            new Message("{"),
+            MessageProvider.NewSpecial(CommandInitString),
+            MessageProvider.New("{"),
             ConfigurationProvider.ReportArrayContents
-            ? new Message(valueArray.Aggregate((t, n) => $"{t},{n}"))
-            : Message.NewSpecial($"{valueArray.Length} items"),
-            new Message("}"),
+            ? MessageProvider.New(valueArray.Aggregate((t, n) => $"{t},{n}"))
+            : MessageProvider.NewSpecial($"{valueArray.Length} items"),
+            MessageProvider.New("}"),
         };
 
         public bool EqualsComponent(IComponent x)
@@ -48,7 +49,8 @@ namespace CsvGnome.Components
 
         private string valueArrayCommand => CommandInitString + "{" + valueArray.Aggregate((t, n) => $"{t},{n}") + "}";
 
-        public ArraySpreadComponent(string[] valueArray, IContext context, Configuration.IProvider configurationProvider)
+        public ArraySpreadComponent(string[] valueArray, IContext context, Configuration.IProvider configurationProvider, IMessageProvider messageProvider = null)
+            : base(messageProvider)
         {
             Context = context;
             ConfigurationProvider = configurationProvider;

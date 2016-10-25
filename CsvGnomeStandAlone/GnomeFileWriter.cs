@@ -55,9 +55,9 @@ namespace CsvGnomeStandAlone
             Reporter.AddMessage(new Message($"saved {fileName}", ConsoleColor.Green));
         }
 
-        private List<Message> AskOverwriteMessage(string file)
+        private List<IMessage> AskOverwriteMessage(string file)
         {
-            return new List<Message>
+            return new List<IMessage>
             {
                 new Message("The file already exists:"),
                 new Message(file),

@@ -61,31 +61,31 @@ namespace CsvGnomeTests
         [TestMethod]
         public void ArrayComponent_SpreadSummary()
         {
-            List<Message> expectedSummary = new List<Message>()
+            List<TestMessage> expectedSummary = new List<TestMessage>()
             {
-                Message.NewSpecial(ArraySpreadComponent.CommandInitString),
-                new Message("{"),
-                Message.NewSpecial("5 items"),
-                new Message("}")
+                TestMessage.NewSpecial(ArraySpreadComponent.CommandInitString),
+                new TestMessage("{"),
+                TestMessage.NewSpecial("5 items"),
+                new TestMessage("}")
             };
 
             var s = NewSpread();
-            Assert.IsTrue(s.Summary.Zip(expectedSummary, (a, e) => a.EqualsMessage(e)).All(z => z));
+            Assert.IsTrue(s.Summary.Zip(expectedSummary, (a, e) => (a as TestMessage).EqualsMessage(e)).All(z => z));
         }
 
         [TestMethod]
         public void ArrayComponent_CycleSummary()
         {
-            List<Message> expectedSummary = new List<Message>()
+            List<TestMessage> expectedSummary = new List<TestMessage>()
             {
-                Message.NewSpecial(ArrayCycleComponent.CommandInitString),
-                new Message("{"),
-                Message.NewSpecial("5 items"),
-                new Message("}")
+                TestMessage.NewSpecial(ArrayCycleComponent.CommandInitString),
+                new TestMessage("{"),
+                TestMessage.NewSpecial("5 items"),
+                new TestMessage("}")
             };
 
             var c = NewCycle();
-            Assert.IsTrue(c.Summary.Zip(expectedSummary, (a, e) => a.EqualsMessage(e)).All(z => z));
+            Assert.IsTrue(c.Summary.Zip(expectedSummary, (a, e) => (a as TestMessage).EqualsMessage(e)).All(z => z));
         }
 
         [TestMethod]

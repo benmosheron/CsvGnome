@@ -19,7 +19,7 @@ namespace CsvGnome
             ConfigurationProvider = configurationProvider;
         }
 
-        public void Preview(Reporter reporter, List<IField> fields, PaddedFieldFactory paddedFieldFactory, long n)
+        public void Preview(IReporter reporter, List<IField> fields, PaddedFieldFactory paddedFieldFactory, long n)
         {
             Console.Clear();
 

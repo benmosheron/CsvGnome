@@ -12,6 +12,7 @@ namespace CsvGnome.Components.Combinatorial
     /// </summary>
     public class CombinatorialBase : ICombinatorial
     {
+        protected readonly IMessageProvider MessageProvider;
         /// <summary>
         /// The group to which this component belongs.
         /// </summary>
@@ -35,10 +36,11 @@ namespace CsvGnome.Components.Combinatorial
         /// <summary>
         /// Create a new component with a group.
         /// </summary>
-        public CombinatorialBase(Group group, IComponent rawComponent)
+        public CombinatorialBase(Group group, IComponent rawComponent, IMessageProvider messageProvider)
         {
             Group = group;
             RawComponent = rawComponent;
+            MessageProvider = messageProvider;
         }
 
         /// <summary>
@@ -113,11 +115,11 @@ namespace CsvGnome.Components.Combinatorial
         /// <summary>
         /// Get the summary for this component. Combines a pre- and post-group message with the group.
         /// </summary>
-        public List<Message> Summary
+        public List<IMessage> Summary
         {
             get
             {
-                List<Message> summary = new List<Message>();
+                List<IMessage> summary = MessageProvider.EmptyList();
                 summary.AddRange(GetPreGroupMessage());
                 summary.AddRange(GetGroupMessage());
                 summary.AddRange(GetPostGroupMessage());
@@ -125,22 +127,22 @@ namespace CsvGnome.Components.Combinatorial
             }
         }
 
-        protected virtual List<Message> GetPreGroupMessage()
+        protected virtual List<IMessage> GetPreGroupMessage()
         {
             throw new NotImplementedException("Override PreGroupMessage in child class.");
         }
 
-        public List<Message> GetGroupMessage()
+        public List<IMessage> GetGroupMessage()
         {
-            return new List<Message>()
+            return new List<IMessage>()
             {
-                Message.NewSpecial("#"),
-                new Message(Group.Id, Group.Colour),
-                Message.NewSpecial($"/{Group.RankOf(this)}")
+                MessageProvider.NewSpecial("#"),
+                MessageProvider.New(Group.Id, Group.Colour),
+                MessageProvider.NewSpecial($"/{Group.RankOf(this)}")
             };
         }
 
-        protected virtual List<Message> GetPostGroupMessage()
+        protected virtual List<IMessage> GetPostGroupMessage()
         {
             throw new NotImplementedException("Override PostGroupMessage in child class.");
         }

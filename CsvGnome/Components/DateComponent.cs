@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace CsvGnome.Components
 {
-    public class DateComponent : IComponent
+    public class DateComponent : BaseComponentWithMessageProvider, IComponent
     {
         public const string NoFormatCommand = "[date]";
+        
         #region IComponent
         public string Command
         {
@@ -18,7 +19,7 @@ namespace CsvGnome.Components
                 else return $"[date \"{Format}\"]";
             }
         }
-        public List<Message> Summary => Message.NewSpecial(Command).ToList();
+        public List<IMessage> Summary => MessageProvider.NewSpecial(Command).ToList();
         public string GetValue(long i)
         {
             return GetValue();
@@ -36,13 +37,8 @@ namespace CsvGnome.Components
         Date.IProvider DateProvider;
         string Format;
 
-        public DateComponent(Date.IProvider dateProvider)
-        {
-            DateProvider = dateProvider;
-            Format = String.Empty;
-        }
-
-        public DateComponent(Date.IProvider dateProvider, string format)
+        public DateComponent(Date.IProvider dateProvider, string format = "", IMessageProvider messageProvider = null)
+            : base(messageProvider)
         {
             DateProvider = dateProvider;
             Format = format;

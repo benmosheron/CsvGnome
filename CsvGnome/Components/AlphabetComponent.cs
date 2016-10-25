@@ -14,18 +14,20 @@ namespace CsvGnome.Components
     /// [a=>C] = a,b,c,A,B,C
     /// [C=>a] = C,B,A,c,b,a
     /// </example>
-    public class AlphabetComponent : IComponent
+    public class AlphabetComponent : BaseComponentWithMessageProvider, IComponent
     {
+        
         public char Start { get; private set; }
         public char End { get; private set; }
 
         public string Command => $"[{Start}=>{End}]";
 
-        public List<Message> Summary => Message.NewSpecial(Command).ToList();
+        public List<IMessage> Summary => MessageProvider.NewSpecial(Command).ToList();
 
         public char[] Values { get; private set; }
 
-        public AlphabetComponent(char start, char end)
+        public AlphabetComponent(char start, char end, IMessageProvider messageProvider = null)
+            :base(messageProvider)
         {
             Start = start;
             End = end;

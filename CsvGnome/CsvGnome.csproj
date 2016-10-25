@@ -69,6 +69,7 @@
     <Compile Include="Components\AlphabetComponent.cs" />
     <Compile Include="Components\ArrayCycleComponent.cs" />
     <Compile Include="Components\ArraySpreadComponent.cs" />
+    <Compile Include="Components\BaseComponentWithMessageProvider.cs" />
     <Compile Include="Components\Combinatorial\AlphabetCombinatorial.cs" />
     <Compile Include="Components\Combinatorial\ArrayCycleCombinatorial.cs" />
     <Compile Include="Components\Combinatorial\Cache.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="Components\ComponentFactory.cs" />
     <Compile Include="Components\DateComponent.cs" />
     <Compile Include="Components\IComponent.cs" />
+    <Compile Include="IMessageProvider.cs" />
     <Compile Include="Components\IncrementingComponent.cs" />
     <Compile Include="Components\LuaComponent.cs" />
     <Compile Include="Components\MinMaxComponent.cs" />
@@ -106,11 +108,11 @@
     <Compile Include="GnomeFiles\IReader.cs" />
     <Compile Include="GnomeFiles\IWriter.cs" />
     <Compile Include="IContext.cs" />
+    <Compile Include="IMessage.cs" />
     <Compile Include="Interpreter.cs" />
-    <Compile Include="Message.cs" />
+    <Compile Include="IReporter.cs" />
     <Compile Include="Previewer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reporter.cs" />
     <Compile Include="FieldBrain.cs" />
     <Compile Include="Writer.cs" />
   </ItemGroup>

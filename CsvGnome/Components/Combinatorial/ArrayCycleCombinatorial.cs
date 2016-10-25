@@ -15,15 +15,16 @@ namespace CsvGnome.Components.Combinatorial
         /// </summary>
         public ArrayCycleCombinatorial(
             Group group,
-            ArrayCycleComponent rawComponent)
-            : base(group, rawComponent)
+            ArrayCycleComponent rawComponent,
+            IMessageProvider messageProvider = null)
+            : base(group, rawComponent, messageProvider)
         {
 
         }
 
-        public static ArrayCycleCombinatorial Make(Group group, ArrayCycleComponent rawComponent)
+        public static ArrayCycleCombinatorial Make(Group group, ArrayCycleComponent rawComponent, IMessageProvider messageProvider)
         {
-            return new ArrayCycleCombinatorial(group, rawComponent);
+            return new ArrayCycleCombinatorial(group, rawComponent, messageProvider);
         }
 
         public string Command
@@ -39,20 +40,20 @@ namespace CsvGnome.Components.Combinatorial
         /// </summary>
         public override long? Cardinality => valueArray.Count;
 
-        protected override List<Message> GetPreGroupMessage()
+        protected override List<IMessage> GetPreGroupMessage()
         {
-            return new List<Message>() { Message.NewSpecial("[cycle ") };
+            return new List<IMessage>() { MessageProvider.NewSpecial("[cycle ") };
         }
 
-        protected override List<Message> GetPostGroupMessage()
+        protected override List<IMessage> GetPostGroupMessage()
         {
-            return new List<Message>()
+            return new List<IMessage>()
             {
-                Message.NewSpecial("]{"),
+                MessageProvider.NewSpecial("]{"),
                 RawArrayCycleComponent.ConfigurationProvider.ReportArrayContents
-                ? new Message(valueArray.Aggregate((t, n) => $"{t},{n}"))
-                : Message.NewSpecial($"{valueArray.Count} items"),
-                Message.NewSpecial("}"),
+                ? MessageProvider.New(valueArray.Aggregate((t, n) => $"{t},{n}"))
+                : MessageProvider.NewSpecial($"{valueArray.Count} items"),
+                MessageProvider.NewSpecial("}"),
             };
         }
 
