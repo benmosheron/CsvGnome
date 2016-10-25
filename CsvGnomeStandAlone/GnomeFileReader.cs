@@ -1,11 +1,13 @@
-﻿using System;
+﻿using CsvGnome;
+using CsvGnome.GnomeFiles;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CsvGnome
+namespace CsvGnomeStandAlone
 {
     /// <summary>
     /// Reads gnome files, which save the configuration of a set of fields for re-use.
@@ -13,12 +15,14 @@ namespace CsvGnome
     /// <remarks>
     /// Only parses files to lists of strings, doesn't interpret them.
     /// </remarks>
-    public class GnomeFileReader
+    public class GnomeFileReader : IReader
     {
         Reporter Reporter;
         GnomeFileCache GnomeFileCache;
 
-        public string LastLoadedFileName = null;
+        private string lastLoadedFileName = null;
+
+        public string LastLoadedFileName => lastLoadedFileName;
 
         public GnomeFileReader(Reporter reporter, GnomeFileCache gnomeFileCache)
         {
@@ -57,11 +61,21 @@ namespace CsvGnome
                 Reporter.AddMessage(new Message(ex.Message));
             }
 
-            LastLoadedFileName = name;
+            lastLoadedFileName = name;
 
             Program.SetConsoleTitle();
 
             return parsedFile;
+        }
+
+        public List<string> ReadGnomeFile(string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        List<string> IReader.ReadGnomeFile(string path)
+        {
+            throw new NotImplementedException();
         }
     }
 }

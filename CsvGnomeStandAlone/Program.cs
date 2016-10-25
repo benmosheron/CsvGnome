@@ -1,4 +1,5 @@
-﻿using CsvGnome.Fields;
+﻿using CsvGnome;
+using CsvGnome.Fields;
 using CsvGnome.Components;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CsvGnome
+namespace CsvGnomeStandAlone
 {
     public class Program
     {
@@ -36,17 +37,17 @@ namespace CsvGnome
         /// Public access to the program's gnomefilecache.
         /// </summary>
         public static GnomeFileCache GetGnomeFileCache => GnomeFileCache;
-        
+
         static readonly Reporter Reporter = new Reporter();
         static readonly CsvGnomeScriptApi.IManager ScriptManager = new CsvGnomeScript.Manager();
-        static readonly Components.Combinatorial.Cache CombinatorialCache = new Components.Combinatorial.Cache();
+        static readonly CsvGnome.Components.Combinatorial.Cache CombinatorialCache = new CsvGnome.Components.Combinatorial.Cache();
         static readonly PaddedFieldFactory PaddedFieldFactory = new PaddedFieldFactory();
-        static readonly Date.IProvider DateProvider = new Date.Provider();
+        static readonly CsvGnome.Date.IProvider DateProvider = new CsvGnome.Date.Provider();
         static readonly IContext Context = new Context();
-        static readonly Components.Combinatorial.Factory CombinatorialFactory = new Components.Combinatorial.Factory(CombinatorialCache);
-        static readonly Components.Combinatorial.Deleter CombinatorialDeleter = new Components.Combinatorial.Deleter(CombinatorialCache);
+        static readonly CsvGnome.Components.Combinatorial.Factory CombinatorialFactory = new CsvGnome.Components.Combinatorial.Factory(CombinatorialCache);
+        static readonly CsvGnome.Components.Combinatorial.Deleter CombinatorialDeleter = new CsvGnome.Components.Combinatorial.Deleter(CombinatorialCache);
         static readonly FieldBrain FieldBrain = new FieldBrain(CombinatorialFactory, CombinatorialDeleter);
-        static readonly Configuration.IProvider ConfigurationProvider = new Configuration.Provider(Reporter);
+        static readonly CsvGnome.Configuration.IProvider ConfigurationProvider = new CsvGnome.Configuration.Provider(Reporter);
         static readonly Writer Writer = new Writer(ConfigurationProvider);
         static readonly Previewer Previewer = new Previewer(ConfigurationProvider);
         static readonly GnomeFileCache GnomeFileCache = new GnomeFileCache(Reporter);
@@ -58,22 +59,6 @@ namespace CsvGnome
 
         public static void Main(string[] args)
         {
-            // Read command line args
-            switch(CLI.ArgsInterpreter.Do(args, Reporter))
-            {
-                case CLI.Option.File:
-                    // Read File
-                    // Interpret file
-                    // Write output
-                    return;
-                case CLI.Option.Interpret:
-                    if (args.Length > 1) args.Skip(1).ToList().ForEach(InterpreterNoIO.InterpretSilent);
-                    Writer.WriteToFile(DateProvider, Reporter, FieldBrain.Fields, PaddedFieldFactory, File, Context.N);
-                    return;
-                case CLI.Option.RunStandalone:
-                    break;
-            }
-
             // Read defaults from file
             GnomeFileReader.ReadDefaultGnomeFile().ForEach(InterpreterNoIO.InterpretSilent);
 
@@ -82,18 +67,18 @@ namespace CsvGnome
 
             SetConsoleTitle();
 
-            Action nextAction = Action.Continue;
+            CsvGnome.Action nextAction = CsvGnome.Action.Continue;
 
-            Action[] ContinueWhile = new Action[]
+            CsvGnome.Action[] ContinueWhile = new CsvGnome.Action[]
             {
-                Action.Continue,
-                Action.Help,
-                Action.HelpSpecial,
-                Action.ShowGnomeFiles,
-                Action.Preview
+                CsvGnome.Action.Continue,
+                CsvGnome.Action.Help,
+                CsvGnome.Action.HelpSpecial,
+                CsvGnome.Action.ShowGnomeFiles,
+                CsvGnome.Action.Preview
             };
 
-            while(ContinueWhile.Contains(nextAction))
+            while (ContinueWhile.Contains(nextAction))
             {
                 // Before user entry - display information
                 DisplayInfo(nextAction);
@@ -159,20 +144,20 @@ namespace CsvGnome
             }
         }
 
-        private static void DisplayInfo(Action action)
+        private static void DisplayInfo(CsvGnome.Action action)
         {
             switch (action)
             {
-                case Action.Help:
+                case CsvGnome.Action.Help:
                     Reporter.Help();
                     break;
-                case Action.HelpSpecial:
+                case CsvGnome.Action.HelpSpecial:
                     Reporter.HelpSpecial();
                     break;
-                case Action.ShowGnomeFiles:
+                case CsvGnome.Action.ShowGnomeFiles:
                     Reporter.ShowGnomeFiles();
                     break;
-                case Action.Preview:
+                case CsvGnome.Action.Preview:
                     Previewer.Preview(Reporter, FieldBrain.Fields, PaddedFieldFactory, Context.N);
                     Reporter.Report(FieldBrain.Fields, Context.N, File);
                     break;
@@ -183,18 +168,18 @@ namespace CsvGnome
         }
 
         /// <summary>
-        /// If required by the current action, write output data to a csv file.
+        /// If required by the current CsvGnome.Action, write output data to a csv file.
         /// </summary>
-        private static Action WriteIfNeeded(Action action)
+        private static CsvGnome.Action WriteIfNeeded(CsvGnome.Action action)
         {
             switch (action)
             {
-                case Action.Run:
+                case CsvGnome.Action.Run:
                     Writer.WriteToFile(DateProvider, Reporter, FieldBrain.Fields, PaddedFieldFactory, File, Context.N);
                     break;
-                case Action.Write:
+                case CsvGnome.Action.Write:
                     Writer.WriteToFile(DateProvider, Reporter, FieldBrain.Fields, PaddedFieldFactory, File, Context.N);
-                    action = Action.Continue;
+                    action = CsvGnome.Action.Continue;
                     break;
                 default:
                     break;

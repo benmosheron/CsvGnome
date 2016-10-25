@@ -1,13 +1,15 @@
-﻿using System;
+﻿using CsvGnome;
+using CsvGnome.GnomeFiles;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CsvGnome
+namespace CsvGnomeStandAlone
 {
-    public class GnomeFileWriter
+    public class GnomeFileWriter : IWriter
     {
         IContext Context;
         Reporter Reporter;

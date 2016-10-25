@@ -1,11 +1,12 @@
-﻿using System;
+﻿using CsvGnome;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CsvGnome
+namespace CsvGnomeStandAlone
 {
     /// <summary>
     /// A cache for gnomefiles in the gnomefile directory.

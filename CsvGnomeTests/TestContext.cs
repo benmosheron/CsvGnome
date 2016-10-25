@@ -9,5 +9,10 @@ namespace CsvGnomeTests
     public class TestContext : CsvGnome.IContext
     {
         public long N { get; set; } = 1;
+
+        public void SetOutputFile(string path)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

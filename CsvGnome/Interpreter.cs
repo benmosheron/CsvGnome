@@ -32,8 +32,8 @@ namespace CsvGnome
         private readonly Date.IProvider DateProvider;
         
         // To remain null for NoIO interpreters
-        private readonly GnomeFileWriter GnomeFileWriter;
-        private readonly GnomeFileReader GnomeFileReader;
+        private readonly GnomeFiles.IWriter GnomeFileWriter;
+        private readonly GnomeFiles.IReader GnomeFileReader;
 
         private Components.Combinatorial.Factory CombinatorialFactory => FieldBrain.CombinatorialFactory;
 
@@ -62,8 +62,8 @@ namespace CsvGnome
             IContext context,
             Date.IProvider dateProvider,
             Configuration.IProvider configurationProvider,
-            GnomeFileWriter gnomeFileWriter, 
-            GnomeFileReader gnomeFileReader)
+            GnomeFiles.IWriter gnomeFileWriter,
+            GnomeFiles.IReader gnomeFileReader)
         {
             FieldBrain = fieldBrain;
             Reporter = reporter;
@@ -152,7 +152,7 @@ namespace CsvGnome
                 {
                     Interpreter interpreterNoIO = new Interpreter(FieldBrain, Reporter, ScriptManager, Context, DateProvider, ConfigurationProvider);
                     string fileToRead = input.Remove(0, "load".Length).Trim();
-                    List<string> parsedFile = GnomeFileReader.ReadGnomeFileFromCache(fileToRead);
+                    List<string> parsedFile = GnomeFileReader.ReadGnomeFile(fileToRead);
                     
                     // We will assume the file contains some valid instructions, if it has anything at all!
                     if(parsedFile != null && parsedFile.Count > 0 && parsedFile.Any(l => !String.IsNullOrWhiteSpace(l)))
@@ -175,7 +175,7 @@ namespace CsvGnome
 
             if (input.StartsWith("output"))
             {
-                Program.SetOutputFile(input.Remove(0, "output".Length));
+                Context.SetOutputFile(input.Remove(0, "output".Length));
                 return Action.Continue;
             }
 
