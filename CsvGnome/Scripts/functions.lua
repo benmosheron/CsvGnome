@@ -30,3 +30,13 @@ function uniform(args)
     
     return s
 end
+
+-- Two digit random integer
+function uniform2digits(args)
+  return tostring(uniform()):sub(3,4)
+end
+
+-- Square of the row index 
+function square(args)
+  return args.i*args.i
+end 

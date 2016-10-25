@@ -164,10 +164,32 @@ This is because CsvGnome calculates how much padding to add by iterating through
 Given the following contents of `Scripts\functions.lua`:
 
 ```
+-- generate uniform random numbers between 0 and 1
+function uniform(args)
+    r = math.random()
+    
+    -- pad with zeros to 12 digits if necessary
+    maxLength = 12
+    s = tostring(r)
+    while string.len(s) < maxLength do
+    	s = s .. "0"
+    end
+    
+    -- truncate to 12 digits
+    l = string.len(s)
+    if l > maxLength then
+    	s = string.sub(s, 1, maxLength - l - 1)
+    end
+    
+    return s
+end
+
+-- Two digit random integer
 function uniform2digits(args)
   return tostring(uniform()):sub(3,4)
 end
 
+-- Square of the row index 
 function square(args)
   return args.i*args.i
 end 
@@ -175,20 +197,22 @@ end
 
 And the following CsvGnome input:
 ```
-Scripting Test:omg! [lua uniform2digits]... OMG! [lua square]
+RowIndex:[++]
+Square:[lua square]
+XRandom:X[lua uniform2digits]
 ```
 
 We will get the following output (your random numbers may vary):
 
 *CSVs have been converted to tables to display nicely.*
 
-|Scripting Test|
-|--------------|
-|omg! 49... OMG! 0|
-|omg! 28... OMG! 1|
-|omg! 43... OMG! 4|
-|omg! 35... OMG! 9|
-|omg! 07... OMG! 16|
+|RowIndex|Square|XRandom|
+|--------|------|-------|
+|0|0|X23|
+|1|1|X06|
+|2|4|X66|
+|3|9|X73|
+|4|16|X70|
 
 ### Info
 
