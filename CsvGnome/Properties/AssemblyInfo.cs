@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CsvGnome")]
 [assembly: AssemblyDescription("CSV File Generator")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("BenMOSheron")]
+[assembly: AssemblyCompany("benmosheron@gmail.com")]
 [assembly: AssemblyProduct("CsvGnome")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]

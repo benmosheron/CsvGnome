@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("LuaScript")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("benmosheron@gmail.com")]
 [assembly: AssemblyProduct("LuaScript")]
 [assembly: AssemblyCopyright("Copyright © benmosheron@gmail.com 2016")]
 [assembly: AssemblyTrademark("")]
