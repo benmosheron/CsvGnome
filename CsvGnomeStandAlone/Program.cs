@@ -47,7 +47,7 @@ namespace CsvGnomeStandAlone
         static readonly CsvGnome.Components.Combinatorial.Factory CombinatorialFactory = new CsvGnome.Components.Combinatorial.Factory(CombinatorialCache);
         static readonly CsvGnome.Components.Combinatorial.Deleter CombinatorialDeleter = new CsvGnome.Components.Combinatorial.Deleter(CombinatorialCache);
         static readonly FieldBrain FieldBrain = new FieldBrain(CombinatorialFactory, CombinatorialDeleter);
-        static readonly CsvGnome.Configuration.IProvider ConfigurationProvider = new CsvGnome.Configuration.Provider(Reporter);
+        static readonly CsvGnome.Configuration.IProvider ConfigurationProvider = new Configuration.Provider(Reporter);
         static readonly Writer Writer = new Writer(ConfigurationProvider);
         static readonly Previewer Previewer = new Previewer(ConfigurationProvider);
         static readonly GnomeFileCache GnomeFileCache = new GnomeFileCache(Reporter);

@@ -16,7 +16,7 @@ namespace CsvGnome
         public readonly Components.Combinatorial.Factory CombinatorialFactory;
         private readonly Components.Combinatorial.Deleter CombinatorialDeleter;
 
-        private List<IField> fields = Defaults.GetFields();
+        private List<IField> fields = new List<IField>();
 
         /// <summary>
         /// Fields (read only, updates will not be committed).
