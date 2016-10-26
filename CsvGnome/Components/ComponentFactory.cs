@@ -13,13 +13,17 @@ namespace CsvGnome.Components
         // + one or more
         // ? zero or one
         // (?:) non-capturing group
+        //
+        // In case you don't know about it already:
+        // https://regex101.com/
+        //
         private const string DatePattern = @"\[ *date *(?<format>"".*"")* *\]"; // Note the named (name = format) capturing group for a format.
         private Regex DateRegex = new Regex(DatePattern);
         
         private const string GroupPattern = @"( *#\w+(?:\/\d+)? *)";
         private Regex GroupRegex = new Regex(GroupPattern);
 
-        private const string IncrementingPattern = @"\[ *\-?\d* *\+\+ *\-?\d* *(every +\d+ *)?\]";
+        private const string IncrementingPattern = @"(?:\[ *\-?\d* *\+\+ *\-?\d* *(?:every +\d+ *)?\])|(?:\[i\])";
         private Regex IncrementingRegex = new Regex(IncrementingPattern);
 
         private const string MinMaxPattern = @"\[ *\-?\d+ *=> *\-?\d+ *,* *\-?\d* *\]";
@@ -52,7 +56,7 @@ namespace CsvGnome.Components
         }
 
         /// <summary>
-        /// Create a component from the prototpye command.
+        /// Create a component from the prototype command.
         /// </summary>
         /// <exception cref="ComponentCreationException">Thrown if a lua component throws an error on creation due to an invalid function.</exception>
         public IComponent Create(string rawPrototype)
@@ -69,6 +73,7 @@ namespace CsvGnome.Components
             // [1++2]
             // [-99++-109]
             // [1++3 every 10]
+            // [i]
             else if (IncrementingRegex.IsMatch(prototype))
             {
                 return CreateIncrementingComponent(prototype, groupPrototype);
@@ -139,11 +144,12 @@ namespace CsvGnome.Components
             // split on "++" and "every" for the start, increment and every.
             string[] tokens = protoInc.Split(new string[] { "++", "every" }, StringSplitOptions.None);
 
+            // if the input was "[i]", none of tokens will parse, and all default values will be used.
             int start;
             int increment;
             int every;
             if (!int.TryParse(tokens[0], out start)) start = IncrementingComponent.DefaultStart;
-            if (!int.TryParse(tokens[1], out increment)) increment = IncrementingComponent.DefaultIncrement;
+            if (tokens.Length <= 1 || !int.TryParse(tokens[1], out increment)) increment = IncrementingComponent.DefaultIncrement;
             if (tokens.Length <= 2 || !int.TryParse(tokens[2], out every)) every = IncrementingComponent.DefaultEvery;
 
             IncrementingComponent rawComponent = new IncrementingComponent(Context, start, increment, every);

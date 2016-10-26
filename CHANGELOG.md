@@ -6,6 +6,7 @@
 * View a preview of the data with `preview`.
 * Optionally enable padding of fields with spaces using `pad on` and `pad off`.
 * New component `[N]` substitutes the total number of rows. This one was easy!
+* You can now use `[i]` as a component, which does the exact same thing as `[++]`, by providing the zero-based row index.
 * Bug fix: Inserting a combinatorial component at a rank that already exists will now bump up every higher rank to make room (rather than crashing).
 * Bug fix: You can't set N to be negative any more...
 * Under the hood: 

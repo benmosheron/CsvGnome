@@ -255,6 +255,20 @@ namespace CsvGnomeTests
         }
 
         [TestMethod]
+        public void InterpretComponents_Incrementingi()
+        {
+            const string ins = "test:[i]";
+            IComponent[] expected = new IComponent[] { Utilties.NewIncrementingComponent(0) };
+
+            FieldBrain fieldBrain;
+            Interpreter x;
+            Utilties.InterpreterTestInit(out fieldBrain, out x);
+
+            Assert.AreEqual(x.Interpret(ins), CsvGnome.Action.Continue);
+            AssertSingleComponentField(fieldBrain, expected);
+        }
+
+        [TestMethod]
         public void InterpretComponents_Date()
         {
             const string ins = "test:[date]";
