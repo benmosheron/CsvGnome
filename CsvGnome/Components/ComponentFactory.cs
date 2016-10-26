@@ -230,7 +230,7 @@ namespace CsvGnome.Components
                 component = new LuaComponent(Context, protoNoLua, ScriptManager.GetValueFunction("lua", protoNoLua), ScriptManager.GetArgs("lua"));
                 return component;
             }
-            catch (CsvGnomeScript.InvalidFunctionException ex)
+            catch (CsvGnomeScriptApi.InvalidFunctionException ex)
             {
                 throw new ComponentCreationException($"Function \"{ex.Function}\" was not found, or could not be parsed from functions.lua.", ex);
             }
