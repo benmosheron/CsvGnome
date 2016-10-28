@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CsvGnomeScriptApi
+﻿namespace CsvGnomeScriptApi
 {
     /// <summary>
     /// Encompasses arguments that can be passed to script value generating functions.
