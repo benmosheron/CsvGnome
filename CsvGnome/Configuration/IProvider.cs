@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CsvGnome.Configuration
+﻿namespace CsvGnome.Configuration
 {
     /// <summary>
     /// Provides access to configured app settings.

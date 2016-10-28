@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CsvGnome.Components.Combinatorial
+﻿namespace CsvGnome.Components.Combinatorial
 {
     /// <summary>
     /// Components which implement ICombinatorial can be created with a group ID.

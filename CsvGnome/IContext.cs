@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CsvGnome
+﻿namespace CsvGnome
 {
     /// <summary>
     /// Provides contextual information such as N, the number of rows that will be written.

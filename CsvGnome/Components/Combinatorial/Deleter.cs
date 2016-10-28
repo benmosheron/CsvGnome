@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CsvGnome.Components.Combinatorial
+﻿namespace CsvGnome.Components.Combinatorial
 {
     /// <summary>
     /// Deletes components, ensuring the cache is kept up to date.
