@@ -1,10 +1,12 @@
-﻿using System;
+﻿using CsvGnome;
+using CsvGnome.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CsvGnome.Configuration
+namespace CsvGnomeStandAlone.Configuration
 {
     public class Provider : IProvider
     {

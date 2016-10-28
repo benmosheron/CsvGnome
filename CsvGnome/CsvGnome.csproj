@@ -54,7 +54,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -93,11 +92,9 @@
     <Compile Include="Components\TextComponent.cs" />
     <Compile Include="Configuration\Defaults.cs" />
     <Compile Include="Configuration\IProvider.cs" />
-    <Compile Include="Configuration\Provider.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Date\IProvider.cs" />
     <Compile Include="Date\Provider.cs" />
-    <Compile Include="Defaults.cs" />
     <Compile Include="Fields\ComponentField.cs" />
     <Compile Include="Fields\IField.cs" />
     <Compile Include="Fields\IPaddedField.cs" />
