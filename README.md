@@ -20,8 +20,10 @@ Change the number of rows to generate by entering a number E.g. `12` to write tw
 
 Special **components** can be added to values (`help special` displays a list of available components):
 * `[++]` counts up from zero.
+  * You can also use `[i]` for the same effect.
 * `[3++]` counts up from three.
 * `[19++2]` counts up from nineteen in steps of two.
+* `[-1++-2 every 7]` counts down from negative one in steps of two, only incrementing once every seven rows. 
 * `[date]` the date and time, at the time the file is generated.
   * Specify a [format string](https://msdn.microsoft.com/en-us/library/8kb3ddd4) in quotes. E.g. `[date "HH:mm dddd dd MMMM"]` writes `19:09 Tuesday 18 October`.
 * `[1=>5]` cycles the values from one to five.
