@@ -50,45 +50,5 @@ namespace CsvGnomeCliTest
             IProcessor processor = GetProcessor(args);
             Assert.IsTrue(processor is FromFile);
         }
-
-        [TestMethod]
-        public void FileExpectedButNotProvided()
-        {
-            var args = new string[] { "--file" };
-            IReporter reporter = new SingleMessageReporter();
-            IProcessor processor = GetProcessor(reporter, args);
-            Assert.IsTrue(processor == null);
-            Assert.AreEqual(Factory.NoFileProvidedMessage, (reporter as SingleMessageReporter).msg);
-        }
-
-        [TestMethod]
-        public void FileExpectedButNotProvided2()
-        {
-            var args = new string[] { "-f" };
-            IReporter reporter = new SingleMessageReporter();
-            IProcessor processor = GetProcessor(reporter, args);
-            Assert.IsTrue(processor == null);
-            Assert.AreEqual(Factory.NoFileProvidedMessage, (reporter as SingleMessageReporter).msg);
-        }
-
-        [TestMethod]
-        public void OutputExpectedButNotProvided()
-        {
-            var args = new string[] { "--output" };
-            IReporter reporter = new SingleMessageReporter();
-            IProcessor processor = GetProcessor(reporter, args);
-            Assert.IsTrue(processor == null);
-            Assert.AreEqual(Factory.NoOutputProvidedMessage, (reporter as SingleMessageReporter).msg);
-        }
-
-        [TestMethod]
-        public void OutputExpectedButNotProvided2()
-        {
-            var args = new string[] { "-o" };
-            IReporter reporter = new SingleMessageReporter();
-            IProcessor processor = GetProcessor(reporter, args);
-            Assert.IsTrue(processor == null);
-            Assert.AreEqual(Factory.NoOutputProvidedMessage, (reporter as SingleMessageReporter).msg);
-        }
     }
 }

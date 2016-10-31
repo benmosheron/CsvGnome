@@ -25,6 +25,8 @@ namespace CsvGnomeCli
 
             // Do the work
 
+            //TODO
+            Console.ReadLine();
         }
     }
 }

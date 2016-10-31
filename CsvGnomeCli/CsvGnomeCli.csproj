@@ -37,6 +37,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Args\Args.cs" />
+    <Compile Include="ArgsValidator.cs" />
+    <Compile Include="Args\ArgBase.cs" />
+    <Compile Include="Args\Flag.cs" />
+    <Compile Include="Args\IArg.cs" />
     <Compile Include="Processor\Factory.cs" />
     <Compile Include="Processor\FromCommand.cs" />
     <Compile Include="Processor\FromFile.cs" />

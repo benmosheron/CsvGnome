@@ -10,11 +10,19 @@ namespace CsvGnomeCli.Processor
     public static class Factory
     {
         public const string NoFileProvidedMessage = "No input file provided.";
-        public const string NoOutputProvidedMessage = "No output file provided.";
+
+        private static Func<string, bool> IsFileFlag = a => (a == "--file" || a == "-f");
 
         public static IProcessor Get(IReporter reporter, string[] commandArgs)
         {
-            reporter.AddMessage(new Message("heh"));
+            // Is an input file specified?
+            if(commandArgs.Any(IsFileFlag))
+            {
+                // There should only be one
+                // The following arg is the input file path and should not be null or empty
+
+            }
+
             return new FromCommand();
         }
     }

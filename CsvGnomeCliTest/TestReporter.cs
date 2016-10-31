@@ -48,6 +48,26 @@ namespace CsvGnomeCliTest
         }
     }
 
+    public class MultiMessageReporter : IReporter
+    {
+        public List<Message> Messages;
+
+        public void AddError(string message)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddMessage(Message message)
+        {
+            Messages.Add(message);
+        }
+
+        public void AddMessage(List<Message> messages)
+        {
+            Messages.AddRange(messages);
+        }
+    }
+
     public class SingleErrorReporter : IReporter
     {
         public string msg = null;
@@ -68,4 +88,5 @@ namespace CsvGnomeCliTest
             throw new NotImplementedException();
         }
     }
+
 }
