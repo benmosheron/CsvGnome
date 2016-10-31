@@ -21,3 +21,6 @@ CsvGnome/Output/*.csv
 
 # Ben's To Do List
 BensTodoList.txt
+
+# Visual studio
+.vs/
