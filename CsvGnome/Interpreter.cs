@@ -95,6 +95,8 @@ namespace CsvGnome
             // Empty string does nothing
             if (input == String.Empty) return Action.Continue;
 
+#if STANDALONE
+
             // "exit" exist program
             if (input.ToLower() == "exit") return Action.Exit;
 
@@ -176,6 +178,8 @@ namespace CsvGnome
                 return Action.Continue;
             }
 
+#endif
+
             // Int sets N
             int n;
             if (int.TryParse(input, out n))
@@ -183,7 +187,9 @@ namespace CsvGnome
                 Context.N = n;
                 return Action.Continue;
             }
-            
+
+#if STANDALONE
+
             // "full on" sets array fields to display contents in full
             if(input == "full on")
             {
@@ -197,6 +203,8 @@ namespace CsvGnome
                 ConfigurationProvider.SetReportArrayContents(false);
                 return Action.Continue;
             }
+
+#endif
 
             // "pad on" turns on padding of output to align columns
             if(input == "pad on")
@@ -233,8 +241,12 @@ namespace CsvGnome
                 return Action.Continue;
             }
 
+#if STANDALONE
+
             // Someone's consfused
             if (!String.IsNullOrEmpty(input)) Reporter.AddMessage(new Message("Enter \"help\" for help.", ConsoleColor.Green));
+
+#endif
 
             return Action.Continue;
         }
@@ -294,22 +306,6 @@ namespace CsvGnome
             if (!int.TryParse(tokens[1], out minMaxInc[1])) return null;
             if (!int.TryParse(tokens[2], out minMaxInc[2])) return null;
             return minMaxInc;
-        }
-
-        /// <summary>
-        /// Check that > 0 non null or whitespace fields were provided.
-        /// </summary>
-        /// <param name="fieldsMaybe"></param>
-        /// <returns></returns>
-        private bool CheckCombineFieldsProvided(List<string> fieldsMaybe)
-        {
-            if (fieldsMaybe.Count == 0 || fieldsMaybe.All(fm => String.IsNullOrWhiteSpace(fm)))
-            {
-                Reporter.AddMessage(new Message("You must provide fields to combine. E.g:"));
-                Reporter.AddMessage(new Message("combine field1 field2 [NameOfSet]"));
-                return false;
-            }
-            return true;
         }
     }
 }
