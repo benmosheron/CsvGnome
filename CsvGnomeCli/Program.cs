@@ -2,6 +2,7 @@
 using CsvGnomeCli.Processor;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,10 +29,61 @@ namespace CsvGnomeCli
             // If the processer is null, something went wrong with the input args.
             if (processor == null) return;
 
-            // Do the work
+            // Get the work to do
+            List<string> commands = processor.Process(reporter);
 
-            //TODO
-            Console.ReadLine();
+            // Interpret the commands
+            FieldBrain fieldBrain;
+            Context context;
+            CsvGnome.Date.IProvider dateProvider;
+            CsvGnome.Configuration.IProvider configurationProvider;
+            Interpreter interpreterNoIO = GetInterpreter(
+                reporter,
+                out fieldBrain,
+                out context,
+                out dateProvider, 
+                out configurationProvider);
+            commands.ForEach(interpreterNoIO.InterpretSilent);
+
+            // Set the output file
+            string outputFile;
+            if (!Args.Args.TryGetOutputFilePath(args, out outputFile)) outputFile = Path.Combine(Directory.GetCurrentDirectory(), "Output.csv");
+            context.SetOutputFile(outputFile);
+
+            // Write the file
+            Writer writer = new Writer(configurationProvider);
+            writer.WriteToFile(
+                dateProvider,
+                reporter,
+                fieldBrain.Fields,
+                new CsvGnome.Fields.PaddedFieldFactory(),
+                context.Path,
+                context.N);
+        }
+
+        private static Interpreter GetInterpreter(
+            IReporter reporter,
+            out FieldBrain fieldBrain,
+            out Context context,
+            out CsvGnome.Date.IProvider dateProvider,
+            out CsvGnome.Configuration.IProvider configurationProvider)
+        {
+            var combinatorialCache = new CsvGnome.Components.Combinatorial.Cache();
+            var combinatorialDeleter = new CsvGnome.Components.Combinatorial.Deleter(combinatorialCache);
+            var combinatorialFactory = new CsvGnome.Components.Combinatorial.Factory(combinatorialCache);
+            fieldBrain = new FieldBrain(combinatorialFactory, combinatorialDeleter);
+
+            context = new Context();
+            dateProvider = new CsvGnome.Date.Provider();
+            configurationProvider = new DefaultConfigurationProvider();
+
+            return new Interpreter(
+                fieldBrain: fieldBrain,
+                reporter: reporter,
+                scriptManager: null,
+                context: context,
+                dateProvider: dateProvider,
+                configurationProvider: configurationProvider);
         }
     }
 }

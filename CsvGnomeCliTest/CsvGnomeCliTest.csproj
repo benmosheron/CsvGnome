@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="ArgsValidatorTest.cs" />
     <Compile Include="ProcessorFactoryTest.cs" />
+    <Compile Include="ProgramTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestReporter.cs" />
   </ItemGroup>
@@ -70,6 +71,11 @@
       <Project>{80aba683-8d79-4d74-8fcf-0bb8b2694d8c}</Project>
       <Name>CsvGnome</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestFiles\Input1.gnome">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -47,6 +47,7 @@
     <Compile Include="Args\ExistingFile.cs" />
     <Compile Include="Args\Flag.cs" />
     <Compile Include="Args\IArg.cs" />
+    <Compile Include="DefaultConfigurationProvider.cs" />
     <Compile Include="Processor\Factory.cs" />
     <Compile Include="Processor\FromCommand.cs" />
     <Compile Include="Processor\FromFile.cs" />

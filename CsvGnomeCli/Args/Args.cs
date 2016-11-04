@@ -51,12 +51,36 @@ namespace CsvGnomeCli.Args
             return GetAll().SingleOrDefault(a => a.Is(arg));
         }
 
+        /// <summary>
+        /// If a --file arg is specified, get the file path that follows it.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         public static bool TryGetInputFilePath(string[] args, out string filePath)
+        {
+            filePath = String.Empty;
+            return (TryGetFollowingArg(File, args, out filePath));
+        }
+
+        /// <summary>
+        /// If a --file arg is specified, get the file path that follows it.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static bool TryGetOutputFilePath(string[] args, out string filePath)
+        {
+            filePath = String.Empty;
+            return (TryGetFollowingArg(Output, args, out filePath));
+        }
+
+        private static bool TryGetFollowingArg(IArg fileArg, string[] args, out string filePath)
         {
             filePath = String.Empty;
             for (int i = 0; i < args.Length; i++)
             {
-                if (File.Is(args[i]))
+                if (fileArg.Is(args[i]))
                 {
                     // Validation has already ensured safety here.
                     filePath = args[i + 1];
