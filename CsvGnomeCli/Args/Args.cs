@@ -10,6 +10,7 @@ namespace CsvGnomeCli.Args
     {
         public static IArg File = new ExistingFile("--file", "-f");
         public static IArg Output = new ExistingFile("--output", "-o");
+        public static IArg Interpret = new Flag("--interpret", "-i");
         //public static CliArg Preview = new CliArg("--preview", "-p");
         //public static CliArg CreateDirectories = new CliArg("--file", "-f");
 
@@ -21,7 +22,8 @@ namespace CsvGnomeCli.Args
             return new List<IArg>()
             {
                 File,
-                Output
+                Output,
+                Interpret
             };
         }
 
@@ -49,6 +51,21 @@ namespace CsvGnomeCli.Args
         public static IArg TryGet(string arg)
         {
             return GetAll().SingleOrDefault(a => a.Is(arg));
+        }
+
+        /// <summary>
+        /// Get the index of the --interpret argument. If there isn't one, return -1.
+        /// </summary>
+        public static int TryGetInterpretIndex(string[] args)
+        {
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (Interpret.Is(args[i]))
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
 
         /// <summary>

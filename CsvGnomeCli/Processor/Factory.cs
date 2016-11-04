@@ -18,7 +18,9 @@ namespace CsvGnomeCli.Processor
                 return new FromFile(filePath);
             }
 
-            return new FromCommand();
+            // Is an interpret flag specified?
+            int interpretArgsAfter = Args.Args.TryGetInterpretIndex(commandArgs);
+            return new FromCommand(commandArgs.Skip(interpretArgsAfter + 1).ToArray());
         }
     }
 }
