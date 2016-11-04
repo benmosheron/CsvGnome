@@ -25,6 +25,6 @@ namespace CsvGnomeCli.Args
         /// Check whether or not any extra conditions for this argument are satisfied.
         /// E.g. --file must be followed by a path to a file that exists.
         /// </summary>
-        bool Validate(string[] args);
+        bool Validate(int index, string[] args, out string failReason);
     }
 }

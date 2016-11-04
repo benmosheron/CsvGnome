@@ -30,7 +30,7 @@ namespace CsvGnomeCliTest
             result = argsValidator.Validate(new[] { String.Empty });
 
             Assert.IsFalse(result);
-            Assert.AreEqual(ArgsValidator.NoArgsProvided, reporter.msg);
+            Assert.AreEqual(ArgsValidator.NoArgsProvided, reporter.msg.Text);
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@ namespace CsvGnomeCliTest
             result = argsValidator.Validate(new[] { String.Empty });
 
             Assert.IsFalse(result);
-            Assert.AreEqual(ArgsValidator.NoArgsProvided, reporter.msg);
+            Assert.AreEqual(ArgsValidator.NoArgsProvided, reporter.msg.Text);
         }
 
         [TestMethod]
@@ -57,14 +57,15 @@ namespace CsvGnomeCliTest
 
             Assert.IsFalse(result);
 
-            var expected = new List<Message>()
+            var expected = new List<string>()
             {
-                new Message(ArgsValidator.DuplicateArgsProvided),
-                new Message("--file"),
-                new Message("--output")
+                ArgsValidator.DuplicateArgsProvided,
+                "--file",
+                "--output"
             };
 
-            Assert.IsTrue(expected.SequenceEqual(reporter.Messages));
+            // Ignore all the invalid file errors
+            Assert.IsTrue(expected.SequenceEqual(reporter.Text.Take(3)));
         }
 
         [TestMethod]
@@ -78,14 +79,15 @@ namespace CsvGnomeCliTest
 
             Assert.IsFalse(result);
 
-            var expected = new List<Message>()
+            var expected = new List<string>()
             {
-                new Message(ArgsValidator.DuplicateArgValuesProvided),
-                new Message("--file and -f"),
-                new Message("--output and -o")
+                ArgsValidator.DuplicateArgValuesProvided,
+                "--file and -f",
+                "--output and -o"
             };
 
-            Assert.IsTrue(expected.SequenceEqual(reporter.Messages));
+            // Ignore all the invalid file errors
+            Assert.IsTrue(expected.SequenceEqual(reporter.Text.Take(3)));
         }
 
         [TestMethod]
@@ -98,7 +100,7 @@ namespace CsvGnomeCliTest
             result = argsValidator.Validate(new[] { "--file" });
 
             Assert.IsFalse(result);
-            Assert.AreEqual(ArgsValidator.NoInputFileProvided, reporter.msg);
+            Assert.AreEqual("No file path provided after [--file] argument.", reporter.msg.Text);
         }
 
         [TestMethod]
@@ -111,7 +113,7 @@ namespace CsvGnomeCliTest
             result = argsValidator.Validate(new[] { "--output" });
 
             Assert.IsFalse(result);
-            Assert.AreEqual(ArgsValidator.NoOutputFileProvided, reporter.msg);
+            Assert.AreEqual("No file path provided after [--output] argument.", reporter.msg.Text);
         }
     }
 }

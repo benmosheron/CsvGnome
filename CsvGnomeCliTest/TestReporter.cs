@@ -50,7 +50,8 @@ namespace CsvGnomeCliTest
 
     public class MultiMessageReporter : IReporter
     {
-        public List<Message> Messages;
+        public List<Message> Messages = new List<Message>();
+        public List<String> Text => Messages.Select(m => m.Text).ToList();
 
         public void AddError(string message)
         {

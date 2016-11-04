@@ -18,6 +18,10 @@ namespace CsvGnomeCli
         {
             // CLI entry point
             IReporter reporter = new Reporter();
+
+            // Validate command line args
+            new ArgsValidator(reporter).Validate(args);
+
             IProcessor processor = Factory.Get(reporter, args);
 
             // If the processer is null, something went wrong with the input args.

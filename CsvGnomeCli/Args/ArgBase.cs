@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace CsvGnomeCli.Args
 {
+    /// <summary>
+    /// Base class for possible command line arguments.
+    /// </summary>
     public class ArgBase : IArg
     {
+        /// <summary>
+        /// Different aliases for the command.
+        /// </summary>
         public HashSet<string> Values { get; }
 
         public ArgBase(params string[] values)
@@ -23,6 +29,6 @@ namespace CsvGnomeCli.Args
             return Values.Any(v => v == arg);
         }
 
-        public virtual bool Validate(string[] args) { throw new NotImplementedException("Consumers should override Validate method."); }
+        public virtual bool Validate(int index, string[] args, out string failReason) { throw new NotImplementedException("Consumers should override Validate method."); }
     }
 }
