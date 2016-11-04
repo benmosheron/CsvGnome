@@ -1,12 +1,16 @@
-﻿using System;
+﻿using CsvGnome;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CsvGnomeCli.Processor
 {
+    /// <summary>
+    /// Generates a set of CsvGnome commands.
+    /// </summary>
     public interface IProcessor
     {
+        /// <summary>
+        /// Generate a set of commands.
+        /// </summary>
+        List<string> Process(IReporter reporter);
     }
 }

@@ -50,5 +50,20 @@ namespace CsvGnomeCli.Args
         {
             return GetAll().SingleOrDefault(a => a.Is(arg));
         }
+
+        public static bool TryGetInputFilePath(string[] args, out string filePath)
+        {
+            filePath = String.Empty;
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (File.Is(args[i]))
+                {
+                    // Validation has already ensured safety here.
+                    filePath = args[i + 1];
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
