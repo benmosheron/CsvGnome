@@ -40,6 +40,19 @@ namespace CsvGnomeCliTest
             SingleMessageReporter reporter = new SingleMessageReporter();
             ArgsValidator argsValidator = GetValidator(reporter);
 
+            result = argsValidator.Validate(new string[] { null });
+
+            Assert.IsFalse(result);
+            Assert.AreEqual(ArgsValidator.NoArgsProvided, reporter.msg.Text);
+        }
+
+        [TestMethod]
+        public void EmptyArgsProvided()
+        {
+            bool result;
+            SingleMessageReporter reporter = new SingleMessageReporter();
+            ArgsValidator argsValidator = GetValidator(reporter);
+
             result = argsValidator.Validate(new[] { String.Empty });
 
             Assert.IsFalse(result);

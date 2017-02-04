@@ -6,16 +6,19 @@ using System.Threading.Tasks;
 
 namespace CsvGnomeCli.Args
 {
+    /// <summary>
+    ///  Stores the different command line arguments available to CsvGnomeCli.
+    /// </summary>
     public static class Args
     {
         public static IArg File = new ExistingFile("--file", "-f");
-        public static IArg Output = new ExistingFile("--output", "-o");
+        public static IArg Output = new MaybeExistingFile("--output", "-o");
         public static IArg Interpret = new Flag("--interpret", "-i");
         //public static CliArg Preview = new CliArg("--preview", "-p");
         //public static CliArg CreateDirectories = new CliArg("--file", "-f");
 
         /// <summary>
-        /// Get a list of all definied command line arguments.
+        /// Get a list of all defined command line arguments.
         /// </summary>
         public static List<IArg> GetAll()
         {

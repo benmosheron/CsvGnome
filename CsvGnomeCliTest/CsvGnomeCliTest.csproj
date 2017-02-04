@@ -53,6 +53,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ArgsValidatorTest.cs" />
+    <Compile Include="Args\ArgBaseTest.cs" />
+    <Compile Include="Args\ExistingFileTest.cs" />
+    <Compile Include="Args\MaybeExistingFileTest.cs" />
     <Compile Include="ProcessorFactoryTest.cs" />
     <Compile Include="ProgramTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -73,6 +76,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="TestFiles\ExpectedOutput1.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="TestFiles\Input1.gnome">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
